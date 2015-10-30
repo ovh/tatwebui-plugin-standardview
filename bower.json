@@ -1,0 +1,24 @@
+{
+  "name": "tatwebui-plugin-standardview",
+  "version": "0.0.1",
+  "authors": [
+    "Yvonnick Esnault <yvonnick.esnault@corp.ovh.com>"
+  ],
+  "description": "Standard View",
+  "tatwebui-plugin": [
+    "standardview/list/standardview-list.directive.js",
+    "standardview/list/standardview-list.controller.js",
+    "standardview/list/standardview-list.route.js"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
