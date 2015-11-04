@@ -1,8 +1,8 @@
 # Usage
 
-This is a plugin for Tat Webui, see https://github.com/tat/tatwebui
+This is a plugin for Tat Webui, see https://github.com/ovh/tatwebui
 
-See Tat Engine for more information: https://github.com/tat/tatcli
+See Tat Engine for more information: https://github.com/ovh/tatcli
 
 ## Configuration
 In plugin.tpl.json file, add this line :
