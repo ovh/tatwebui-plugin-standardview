@@ -55,12 +55,16 @@
     </div>
   </div>
 
-  <div class="message-standardview-create" data-ng-show="ctrl.data.isTopicRw">
+  <div data-ng-hide="ctrl.data.isTopicRw" class="alert alert-info pull-right">
+    {{ 'message_read_only' | translate}}
+  </div>
+
+  <div class="message-standardview-create">
 
       <div class="row standardview-footer">
 					<form class="message-form" method="post" action="/">
 						<div style="display: flex">
-							<div class="input-message-container">
+							<div class="input-message-container" data-ng-show="ctrl.data.isTopicRw">
 								<div class="message-popup-results">
 	              </div>
 								<textarea ng-enter="ctrl.createMessage()" dir="auto" name="msg" class="input-mdessage autogrow-short"
@@ -68,12 +72,12 @@
                  style="height: 36px;"></textarea>
 								<i ng-click="ctrl.createMessage()" class="icon-paper-plane fa fa-send-o" title="{{ 'message_send' | translate}}"></i>
 							</div>
-								<div class="filter" data-ng-click="ctrl.filterPosition.visible = true">
-									<i class="fa fa-filter"></i>
-								</div>
-                <div class="filter" title="Toggle display replies" data-ng-click="ctrl.expandReplies=!ctrl.expandReplies">
-									<i ng-class="ctrl.expandReplies ? 'fa fa-compress': 'fa fa-expand'"></i>
-								</div>
+              <div class="filter" data-ng-click="ctrl.filterPosition.visible = true">
+								<i class="fa fa-filter"></i>
+							</div>
+              <div class="filter" title="Toggle display replies" data-ng-click="ctrl.expandReplies=!ctrl.expandReplies">
+								<i ng-class="ctrl.expandReplies ? 'fa fa-compress': 'fa fa-expand'"></i>
+							</div>
 						</div>
 						<div data-ng-if="ctrl.currentMessage.length > 0" class="users-typing"><i>{{ 'message_characters_left' | translate }}: {{ctrl.data.topic.maxlength - ctrl.currentMessage.length}}</i></div>
 
@@ -106,10 +110,6 @@
             </span>
           </span>
 			</div>
-  </div>
-
-  <div data-ng-hide="ctrl.data.isTopicRw">
-    {{ 'message_read_only' | translate}}
   </div>
 
   <div class="row">
