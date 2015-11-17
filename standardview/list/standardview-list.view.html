@@ -113,7 +113,7 @@
   </div>
 
   <div class="row">
-    <div data-ng-class="message ? 'message-standardview-list col-md-7': 'message-standardview-list col-md-12'">
+    <div data-ng-class="(message && message.displayed) ? 'message-standardview-list col-md-7': 'message-standardview-list col-md-12'">
       <table class="table table-striped">
         <tbody>
         <tr ng-repeat="msg in ctrl.data.messages" ng-class="msg.displayed ? '': ''" class="message-standardview-wrapper" ng-show="!msg.hide">
@@ -164,7 +164,7 @@
       </tbody>
       </table>
     </div>
-    <div class="col-md-5" ng-if="message">
+    <div class="col-md-5" ng-if="message && message.displayed">
       <div class="standardview-message-right">
         <button class="btn btn-default btn-xs pull-right" data-ng-click="ctrl.closeMessage()">X</button>
         <messages-standardview-item

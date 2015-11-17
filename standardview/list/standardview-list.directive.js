@@ -233,6 +233,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function ($compile
                     }).$promise.then(function(resp) {
                         TatEngine.displayReturn(resp);
                         message.hide = true;
+                        message.displayed = false;
                     }, function(response) {
                         TatEngine.displayReturn(response);
                     });
