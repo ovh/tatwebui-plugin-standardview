@@ -137,11 +137,11 @@ angular.module('TatUi').directive('messagesStandardviewItem', function ($compile
                     }).$promise.then(function(resp) {
                         TatEngine.displayReturn(resp);
                         self.addLabelDoing(message);
-                        message.topics.push(self.privateTasksTopic);
+                        message.topics.push("/" + self.privateTasksTopic);
+                        self.computeFlagsTask(message);
                     }, function(resp) {
                         TatEngine.displayReturn(resp);
                     });
-                    self.computeFlagsTask(message);
                 };
 
                 this.deleteFromTasksMessage = function(message) {
@@ -162,10 +162,11 @@ angular.module('TatUi').directive('messagesStandardviewItem', function ($compile
                         if (self.isTopicTasks) {
                           message.hide = true;
                         }
+                        self.removePrivateTopicOnLocalMsg(message);
+                        self.computeFlagsTask(message);
                     }, function(resp) {
                         TatEngine.displayReturn(resp);
                     });
-                    self.computeFlagsTask(message);
                 };
 
                 this.addLabelDone = function(message) {
@@ -175,6 +176,15 @@ angular.module('TatUi').directive('messagesStandardviewItem', function ($compile
                   self.removeLabel(message, "doing");
                   self.addLabel(message);
                   self.canDoneMessage = false;
+                };
+
+                this.removePrivateTopicOnLocalMsg = function(message) {
+                  message.topics = _.remove(message.topics, function(t) {
+                    if (t.indexOf("/" + self.privateTasksTopic) === 0) {
+                      return false;
+                    }
+                    return true;
+                  });
                 };
 
                 this.doneMessage = function(message) {
@@ -195,6 +205,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function ($compile
                         if (self.isTopicTasks) {
                           message.hide = true;
                         }
+                        self.removePrivateTopicOnLocalMsg(message);
                         self.computeFlagsTask(message);
                     }, function(resp) {
                         TatEngine.displayReturn(resp);
