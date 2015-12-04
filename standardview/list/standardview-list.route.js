@@ -2,7 +2,14 @@
 angular.module('TatUi').config(function ($stateProvider, PluginProvider) {
     'use strict';
 
-    PluginProvider.addPlugin({"name":"Standard View", "route" : "standardview-list", "type": "messages-views"});
+    PluginProvider.addPlugin(
+      {
+        'name':'Standard View',
+        'route' : 'standardview-list',
+        'type': 'messages-views',
+        'default': true
+      }
+    );
 
     $stateProvider.state('standardview-list', {
         url: '/standardview/list/{topic:topicRoute}?idMessage&filterInLabel&filterAndLabel&filterNotLabel&filterInTag&filterAndTag&filterNotTag',
