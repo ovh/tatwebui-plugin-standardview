@@ -2,7 +2,7 @@
 
 This is a plugin for Tat Webui, see https://github.com/ovh/tatwebui
 
-See Tat Engine for more information: https://github.com/ovh/tatcli
+See Tat Engine for more information: https://github.com/ovh/tat
 
 ## Configuration
 In plugin.tpl.json file, add this line :
