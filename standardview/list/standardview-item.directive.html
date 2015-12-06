@@ -94,7 +94,7 @@
           </button>
           <button class="btn btn-default" data-ng-click="replying=false">
               <i class="fa fa-ban"></i>
-              Cancel
+              {{ 'shared_common_cancel' | translate }}
           </button>
       </div>
       <div class="message-reply" data-ng-show="message.updating">
@@ -106,7 +106,7 @@
           </button>
           <button class="btn btn-default" data-ng-click="message.updating=false">
               <i class="fa fa-ban"></i>
-              Cancel
+              {{ 'shared_common_cancel' | translate }}
           </button>
       </div>
       <div data-ng-show="message.deleting">
@@ -117,7 +117,7 @@
           </button>
           <button class="btn btn-default" data-ng-click="message.deleting=false">
               <i class="fa fa-ban"></i>
-              Cancel
+              {{ 'shared_common_cancel' | translate }}
           </button>
       </div>
   </div>
@@ -156,7 +156,7 @@
             </button>
             <button class="btn btn-default" data-ng-click="reply.updating=false">
                 <i class="fa fa-ban"></i>
-                Cancel
+                {{ 'shared_common_cancel' | translate }}
             </button>
           </div>
           <div data-ng-if="reply.deleting">
@@ -167,7 +167,7 @@
               </button>
               <button class="btn btn-default" data-ng-click="reply.deleting=false">
                   <i class="fa fa-ban"></i>
-                  Cancel
+                  {{ 'shared_common_cancel' | translate }}
               </button>
           </div>
         </td>
