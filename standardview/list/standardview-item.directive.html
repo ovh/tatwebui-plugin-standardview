@@ -113,7 +113,7 @@
           <button class="btn btn-danger"
                   data-ng-click="MessageStandardviewItemCtrl.deleteMessage(message);">
               <i class="fa fa-trash"></i>
-              Confirm Delete
+              Confirm Delete <span ng-show="message.replies.length">message and replies</span>
           </button>
           <button class="btn btn-default" data-ng-click="message.deleting=false">
               <i class="fa fa-ban"></i>

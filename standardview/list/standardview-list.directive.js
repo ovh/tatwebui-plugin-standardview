@@ -45,7 +45,8 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
      *
      * @description Directive controller
      */
-    controller: function($scope, $rootScope, TatEngineMessageRsc, TatEngine,
+    controller: function($scope, $rootScope, TatEngineMessageRsc,
+      TatEngineMessagesRsc, TatEngine,
       Authentication, $http, appConfiguration) {
       var self = this;
       this.answerPanel = false;
@@ -260,8 +261,9 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
        * @description delete a message from a Private topic
        */
       this.deleteMessage = function(message) {
-        TatEngineMessageRsc.delete({
-          'idMessage': message._id
+        TatEngineMessagesRsc.delete({
+          'idMessage': message._id,
+          'cascade': 'cascade/'
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
           message.hide = true;
