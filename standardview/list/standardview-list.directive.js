@@ -262,7 +262,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
        */
       this.deleteMessage = function(message) {
         TatEngineMessagesRsc.delete({
-          'idMessage': message._id,
+          'idMessageToDelete': message._id,
           'cascade': 'cascade/'
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
