@@ -4,6 +4,16 @@ This is a plugin for Tat Webui, see https://github.com/ovh/tatwebui
 
 See Tat Engine for more information: https://github.com/ovh/tat
 
+## Screenshots
+### Messages - List
+
+![Release View](https://raw.githubusercontent.com/ovh/tatwebui-plugin-standardview/master/screenshot_standard.png)
+
+### Messages - Edit
+
+![Release View](https://raw.githubusercontent.com/ovh/tatwebui-plugin-standardview/master/screenshot_standard_edit.png)
+
+
 ## Configuration
 In plugin.tpl.json file, add this line :
 
