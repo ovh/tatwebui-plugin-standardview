@@ -10,46 +10,41 @@
         <div class="form-group">
           <input type="text" class="form-control" placeholder="open,doing" ng-model="ctrl.tmpFilter.filterInLabel" aria-describedby="filter-labels">
           <span id="helpBlock" class="help-block">
-            in <i class="fa fa-tags"></i> : Contains one or many labels of this list
+            <strong>{{ 'message_in' | translate }}</strong> <i class="fa fa-tags"></i> : {{ 'message_contains_labels' | translate }}
           </span>
         </div>
-
         <div class="form-group">
           <input type="text" class="form-control" placeholder="open,doing" ng-model="ctrl.tmpFilter.filterAndLabel" aria-describedby="filter-labels">
           <span id="helpBlock" class="help-block">
-            all <i class="fa fa-tags"></i> : Contains all labels in this list
+            <strong>{{ 'message_all' | translate }}</strong> <i class="fa fa-tags"></i> : {{ 'message_contains_all_labels' | translate }}
           </span>
         </div>
-
         <div class="form-group">
           <input type="text" class="form-control" placeholder="done" ng-model="ctrl.tmpFilter.filterNotLabel" aria-describedby="filter-hide-labels">
           <span id="helpBlock" class="help-block">
-            hide <i class="fa fa-tags"></i> : Hide all labels in this list
+            <strong>{{ 'message_hide' | translate }}</strong> <i class="fa fa-tags"></i> : {{ 'message_hide_labels' | translate }}
           </span>
         </div>
-
         <div class="form-group">
           <input type="text" class="form-control" placeholder="PCC,STOCKAGE" ng-model="ctrl.tmpFilter.filterInTag" aria-describedby="filter-tags">
           <span id="helpBlock" class="help-block">
-            in <i class="glyphicon glyphicon-copyright-mark"></i> : Contains one or many tags of this list
+            <strong>{{ 'message_in' | translate }}</strong> <i class="glyphicon glyphicon-copyright-mark"></i> : {{ 'message_contains_tags' | translate }}
           </span>
         </div>
-
         <div class="form-group">
           <input type="text" class="form-control" placeholder="PCC,STOCKAGE" ng-model="ctrl.tmpFilter.filterAndTag" aria-describedby="filter-tags">
           <span id="helpBlock" class="help-block">
-            all <i class="glyphicon glyphicon-copyright-mark"></i> : Contains all tags in this list
+            <strong>{{ 'message_all' | translate }}</strong> <i class="glyphicon glyphicon-copyright-mark"></i> : {{ 'message_contains_all_tags' | translate }}
           </span>
         </div>
-
         <div class="form-group">
           <input type="text" class="form-control" placeholder="PCC,STOCKAGE" ng-model="ctrl.tmpFilter.filterNotTag" aria-describedby="filter-hide-tags">
           <span id="helpBlock" class="help-block">
-            hide <i class="glyphicon glyphicon-copyright-mark"></i> : Hide all tags in this list
+            <strong>{{ 'message_hide' | translate }}</strong> <i class="glyphicon glyphicon-copyright-mark"></i> : {{ 'message_hide_all_tags' | translate }}
           </span>
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-xs" ng-click="ctrl.filterSearch()">Search</button>
+          <button type="submit" class="btn btn-primary btn-xs" ng-click="ctrl.filterSearch()">{{ 'message_search' | translate }}</button>
         </div>
       </form>
     </div>

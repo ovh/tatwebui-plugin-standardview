@@ -14,4 +14,14 @@
   <translation id="message_characters_left">Left</translation>
   <translation id="message_update">Update</translation>
   <translation id="message_url">Direct Link to this message</translation>
+  <translation id="message_in">in</translation>
+  <translation id="message_all">all</translation>
+  <translation id="message_hide">hide</translation>
+  <translation id="message_contains_labels">Contains one or many labels of this list</translation>
+  <translation id="message_contains_all_labels">Contains all labels in this list</translation>
+  <translation id="message_hide_labels">Hide all labels in this list</translation>
+  <translation id="message_contains_tags">Contains one or many tags of this list</translation>
+  <translation id="message_contains_all_tags">Contains all tags in this list</translation>
+  <translation id="message_hide_all_tags">Hide all tags in this list</translation>
+  <translation id="message_search">Search</translation>
 </translations>
