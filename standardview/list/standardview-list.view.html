@@ -62,27 +62,27 @@
   <div class="message-standardview-create">
 
       <div class="row standardview-footer">
-					<form class="message-form" method="post" action="/">
-						<div style="display: flex">
-							<div class="input-message-container" data-ng-show="ctrl.data.isTopicRw">
-								<div class="message-popup-results">
-	              </div>
-								<textarea ng-enter="ctrl.createMessage()" dir="auto" name="msg" class="input-mdessage autogrow-short"
+        <form class="message-form" method="post" action="/">
+          <div style="display: flex">
+            <div class="input-message-container" data-ng-show="ctrl.data.isTopicRw">
+              <div class="message-popup-results">
+              </div>
+              <textarea ng-enter="ctrl.createMessage()" dir="auto" name="msg" class="input-mdessage autogrow-short"
                 data-ng-model="ctrl.currentMessage" placeholder="Your message here with #tag"
-                 style="height: 36px;"></textarea>
-								<i ng-click="ctrl.createMessage()" class="icon-paper-plane fa fa-send-o" title="{{ 'message_send' | translate}}"></i>
-							</div>
-              <div class="filter" data-ng-click="ctrl.filterPosition.visible = true">
-								<i class="fa fa-filter"></i>
-							</div>
-              <div class="filter" title="Toggle display replies" data-ng-click="ctrl.expandReplies=!ctrl.expandReplies">
-								<i ng-class="ctrl.expandReplies ? 'fa fa-compress': 'fa fa-expand'"></i>
-							</div>
-						</div>
-						<div data-ng-if="ctrl.currentMessage.length > 0" class="users-typing"><i>{{ 'message_characters_left' | translate }}: {{ctrl.data.topic.maxlength - ctrl.currentMessage.length}}</i></div>
+                style="height: 36px;"></textarea>
+              <i ng-click="ctrl.createMessage()" class="icon-paper-plane fa fa-send-o" title="{{ 'message_send' | translate}}"></i>
+            </div>
+            <div class="filter" data-ng-click="ctrl.filterPosition.visible = true">
+              <i class="fa fa-filter"></i>
+            </div>
+            <div class="filter" title="Toggle display replies" data-ng-click="ctrl.expandReplies=!ctrl.expandReplies">
+              <i ng-class="ctrl.expandReplies ? 'fa fa-compress': 'fa fa-expand'"></i>
+            </div>
+          </div>
+          <div data-ng-if="ctrl.currentMessage.length > 0" class="users-typing"><i>{{ 'message_characters_left' | translate }}: {{ctrl.data.topic.maxlength - ctrl.currentMessage.length}}</i></div>
 
-						<div class="formatting-tips" aria-hidden="true" dir="auto"></div>
-					</form>
+          <div class="formatting-tips" aria-hidden="true" dir="auto"></div>
+        </form>
           <span class="message-filters">
             <span class="badge" data-ng-click="ctrl.filterPosition.visible = true" data-ng-if="ctrl.filter.text"><i class="fa fa-font"></i> {{ctrl.filter.text}}
                 <a role="button" ng-click="ctrl.tmpFilter.filterText = ''; ctrl.filterSearch()"><i class="fa fa-times"></i></a>
