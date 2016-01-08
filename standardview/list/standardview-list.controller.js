@@ -97,15 +97,17 @@ angular.module('TatUi')
      * @param {string} msg Message to post
      */
     this.createMessage = function() {
-      TatEngineMessageRsc.create({
-        text: self.currentMessage,
-        topic: self.topic
-      }).$promise.then(function(data) {
-        self.currentMessage = '';
-        self.data.messages.unshift(data.message);
-      }, function(err) {
-        TatEngine.displayReturn(err);
-      });
+      if (self.currentMessage.length > 0) {
+        TatEngineMessageRsc.create({
+          text: self.currentMessage,
+          topic: self.topic
+        }).$promise.then(function(data) {
+          self.currentMessage = '';
+          self.data.messages.unshift(data.message);
+        }, function(err) {
+          TatEngine.displayReturn(err);
+        });
+      }
     };
 
     this.getBrightness = function(rgb) {
