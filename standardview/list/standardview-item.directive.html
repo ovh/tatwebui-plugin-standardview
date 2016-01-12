@@ -74,16 +74,19 @@
         </div>
     </div>
 
-      <user-display username="message.author.username" fullname="message.author.fullname"></user-display>
-      <span class="message-standardview-date">{{message.dateCreation * 1000| amCalendar}}</span>
-      <span class="badge tlabel"
-            style="background-color: {{label.color}}; color: {{MessageStandardviewItemCtrl.getBrightness(label.color)>128 ? '#000000' : '#ffffff' }}"
-            data-ng-repeat="label in message.labels track by label.text">
-          <i class="fa fa-tags"></i> {{label.text}}
+    <div class="tat-msg-wrapper primary">
+      <div class="tat-msg" ng-bind-html="message.text | linky | nl2br | parseTags:message.tags"></div>
+      <div class="tat-meta">
+        <user-display username="message.author.username" fullname="message.author.fullname"></user-display>
+        <span class="date" title="creation: {{ message.dateCreation * 1000| amCalendar }}, update: {{ message.dateUpdate * 1000| amCalendar }}">{{ message.dateCreation * 1000| amCalendar }}</span>
+        <span class="badge tlabel"
+          style="background-color: {{ label.color }}; border-color: {{ label.color }}; color: {{ MessageStandardviewItemCtrl.getBrightness(label.color)>130 ? '#000000' : '#ffffff' }}"
+          data-ng-repeat="label in message.labels track by label.text">
+          {{label.text}}
           <a role="button" data-ng-click="MessageStandardviewItemCtrl.removeLabel(message, label.text)">X</a>
-      </span>
-
-      <div class="message-standardview-content" ng-bind-html="message.text | linky | nl2br | parseTags:message.tags"></div>
+        </span>
+      </div>
+    </div>
 
       <div class="message-standardview-reply" data-ng-show="replying">
           <textarea class="form-control" data-ng-model="MessageStandardviewItemCtrl.replyText"></textarea>
@@ -122,52 +125,52 @@
       </div>
   </div>
 
-  <div class="standardview-replies-right" ng-if="message.replies.length">
-    <button title="search in replies" class="btn btn-xs" ng-if="!message.searching" data-ng-click="message.searching=true">
-      <i class="fa fa-search"></i>
-    </button>
+  <div class="tat-replies-filter input-group" ng-if="message.replies.length">
+    <div class="input-group-addon" data-ng-click="message.searching=!message.searching"><i class="fa fa-search"></i></div>
+    <input type="search" class="form-control" data-ng-model="message.search" placeholder="search in reply">
+  </div>
 
-    <div class="input-group" ng-if="message.searching">
-      <div class="input-group-addon" data-ng-click="message.searching=!message.searching"><i class="fa fa-search"></i></div>
-      <input type="search" class="form-control" data-ng-model="message.search" placeholder="search in reply">
-      <div class="input-group-addon" data-ng-click="message.searching=false"><i class="fa fa-ban"></i></div>
-    </div>
-
+  <div class="tat-replies" ng-if="message.replies.length">
     <table class="table table-striped">
       <tbody>
-      <tr data-ng-repeat="reply in message.replies | filter:message.search">
+
+      <tr data-ng-repeat="reply in message.replies | filter:message.search" class="tat-msg-wrapper" data-ng-class="{'deleting': reply.deleting, 'updating': reply.updating}">
         <td data-ng-if="!reply.hide">
-          <i data-ng-show="MessageStandardviewItemCtrl.hasLiked(reply)" class="fa fa-heart like"></i>
-          <user-display username="reply.author.username" fullname="reply.author.fullname"></user-display>
-          <span data-ng-show="reply.nbLikes" class="likers">
-              {{reply.nbLikes}} <i class="fa fa-thumbs-o-up"></i>
-          </span>
-          <span class="message-standardview-date" title="creation: {{reply.dateCreation * 1000| amCalendar}}, update: {{reply.dateUpdate * 1000| amCalendar}}">
-            {{reply.dateCreation * 1000| amCalendar}}
-          </span>
-          <button class="btn btn-xs" data-ng-click="reply.updating=true"><i class="fa fa-pencil"></i></button>
-          <button class="btn btn-xs" data-ng-click="reply.deleting=true"><i class="fa fa-trash"></i></button>
-          <div ng-bind-html="reply.text | linky | nl2br | parseTags:reply.tags"></div>
-          <div ng-if="reply.updating">
+          <div class="tat-actions">
+            <button class="btn btn-xs" data-ng-click="reply.updating=true" data-ng-disabled="reply.updating || reply.deleting"><i class="fa fa-pencil"></i></button>
+            <button class="btn btn-xs" data-ng-click="reply.deleting=true" data-ng-disabled="reply.deleting || reply.updating "><i class="fa fa-trash"></i></button>
+          </div>
+          <div class="tat-msg" ng-bind-html="reply.text | linky | nl2br | parseTags:reply.tags"></div>
+          <div class="tat-meta">
+            <span class="message-standardview-date" title="creation: {{reply.dateCreation * 1000| amCalendar}}, update: {{reply.dateUpdate * 1000| amCalendar}}">
+              {{reply.dateCreation * 1000| amCalendar}}
+            </span>
+            &ndash;
+            <user-display username="reply.author.username" fullname="reply.author.fullname"></user-display>
+            <span data-ng-show="reply.nbLikes" class="likers">
+                {{reply.nbLikes}} <i class="fa fa-thumbs-o-up"></i>
+            </span>
+          </div>
+          <div class="tat-editing" ng-if="reply.updating">
             <textarea class="form-control" data-ng-model="reply.text"></textarea>
-            <button class="btn btn-primary" data-ng-click="MessageStandardviewItemCtrl.updateMessage(reply);">
-                <i class="fa fa-pencil-square-o"></i>
-                Update
-            </button>
-            <button class="btn btn-default" data-ng-click="reply.updating=false">
+            <button class="btn btn-default btn-xs" data-ng-click="reply.updating=false">
                 <i class="fa fa-ban"></i>
                 {{ 'shared_common_cancel' | translate }}
             </button>
+            <button class="btn btn-primary btn-xs" data-ng-click="MessageStandardviewItemCtrl.updateMessage(reply);">
+                <i class="fa fa-pencil-square-o"></i>
+                Update
+            </button>
           </div>
-          <div data-ng-if="reply.deleting">
-              <button class="btn btn-danger"
+          <div class="tat-deleting" data-ng-if="reply.deleting">
+              <button class="btn btn-default btn-xs" data-ng-click="reply.deleting=false">
+                  <i class="fa fa-ban"></i>
+                  {{ 'shared_common_cancel' | translate }}
+              </button>
+              <button class="btn btn-danger btn-xs"
                       data-ng-click="MessageStandardviewItemCtrl.deleteMessage(reply);">
                   <i class="fa fa-trash"></i>
                   Confirm Delete
-              </button>
-              <button class="btn btn-default" data-ng-click="reply.deleting=false">
-                  <i class="fa fa-ban"></i>
-                  {{ 'shared_common_cancel' | translate }}
               </button>
           </div>
         </td>

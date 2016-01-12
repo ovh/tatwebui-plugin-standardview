@@ -14,7 +14,6 @@
 @message-action-color:  lighten(@menu-bg,20%);
 @topic-title:           #738bc0;
 @topic-vertical-line:   darken(@topic-title,20%);
-@message-date:          gray;
 @dialog-border:         @topic-vertical-line;
 @topic-sep:             #aaaaaa;
 
@@ -224,30 +223,6 @@ td.message-standardview-wrapper {
   }
 }
 
-.message-standardview-date {
-  color: @message-date;
-  font-size:0.85em;
-  margin-left: 5px;
-}
-
-div.standardview-replies-right {
-  //height: 400px;
-  //overflow:auto;
-}
-
-span.badge {
-  background-color: transparent;
-  margin: 0px 1px 0px 1px;
-  font-size: 0.9em;
-  font-weight: normal;
-  color: @messages-tag-color;
-  border: 1px solid @messages-tag-color;
-}
-
-span.badge.tlabel  {
-  border: 0px solid @messages-tag-color;
-}
-
 div.message-standardview-manager {
   font-size: 1.2em;
 
@@ -332,20 +307,6 @@ div.message-standardview-manager {
       }
     }
 
-    div.message-standardview-content {
-      font-weight: normal;
-    }
-  }
-
-  div.message-standardview-replies {
-    margin-left: 15px;
-    padding-left: 5px;
-    display: block;
-    border-left: 3px solid @topics-selected;
-    div.messages-run-labels {
-      //right:20px;
-      //background-color: red;
-    }
   }
 
   div.message-standardview-reply, div.message-standardview-create, div.message-standardview-taking {
@@ -358,10 +319,234 @@ div.message-standardview-manager {
     height: @message-header-height;
   }
 
-  @message-standardview-list-global-head : @message-header-height + @application-header-height + @wrapper-padding;
+  div.message-standardview-create {
+    margin-bottom: 15px;
+  }
+
+  @message-standardview-list-global-head : @message-header-height + @application-header-height + 15px;
 
   div.message-standardview-list {
     overflow-y: auto;
     height: calc(100vh ~"-" @message-standardview-list-global-head)
   }
+}
+
+.tat-msg-wrapper {
+  td {
+    padding: 10px;
+  }
+  .tat-toggle-msg {
+    float: right;
+    color: #999;
+    font-weight: bold;
+    transition: color 0.4s;
+    i {
+      font-size: 38px;
+    }
+    &:hover {
+      color: #23527C;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  &.deleting {
+    background: #fff2f4!important;
+  }
+  &.updating {
+    background: #f4fff4!important;
+  }
+  &.open {
+    td {
+      background-color: #e7f2ff!important;
+    }
+    .tat-toggle-msg {
+      color: #30AFFF;
+    }
+  }
+}
+.tat-replies {
+  margin: 6px 8px 2px 20px;
+  border-left: 10px solid #ccc;
+  border-radius: 0 0 0 12px;
+  .table {
+    margin-bottom: 0;
+    background-color: transparent;
+    tr {
+      td {
+        padding: 6px;
+        border-top: 1px dashed #ddd;
+      }
+      &:first-child {
+        td {
+          border: 0;
+        }
+      }
+    }
+    .tat-msg {
+      font-size: 14px;
+      .badge {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.standardview-message-right {
+  .tat-replies {
+    margin: 6px 8px 2px 0px;
+  }
+}
+
+.table-striped > tbody > tr:hover > td {
+  background: #f5faff;
+}
+/*
+.table-striped > tbody > tr:nth-of-type(2n+1) .tat-replies td {
+    background-color: #F9F9F9;
+}
+*/
+
+.tat-msg {
+  font-size: 16px;
+  margin-right: 60px;
+  .badge {
+    color: #00ABAB;
+    border: 0;
+    padding: 0;
+    margin: 0 4px 0 0;
+    font-size: 16px;
+    i {
+      font-weight: normal;
+    }
+    &:before {
+      content: '#';
+      color: #c7e6e6;
+    }
+  }
+}
+
+.tat-replies-count {
+  float: right;
+  border: 0;
+  font-weight: normal;
+  padding: 8px 10px;
+  border-radius: 14px;
+  position: relative;
+  top: 8px;
+  right: 10px;
+  text-shadow: 1px 1px 3px #333;
+  transition: background-color 0.4s;
+  &:hover {
+    background-color: #23527C;
+  }
+}
+
+.tat-meta {
+  color: #aaa;
+  margin-top: 2px;
+  a {
+    font-weight: bold;
+    color: #999;
+    text-decoration: none;
+    &:hover {
+      color: #23527C;
+    }
+  }
+
+  .date {
+  }
+
+  .badge {
+    background: #aaa;
+    border-radius: 0 2px 2px 0;
+    color: white;
+    display: inline-block;
+    font-size: 0.9em;
+    height: 16px;
+    left: 0;
+    line-height: 17px;
+    margin: 0 0 0 16px;
+    padding: 0px 8px 0px 10px;
+    position: relative;
+    top: 0;
+    a {
+      color: white;
+      font-size: 9px;
+      margin-left: 2px;
+      opacity: 0.5;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    &:before {
+      // triangle shape on left
+      border-bottom: 8px transparent solid;
+      border-right: 8px #aaa solid;
+      border-top: 8px transparent solid;
+      border-right-color: inherit;
+      content: '';
+      height: 0;
+      left: -8px;
+      position: absolute;
+      top: 0;
+      width: 0;
+    }
+    &:after {
+      // "hole"
+      background: white;
+      border-radius: 50%;
+      content: '';
+      height: 4px;
+      left: 0;
+      position: absolute;
+      top: 6px;
+      width: 4px;
+    }
+  }
+}
+.tat-replies-count {
+  float: right;
+}
+
+.standardview-message-right {
+  .tat-msg-wrapper.primary {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 12px 12px;
+    box-shadow: 0px 0px 8px #e3e3e3;
+    margin-bottom: 8px;
+  }
+}
+
+.fixed-alert {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  .fa {
+    font-size: 18px;
+    position: relative;
+    right: 2px;
+  }
+}
+
+.tat-actions {
+  float: right;
+}
+
+.tat-editing {
+  margin: 8px 0 2px 0;
+  text-align: right;
+  textarea {
+    margin: 0 0 10px 0;
+  }
+}
+.tat-deleting {
+  margin: 0 0 2px 0;
+  text-align: right;
+}
+
+.tat-replies-filter {
+  
 }
