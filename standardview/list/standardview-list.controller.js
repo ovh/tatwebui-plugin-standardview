@@ -82,9 +82,7 @@ angular.module('TatUi')
      * @description Try to load more messages
      */
     this.loadMore = function() {
-      console.log("loadMore");
       if (!self.loading) {
-        console.log("loading");
         self.moreMessage();
       }
     };
@@ -213,20 +211,20 @@ angular.module('TatUi')
     this.filterSearch = function() {
       self.data.skip = 0;
       self.data.displayMore = true;
-      self.filter.text = self.tmpFilter.filterText ? self.tmpFilter.filterText :
-        null;
-      self.filter.label = self.tmpFilter.filterInLabel ? self.tmpFilter.filterInLabel :
-        null;
-      self.filter.andLabel = self.tmpFilter.filterAndLabel ? self.tmpFilter
-        .filterAndLabel : null;
-      self.filter.notLabel = self.tmpFilter.filterNotLabel ? self.tmpFilter
-        .filterNotLabel : null;
-      self.filter.tag = self.tmpFilter.filterInTag ? self.tmpFilter.filterInTag :
-        null;
-      self.filter.andTag = self.tmpFilter.filterAndTag ? self.tmpFilter.filterAndTag :
-        null;
-      self.filter.notTag = self.tmpFilter.filterNotTag ? self.tmpFilter.filterNotTag :
-        null;
+      self.filter.text = self.tmpFilter.filterText ? self.tmpFilter.filterText : null;
+      self.filter.label = self.tmpFilter.filterInLabel ? self.tmpFilter.filterInLabel : null;
+      self.filter.andLabel = self.tmpFilter.filterAndLabel ? self.tmpFilter.filterAndLabel : null;
+      self.filter.notLabel = self.tmpFilter.filterNotLabel ? self.tmpFilter.filterNotLabel : null;
+      self.filter.tag = self.tmpFilter.filterInTag ? self.tmpFilter.filterInTag : null;
+      self.filter.andTag = self.tmpFilter.filterAndTag ? self.tmpFilter.filterAndTag : null;
+      self.filter.notTag = self.tmpFilter.filterNotTag ? self.tmpFilter.filterNotTag : null;
+
+      // Helpers
+      if (self.filter.label)    self.filter.labelAsList = self.filter.label.split(',');
+      if (self.filter.andLabel) self.filter.andLabelAsList = self.filter.andLabel.split(',');
+      if (self.filter.notLabel) self.filter.notLabelAsList = self.filter.notLabel.split(',');
+      if (self.filter.tag)      self.filter.tagAsList = self.filter.tag.split(',');
+      if (self.filter.andTag)   self.filter.andTagAsList = self.filter.andTag.split(',');
 
       if (self.tmpFilter.idMessage === "-1") {
         $rootScope.$broadcast('topic-change', {
@@ -357,6 +355,7 @@ angular.module('TatUi')
      * @description
      */
     this.initFilterField = function(key) {
+      console.log(key);
       if ($stateParams[key]) {
         self.tmpFilter[key] = $stateParams[key];
       } else if ($localStorage.messagesFilters[self.topic][key]) {

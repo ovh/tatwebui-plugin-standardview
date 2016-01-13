@@ -1,61 +1,62 @@
-<section class="message-standardview-wrapper " data-ng-hide="message.hide">
+<section class="message-standardview-wrapper" ng-hide="message.hide">
   <div class="row">
 
     <div class="messages-run-actions-root" ng-hide="message.inReplyOfIDRoot != ''">
+
         <button title="{{ (MessageStandardviewItemCtrl.hasLiked(message) ? 'message_unlike' : 'message_like') | translate }}"
-                class="btn btn-default" data-ng-click="MessageStandardviewItemCtrl.toggleLikeMessage(message)">
-             <i data-ng-class="{'fa fa-thumbs-o-up': !MessageStandardviewItemCtrl.hasLiked(message), 'fa fa-thumbs-o-down':MessageStandardviewItemCtrl.hasLiked(message)}"></i>
+                class="btn btn-default" ng-click="MessageStandardviewItemCtrl.toggleLikeMessage(message)">
+             <i ng-class="{'fa fa-heart-o': !MessageStandardviewItemCtrl.hasLiked(message), 'fa fa-heart':MessageStandardviewItemCtrl.hasLiked(message)}"></i>
          </button>
 
         <button title="{{ 'message_reply' | translate }}"
-                class="btn btn-default" data-ng-click="replying=true">
-            <i class="fa fa-comment-o"></i>
+                class="btn btn-default" ng-click="replying=true">
+            <i class="fa fa-comments"></i>
         </button>
 
-        <button title="Set to done"
+        <button title="{{ 'message_set_done' | translate }}"
                 ng-if="MessageStandardviewItemCtrl.canDoneMessage"
-                class="btn btn-default" data-ng-click="MessageStandardviewItemCtrl.doneMessage(message)">
+                class="btn btn-default" ng-click="MessageStandardviewItemCtrl.doneMessage(message)">
             <i class="fa fa-tasks"></i>
             <i class="fa fa-check"></i>
         </button>
 
-        <button title="Remove from my tasks"
+        <button title="{{ 'message_remove_from_my_tasks' | translate }}"
                 ng-if="MessageStandardviewItemCtrl.canDeleteFromTasksMessage"
-                class="btn btn-default" data-ng-click="MessageStandardviewItemCtrl.deleteFromTasksMessage(message)">
+                class="btn btn-default" ng-click="MessageStandardviewItemCtrl.deleteFromTasksMessage(message)">
             <i class="fa fa-tasks"></i>
             <i class="fa fa-ban"></i>
         </button>
 
-        <button title="Add to my tasks"
+        <button title="{{ 'message_add_to_my_tasks' | translate }}"
                 ng-if="MessageStandardviewItemCtrl.canAddToTasksMessage"
-                class="btn btn-default" data-ng-click="MessageStandardviewItemCtrl.addToTasksMessage(message)">
+                class="btn btn-default" ng-click="MessageStandardviewItemCtrl.addToTasksMessage(message)">
             <i class="fa fa-tasks"></i>
             <i class="fa fa-plus"></i>
         </button>
 
         <button class="btn btn-default"
                 title="{{ 'message_bookmark' | translate }}"
-                data-ng-click="MessageStandardviewItemCtrl.bookmarkMessage()">
+                ng-click="MessageStandardviewItemCtrl.bookmarkMessage()">
             <i class="fa fa-bookmark-o"></i>
         </button>
 
-        <button class="btn btn-default" data-ng-click="message.updating=true"
-        ng-if="isTopicUpdatableMsg || isTopicUpdatableAllMsg">
-            <i class="fa fa-pencil" title="{{ 'message_update' | translate }}"></i>
+        <button class="btn btn-default" ng-click="message.updating=true"
+        ng-if="isTopicUpdatableMsg || isTopicUpdatableAllMsg" title="{{ 'message_update' | translate }}">
+            <i class="fa fa-pencil"></i>
         </button>
 
-        <button class="btn btn-default" data-ng-click="message.deleting=true"
-        ng-if="isTopicDeletableMsg || isTopicDeletableAllMsg">
-            <i class="fa fa-trash" title="{{ 'message_delete' | translate }}"></i>
+        <button class="btn btn-default" ng-click="message.deleting=true"
+        ng-if="isTopicDeletableMsg || isTopicDeletableAllMsg" title="{{ 'message_delete' | translate }}">
+            <i class="fa fa-trash"></i>
         </button>
 
         <button title="{{ 'message_label_add' | translate }}"
-                class="btn btn-default" data-ng-click="addingLabel=!addingLabel">
+                class="btn btn-default" ng-click="addingLabel=!addingLabel">
             <i class="fa fa-tag"></i>
         </button>
 
         <button title="{{ 'message_url' | translate }}"
-                class="btn btn-default" data-ng-click="MessageStandardviewItemCtrl.urlMessage(message)">
+                class="btn btn-default" ng-click="MessageStandardviewItemCtrl.urlMessage(message)">
             <i class="fa fa-link"></i>
         </button>
 
@@ -68,8 +69,8 @@
                 showPalette: true,
                 togglePaletteOnly: false}" ></spectrum-colorpicker>
           </div>
-          <form data-ng-submit="MessageStandardviewItemCtrl.addLabel(message)">
-            <input class="form-control" type="text" data-ng-model="message.currentLabel.text" placeholder="{{ 'message_label_add' | translate}}">
+          <form ng-submit="MessageStandardviewItemCtrl.addLabel(message)">
+            <input class="form-control" type="text" ng-model="message.currentLabel.text" placeholder="{{ 'message_label_add' | translate}}">
           </form>
         </div>
     </div>
@@ -81,64 +82,58 @@
         <span class="date" title="creation: {{ message.dateCreation * 1000| amCalendar }}, update: {{ message.dateUpdate * 1000| amCalendar }}">{{ message.dateCreation * 1000| amCalendar }}</span>
         <span class="badge tlabel"
           style="background-color: {{ label.color }}; border-color: {{ label.color }}; color: {{ MessageStandardviewItemCtrl.getBrightness(label.color)>130 ? '#000000' : '#ffffff' }}"
-          data-ng-repeat="label in message.labels track by label.text">
+          ng-repeat="label in message.labels track by label.text">
           {{label.text}}
-          <a role="button" data-ng-click="MessageStandardviewItemCtrl.removeLabel(message, label.text)">X</a>
+          <a role="button" ng-click="MessageStandardviewItemCtrl.removeLabel(message, label.text)">X</a>
         </span>
       </div>
     </div>
 
-      <div class="message-standardview-reply" data-ng-show="replying">
-          <textarea class="form-control" data-ng-model="MessageStandardviewItemCtrl.replyText"></textarea>
-          <button class="btn btn-primary"
-                  data-ng-click="MessageStandardviewItemCtrl.replyMessage(message); $event.stopPropagation();">
-              <i class="fa fa-reply-all"></i>
-              Reply
+      <div class="message-reply" ng-show="replying">
+          <textarea class="form-control" ng-model="MessageStandardviewItemCtrl.replyText"></textarea>
+          <button class="btn btn-default btn-xs" ng-click="replying=false">
+              {{ 'shared_common_cancel' | translate }}
           </button>
-          <button class="btn btn-default" data-ng-click="replying=false">
-              <i class="fa fa-ban"></i>
+          <button class="btn btn-primary btn-xs"
+                  ng-click="MessageStandardviewItemCtrl.replyMessage(message); $event.stopPropagation();">
+              {{ 'message_reply' | translate }}
+          </button>
+      </div>
+      <div class="message-reply" ng-show="message.updating">
+          <textarea class="form-control" ng-model="message.text"></textarea>
+          <button class="btn btn-primary"
+                  ng-click="MessageStandardviewItemCtrl.updateMessage(message); $event.stopPropagation();">
+              {{ 'message_update' | translate }}
+          </button>
+          <button class="btn btn-default" ng-click="message.updating=false">
               {{ 'shared_common_cancel' | translate }}
           </button>
       </div>
-      <div class="message-reply" data-ng-show="message.updating">
-          <textarea class="form-control" data-ng-model="message.text"></textarea>
-          <button class="btn btn-primary"
-                  data-ng-click="MessageStandardviewItemCtrl.updateMessage(message); $event.stopPropagation();">
-              <i class="fa fa-pencil-square-o"></i>
-              Update
-          </button>
-          <button class="btn btn-default" data-ng-click="message.updating=false">
-              <i class="fa fa-ban"></i>
-              {{ 'shared_common_cancel' | translate }}
-          </button>
-      </div>
-      <div data-ng-show="message.deleting">
+      <div ng-show="message.deleting">
           <button class="btn btn-danger"
-                  data-ng-click="MessageStandardviewItemCtrl.deleteMessage(message);">
-              <i class="fa fa-trash"></i>
-              Confirm Delete <span ng-show="message.replies.length">message and replies</span>
+                  ng-click="MessageStandardviewItemCtrl.deleteMessage(message);">
+              {{ 'message_confirm_delete' | translate }} <span ng-show="message.replies.length">{{ 'message_and_replies' | translate }}</span>
           </button>
-          <button class="btn btn-default" data-ng-click="message.deleting=false">
-              <i class="fa fa-ban"></i>
+          <button class="btn btn-default" ng-click="message.deleting=false">
               {{ 'shared_common_cancel' | translate }}
           </button>
       </div>
   </div>
 
   <div class="tat-replies-filter input-group" ng-if="message.replies.length">
-    <div class="input-group-addon" data-ng-click="message.searching=!message.searching"><i class="fa fa-search"></i></div>
-    <input type="search" class="form-control" data-ng-model="message.search" placeholder="search in reply">
+    <div class="input-group-addon" ng-click="message.searching=!message.searching"><i class="fa fa-search"></i></div>
+    <input type="search" class="form-control" ng-model="message.search" placeholder="search in reply">
   </div>
 
   <div class="tat-replies" ng-if="message.replies.length">
     <table class="table table-striped">
       <tbody>
 
-      <tr data-ng-repeat="reply in message.replies | filter:message.search" class="tat-msg-wrapper" data-ng-class="{'deleting': reply.deleting, 'updating': reply.updating}">
-        <td data-ng-if="!reply.hide">
+      <tr ng-repeat="reply in message.replies | filter:message.search" class="tat-msg-wrapper" ng-class="{'deleting': reply.deleting, 'updating': reply.updating}">
+        <td ng-if="!reply.hide">
           <div class="tat-actions">
-            <button class="btn btn-xs" data-ng-click="reply.updating=true" data-ng-disabled="reply.updating || reply.deleting"><i class="fa fa-pencil"></i></button>
-            <button class="btn btn-xs" data-ng-click="reply.deleting=true" data-ng-disabled="reply.deleting || reply.updating "><i class="fa fa-trash"></i></button>
+            <button class="btn btn-xs" ng-click="reply.updating=true" ng-disabled="reply.updating || reply.deleting"><i class="fa fa-pencil"></i></button>
+            <button class="btn btn-xs" ng-click="reply.deleting=true" ng-disabled="reply.deleting || reply.updating "><i class="fa fa-trash"></i></button>
           </div>
           <div class="tat-msg" ng-bind-html="reply.text | linky | nl2br | parseTags:reply.tags"></div>
           <div class="tat-meta">
@@ -147,30 +142,26 @@
             </span>
             &ndash;
             <user-display username="reply.author.username" fullname="reply.author.fullname"></user-display>
-            <span data-ng-show="reply.nbLikes" class="likers">
+            <span ng-show="reply.nbLikes" class="likers">
                 {{reply.nbLikes}} <i class="fa fa-thumbs-o-up"></i>
             </span>
           </div>
           <div class="tat-editing" ng-if="reply.updating">
-            <textarea class="form-control" data-ng-model="reply.text"></textarea>
-            <button class="btn btn-default btn-xs" data-ng-click="reply.updating=false">
-                <i class="fa fa-ban"></i>
+            <textarea class="form-control" ng-model="reply.text"></textarea>
+            <button class="btn btn-default btn-xs" ng-click="reply.updating=false">
                 {{ 'shared_common_cancel' | translate }}
             </button>
-            <button class="btn btn-primary btn-xs" data-ng-click="MessageStandardviewItemCtrl.updateMessage(reply);">
-                <i class="fa fa-pencil-square-o"></i>
-                Update
+            <button class="btn btn-primary btn-xs" ng-click="MessageStandardviewItemCtrl.updateMessage(reply);">
+                  {{ 'message_update' | translate }}
             </button>
           </div>
-          <div class="tat-deleting" data-ng-if="reply.deleting">
-              <button class="btn btn-default btn-xs" data-ng-click="reply.deleting=false">
-                  <i class="fa fa-ban"></i>
+          <div class="tat-deleting" ng-if="reply.deleting">
+              <button class="btn btn-default btn-xs" ng-click="reply.deleting=false">
                   {{ 'shared_common_cancel' | translate }}
               </button>
               <button class="btn btn-danger btn-xs"
-                      data-ng-click="MessageStandardviewItemCtrl.deleteMessage(reply);">
-                  <i class="fa fa-trash"></i>
-                  Confirm Delete
+                      ng-click="MessageStandardviewItemCtrl.deleteMessage(reply);">
+                  {{ 'message_confirm_delete' | translate }}
               </button>
           </div>
         </td>
