@@ -10,37 +10,43 @@
         <div class="form-group">
           <input type="text" class="form-control" placeholder="open,doing" ng-model="ctrl.tmpFilter.filterInLabel" aria-describedby="filter-labels">
           <span id="helpBlock" class="help-block">
-            <strong>{{ 'message_in' | translate }}</strong> <i class="fa fa-tags"></i> : {{ 'message_contains_labels' | translate }}
+            <i class="fa fa-tags"></i>
+            <strong>{{ 'message_in' | translate }}</strong>: {{ 'message_contains_labels' | translate }}
           </span>
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="open,doing" ng-model="ctrl.tmpFilter.filterAndLabel" aria-describedby="filter-labels">
           <span id="helpBlock" class="help-block">
-            <strong>{{ 'message_all' | translate }}</strong> <i class="fa fa-tags"></i> : {{ 'message_contains_all_labels' | translate }}
+            <i class="fa fa-tags"></i>
+            <strong>{{ 'message_all' | translate }}</strong>: {{ 'message_contains_all_labels' | translate }}
           </span>
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="done" ng-model="ctrl.tmpFilter.filterNotLabel" aria-describedby="filter-hide-labels">
           <span id="helpBlock" class="help-block">
-            <strong>{{ 'message_hide' | translate }}</strong> <i class="fa fa-tags"></i> : {{ 'message_hide_labels' | translate }}
+            <i class="fa fa-tags"></i>
+            <strong>{{ 'message_hide' | translate }}</strong>: {{ 'message_hide_labels' | translate }}
           </span>
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="PCC,STOCKAGE" ng-model="ctrl.tmpFilter.filterInTag" aria-describedby="filter-tags">
           <span id="helpBlock" class="help-block">
-            <strong>{{ 'message_in' | translate }}</strong> <i class="glyphicon glyphicon-copyright-mark"></i> : {{ 'message_contains_tags' | translate }}
+            <i class="fa fa-hashtag"></i>
+            <strong>{{ 'message_in' | translate }}</strong>: {{ 'message_contains_tags' | translate }}
           </span>
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="PCC,STOCKAGE" ng-model="ctrl.tmpFilter.filterAndTag" aria-describedby="filter-tags">
           <span id="helpBlock" class="help-block">
-            <strong>{{ 'message_all' | translate }}</strong> <i class="glyphicon glyphicon-copyright-mark"></i> : {{ 'message_contains_all_tags' | translate }}
+            <i class="fa fa-hashtag"></i>
+            <strong>{{ 'message_all' | translate }}</strong>: {{ 'message_contains_all_tags' | translate }}
           </span>
         </div>
         <div class="form-group">
           <input type="text" class="form-control" placeholder="PCC,STOCKAGE" ng-model="ctrl.tmpFilter.filterNotTag" aria-describedby="filter-hide-tags">
           <span id="helpBlock" class="help-block">
-            <strong>{{ 'message_hide' | translate }}</strong> <i class="glyphicon glyphicon-copyright-mark"></i> : {{ 'message_hide_all_tags' | translate }}
+            <i class="fa fa-hashtag"></i>
+            <strong>{{ 'message_hide' | translate }}</strong>: {{ 'message_hide_all_tags' | translate }}
           </span>
         </div>
         <div class="form-group form-actions">
@@ -75,7 +81,6 @@
             </div>
           </div>
           <div ng-if="ctrl.currentMessage.length > 0" class="users-typing" ng-hide="!createMessageFocus"><i>{{ 'message_characters_left' | translate }}: {{ ctrl.data.topic.maxlength - ctrl.currentMessage.length }}</i></div>
-
           <div class="formatting-tips" aria-hidden="true" dir="auto"></div>
         </form>
 
@@ -99,21 +104,19 @@
               <i class="fa fa-plus-square"></i>
               {{ 'message_in' | translate }}
             </strong>
-            <span class="tat-label" ng-repeat="label in ctrl.filter.labelAsList">
-               {{ label }}
-              <a role="button" ng-click="ctrl.tmpFilter.filterInLabel = ''; ctrl.filterSearch()"><i class="fa fa-times"></i></a>
+            <span class="tat-label" ng-repeat="label in ctrl.filter.labelAsList" ng-click="ctrl.filterPop('InLabel', label)">
+               {{ label }} <i class="fa fa-minus-circle"></i>
             </span>
           </span>
 
-          <!-- all labels -->
+          <!-- and labels -->
           <span class="tat-filter-group" ng-if="ctrl.filter.andLabel">
             <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
               <i class="fa fa-plus-square"></i>
               {{ 'message_all' | translate }}
             </strong>
-            <span class="tat-label" ng-repeat="label in ctrl.filter.andLabelAsList">
-              {{ label }}
-              <a role="button" ng-click="ctrl.tmpFilter.filterAndLabel = ''; ctrl.filterSearch()"><i class="fa fa-times"></i></a>
+            <span class="tat-label" ng-repeat="label in ctrl.filter.andLabelAsList" ng-click="ctrl.filterPop('AndLabel', label)">
+              {{ label }} <i class="fa fa-minus-circle"></i>
             </span>
           </span>
 
@@ -123,9 +126,8 @@
               <i class="fa fa-minus-square"></i>
               {{ 'message_hide' | translate }}
             </strong>
-            <span class="tat-label" ng-repeat="label in ctrl.filter.notLabelAsList">
-               {{ label }}
-              <a role="button" ng-click="ctrl.tmpFilter.filterNotLabel = ''; ctrl.filterSearch()"><i class="fa fa-times"></i></a>
+            <span class="tat-label" ng-repeat="label in ctrl.filter.notLabelAsList" ng-click="ctrl.filterPop('NotLabel', label)">
+               {{ label }} <i class="fa fa-minus-circle"></i>
             </span>
           </span>
 
@@ -135,10 +137,8 @@
               <i class="fa fa-plus-square"></i>
               {{ 'message_in' | translate }}
             </strong>
-            <span class="tat-tag" ng-repeat="tag in ctrl.filter.tagAsList">
-              <i class="fa fa-hashtag"></i>
-               {{ tag }}
-              <a role="button" ng-click="ctrl.tmpFilter.filterInTag = ''; ctrl.filterSearch()"><i class="fa fa-times"></i></a>
+            <span class="tat-tag" ng-repeat="tag in ctrl.filter.tagAsList" ng-click="ctrl.filterPop('InTag', tag)">
+              <i>#</i>{{ tag }} <i class="fa fa-minus-circle"></i>
             </span>
           </span>
 
@@ -148,9 +148,8 @@
               <i class="fa fa-plus-square"></i>
               {{ 'message_all' | translate }}
             </strong>
-            <span class="tat-tag" ng-repeat="tag in ctrl.filter.andTagAsList">
-               {{ tag }}
-              <a role="button" ng-click="ctrl.tmpFilter.filterAndTag = ''; ctrl.filterSearch()"><i class="fa fa-times"></i></a>
+            <span class="tat-tag" ng-repeat="tag in ctrl.filter.andTagAsList" ng-click="ctrl.filterPop('AndTag', tag)">
+              <i>#</i>{{ tag }} <i class="fa fa-minus-circle"></i>
             </span>
           </span>
 
@@ -160,9 +159,8 @@
               <i class="fa fa-minus-square"></i>
               {{ 'message_hide' | translate }}
             </strong>
-            <span class="tat-tag" ng-repeat="tag in ctrl.filter.andTagAsList">
-               {{ tag }}
-              <a role="button" ng-click="ctrl.tmpFilter.filterNoTag = ''; ctrl.filterSearch()"><i class="fa fa-times"></i></a>
+            <span class="tat-tag" ng-repeat="tag in ctrl.filter.notTagAsList" ng-click="ctrl.filterPop('NotTag', tag)">
+               <i>#</i>{{ tag }} <i class="fa fa-minus-circle"></i>
             </span>
           </span>
 
@@ -198,30 +196,26 @@
               </button>
               <div class="tat-msg" ng-bind-html="msg.text | linky | nl2br | parseTags:msg.tags"></div>
               <div class="tat-meta">
-                <span class="date" title="creation: {{ msg.dateCreation * 1000| amCalendar }}, update: {{ msg.dateUpdate * 1000| amCalendar }}">
-                  {{ msg.dateCreation * 1000| amDateFormat:'DD/MM, HH:mm:ss' }}
-                </span>
+                <span class="date" am-time-ago="msg.dateCreation * 1000" title="created: {{ msg.dateCreation * 1000| amCalendar }}, updated: {{ msg.dateUpdate * 1000| amCalendar }}"></span>
                 &ndash;
                 <user-display username="msg.author.username" fullname="msg.author.fullname"></user-display>
                 &nbsp;
-                <span ng-show="msg.nbLikes" class="likers">
-                    <i class="fa fa-heart"></i><span ng-show="msg.nbLikes > 1">&nbsp;{{ msg.nbLikes }}</span>
+                <span ng-show="msg.nbLikes" class="tat-likes">
+                  <i class="fa fa-heart"></i><span ng-show="msg.nbLikes > 1">&nbsp;{{ msg.nbLikes }}</span>
                 </span>
                 <span ng-repeat="label in msg.labels track by label.text" class="tat-label"
                   style="background-color: {{ label.color }}; border-right-color: {{ label.color }}; color: {{ ctrl.getBrightness(label.color)>130 ? '#000000' : '#ffffff' }}">
                   {{ label.text }}
                 </span>
               </div>
-                <div class="tat-replies" ng-if="msg.displayReplies || ctrl.expandReplies">
+                <div class="tat-replies" ng-if="msg.displayReplies || ctrl.expandReplies" ng-show="msg.replies">
                   <table class="table">
                     <tbody>
                       <tr ng-repeat="reply in msg.replies">
                         <td>
                           <div class="tat-msg" ng-bind-html="reply.text | linky | nl2br | parseTags:reply.tags"></div>
                           <div class="tat-meta">
-                            <span class="date" title="creation: {{reply.dateCreation * 1000| amCalendar}}, update: {{reply.dateUpdate * 1000| amCalendar}}">
-                              {{ reply.dateCreation * 1000| amDateFormat:'DD/MM, HH:mm:ss' }}
-                            </span>
+                            <span class="date" am-time-ago="reply.dateCreation * 1000" title="created: {{ reply.dateCreation * 1000| amCalendar }}, updated: {{ reply.dateUpdate * 1000| amCalendar }}"></span>
                             &ndash;
                             <user-display username="reply.author.username" fullname="reply.author.fullname"></user-display>
                           </div>

@@ -78,9 +78,16 @@
     <div class="tat-msg-wrapper primary">
       <div class="tat-msg" ng-bind-html="message.text | linky | nl2br | parseTags:message.tags"></div>
       <div class="tat-meta">
+        <span class="date" title="creation: {{ message.dateCreation * 1000| amCalendar }}, update: {{ message.dateUpdate * 1000| amCalendar }}">
+          {{ message.dateCreation * 1000| amCalendar }}
+        </span>
+        &ndash;
         <user-display username="message.author.username" fullname="message.author.fullname"></user-display>
-        <span class="date" title="creation: {{ message.dateCreation * 1000| amCalendar }}, update: {{ message.dateUpdate * 1000| amCalendar }}">{{ message.dateCreation * 1000| amCalendar }}</span>
-        <span class="badge tlabel"
+        &nbsp;
+        <span ng-show="message.nbLikes" class="tat-likes">
+          <i class="fa fa-heart"></i><span ng-show="message.nbLikes > 1">&nbsp;{{ message.nbLikes }}</span>
+        </span>
+        <span class="tat-label"
           style="background-color: {{ label.color }}; border-color: {{ label.color }}; color: {{ MessageStandardviewItemCtrl.getBrightness(label.color)>130 ? '#000000' : '#ffffff' }}"
           ng-repeat="label in message.labels track by label.text">
           {{label.text}}
@@ -132,8 +139,8 @@
       <tr ng-repeat="reply in message.replies | filter:message.search" class="tat-msg-wrapper" ng-class="{'deleting': reply.deleting, 'updating': reply.updating}">
         <td ng-if="!reply.hide">
           <div class="tat-actions">
-            <button class="btn btn-xs" ng-click="reply.updating=true" ng-disabled="reply.updating || reply.deleting"><i class="fa fa-pencil"></i></button>
-            <button class="btn btn-xs" ng-click="reply.deleting=true" ng-disabled="reply.deleting || reply.updating "><i class="fa fa-trash"></i></button>
+            <button class="btn btn-default btn-xs" ng-click="reply.updating=true" ng-disabled="reply.updating || reply.deleting"><i class="fa fa-pencil"></i></button>
+            <button class="btn btn-default btn-xs" ng-click="reply.deleting=true" ng-disabled="reply.deleting || reply.updating "><i class="fa fa-trash"></i></button>
           </div>
           <div class="tat-msg" ng-bind-html="reply.text | linky | nl2br | parseTags:reply.tags"></div>
           <div class="tat-meta">
@@ -142,9 +149,6 @@
             </span>
             &ndash;
             <user-display username="reply.author.username" fullname="reply.author.fullname"></user-display>
-            <span ng-show="reply.nbLikes" class="likers">
-                {{reply.nbLikes}} <i class="fa fa-thumbs-o-up"></i>
-            </span>
           </div>
           <div class="tat-editing" ng-if="reply.updating">
             <textarea class="form-control" ng-model="reply.text"></textarea>

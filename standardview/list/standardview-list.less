@@ -278,24 +278,23 @@ div.message-standardview-manager {
 
   }
 
-  div.message-standardview-create, div.message-standardview-taking {
+  .message-standardview-create, div.message-standardview-taking {
     ul.message-standardview-actions {
       display:inline-block;
     }
   }
 
-  div.message-standardview-header {
+  .message-standardview-header {
     height: @message-header-height;
   }
 
-  div.message-standardview-create {
+  .message-standardview-create {
     margin-top: 5px;
-    margin-bottom: 10px;
   }
 
-  @message-standardview-list-global-head : @message-header-height + @application-header-height + 15px;
+  @message-standardview-list-global-head : @message-header-height + @application-header-height + 25px;
 
-  div.message-standardview-list {
+  .message-standardview-list {
     overflow-y: auto;
     height: calc(100vh ~"-" @message-standardview-list-global-head)
   }
@@ -386,20 +385,6 @@ div.message-standardview-manager {
 .tat-msg {
   font-size: 16px;
   margin-right: 60px;
-  .badge {
-    color: #00ABAB;
-    border: 0;
-    padding: 0;
-    margin: 0 4px 0 0;
-    font-size: 16px;
-    i {
-      font-weight: normal;
-    }
-    &:before {
-      content: '#';
-      color: #c7e6e6;
-    }
-  }
 }
 
 .tat-replies-count {
@@ -421,7 +406,7 @@ div.message-standardview-manager {
 .tat-meta {
   color: #aaa;
   margin-top: 2px;
-  a {
+  a.link {
     font-weight: bold;
     color: #999;
     text-decoration: none;
@@ -433,6 +418,28 @@ div.message-standardview-manager {
   .date {
   }
 
+}
+
+.tat-tag {
+  color: #2bbbaa;
+  border: 0;
+  padding: 0;
+  margin: 0 4px 0 0;
+  font-weight: bold;
+  i {
+    font-weight: normal;
+    color: #aacec4;
+  }
+  a {
+    color: white;
+    font-size: 9px;
+    margin-left: 2px;
+    opacity: 0.7;
+    &:hover {
+      opacity: 1;
+      text-decoration: none!important;
+    }
+  }
 }
 
 .tat-label {
@@ -453,9 +460,10 @@ div.message-standardview-manager {
     color: white;
     font-size: 9px;
     margin-left: 2px;
-    opacity: 0.5;
+    opacity: 0.7;
     &:hover {
       opacity: 1;
+      text-decoration: none!important;
     }
   }
   &:before {
@@ -533,7 +541,7 @@ div.message-standardview-manager {
   font-weight: bold;
 }
 
-.likers {
+.tat-likes {
   font-weight: bold;
   color: #EC3B7F;
 }
@@ -591,22 +599,48 @@ div.message-standardview-manager {
         color: #fff;
       }
     }
-    .label {
-      margin-left: 4px;
-      position: relative;
-      top: -1px;
-      padding: 3px 8px;
-      &:hover {
-        background-color: #555;
-      }
-    }
     .tat-label {
       margin-left: 14px;
       position: relative;
       top: -1px;
+      cursor: pointer;
+      .fa {
+        display: none;
+      }
       &:hover {
-        background-color: #555;
-        border-color: #555;
+        background-color: #ce1542;
+        border-color: #ce1542;
+        .fa {
+          display: inline;
+        }
+      }
+    }
+    .tat-tag {
+      background: #818181;
+      color: #fff;
+      padding: 3px 6px 2px 6px;
+      margin: 0 0 0 4px;
+      border-radius: 2px;
+      font-weight: normal;
+      font-size: 10px;
+      cursor: pointer;
+      .fa {
+        display: none;
+      }
+      i:first-child {
+        color: #b7b7b7;
+        font-weight: normal;
+        margin-right: 2px;
+      }
+      &:hover {
+        background-color: #ce1542;
+        i {
+          color: white;
+        }
+        .fa {
+          display: inline;
+          color: white;
+        }
       }
     }
   }

@@ -204,27 +204,54 @@ angular.module('TatUi')
 
     /**
      * @ngdoc function
+     * @name filterPop
+     * @methodOf TatUi.controller:MessagesStandardViewListCtrl
+     * @description Pop a given filtered tag or label from filters
+     */
+    this.filterPop = function(kind, value) {
+      var key, items, index;
+      key = 'filter'+ kind;
+      if (self.tmpFilter[key]) {
+        items = self.tmpFilter[key].split(',');
+        index = items.indexOf(value);
+        if (index > -1) items.splice(index, 1);
+        self.tmpFilter[key] = items.join(',');
+        self.filterSearch();
+      }
+    };
+
+    /**
+     * @ngdoc function
      * @name filterSearch
      * @methodOf TatUi.controller:MessagesStandardViewListCtrl
      * @description Filter messages
      */
     this.filterSearch = function() {
+
+      var sanitize = function(a) {
+        // Removes spaces & duplicate (preserve order)
+        return a.replace(/\s+/, '').split(',').reduce(function(p, c) {
+          if (c != '' && p.indexOf(c) < 0) p.push(c); return p;
+        }, []).join(',');
+      };
+
       self.data.skip = 0;
       self.data.displayMore = true;
-      self.filter.text = self.tmpFilter.filterText ? self.tmpFilter.filterText : null;
-      self.filter.label = self.tmpFilter.filterInLabel ? self.tmpFilter.filterInLabel : null;
-      self.filter.andLabel = self.tmpFilter.filterAndLabel ? self.tmpFilter.filterAndLabel : null;
-      self.filter.notLabel = self.tmpFilter.filterNotLabel ? self.tmpFilter.filterNotLabel : null;
-      self.filter.tag = self.tmpFilter.filterInTag ? self.tmpFilter.filterInTag : null;
-      self.filter.andTag = self.tmpFilter.filterAndTag ? self.tmpFilter.filterAndTag : null;
-      self.filter.notTag = self.tmpFilter.filterNotTag ? self.tmpFilter.filterNotTag : null;
+      self.filter.text      = self.tmpFilter.filterText     ? self.tmpFilter.filterText : null;
+      self.filter.label     = self.tmpFilter.filterInLabel  ? sanitize(self.tmpFilter.filterInLabel) : null;
+      self.filter.andLabel  = self.tmpFilter.filterAndLabel ? sanitize(self.tmpFilter.filterAndLabel) : null;
+      self.filter.notLabel  = self.tmpFilter.filterNotLabel ? sanitize(self.tmpFilter.filterNotLabel) : null;
+      self.filter.tag       = self.tmpFilter.filterInTag    ? sanitize(self.tmpFilter.filterInTag) : null;
+      self.filter.andTag    = self.tmpFilter.filterAndTag   ? sanitize(self.tmpFilter.filterAndTag) : null;
+      self.filter.notTag    = self.tmpFilter.filterNotTag   ? sanitize(self.tmpFilter.filterNotTag) : null;
 
-      // Helpers
-      if (self.filter.label)    self.filter.labelAsList = self.filter.label.split(',');
-      if (self.filter.andLabel) self.filter.andLabelAsList = self.filter.andLabel.split(',');
-      if (self.filter.notLabel) self.filter.notLabelAsList = self.filter.notLabel.split(',');
-      if (self.filter.tag)      self.filter.tagAsList = self.filter.tag.split(',');
-      if (self.filter.andTag)   self.filter.andTagAsList = self.filter.andTag.split(',');
+      // UI Helpers
+      if (self.filter.label)    self.filter.labelAsList     = self.filter.label.split(',');
+      if (self.filter.andLabel) self.filter.andLabelAsList  = self.filter.andLabel.split(',');
+      if (self.filter.notLabel) self.filter.notLabelAsList  = self.filter.notLabel.split(',');
+      if (self.filter.tag)      self.filter.tagAsList       = self.filter.tag.split(',');
+      if (self.filter.andTag)   self.filter.andTagAsList    = self.filter.andTag.split(',');
+      if (self.filter.notTag)   self.filter.notTagAsList    = self.filter.notTag.split(',');
 
       if (self.tmpFilter.idMessage === "-1") {
         $rootScope.$broadcast('topic-change', {
