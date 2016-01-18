@@ -193,7 +193,7 @@
   }
 }
 
-div.message-standardview-manager {
+.message-standardview-manager {
   font-size: 1.2em;
 
   section.message-standardview-wrapper-doing {
@@ -225,16 +225,16 @@ div.message-standardview-manager {
         margin-bottom: 0px;
 
       }
-      div.col-md-5 {
+      .col-md-5 {
         margin-bottom: 0px;
       }
-      div.col-md-3 {
+      .col-md-3 {
         margin-bottom: 0px;
       }
-      div.alSection {
+      .alSection {
         margin-bottom:0px;
       }
-      div.messages-run-actions-root {
+      .messages-run-actions-root {
         ul.message-standardview-actions {
           margin: 0;
           padding-left: 0px;
@@ -271,14 +271,14 @@ div.message-standardview-manager {
         }
       }
 
-      div.messages-run-labels.col-md-2 {
+      .messages-run-labels.col-md-2 {
         padding-left: 20px;
       }
     }
 
   }
 
-  .message-standardview-create, div.message-standardview-taking {
+  .message-standardview-create, .message-standardview-taking {
     ul.message-standardview-actions {
       display:inline-block;
     }
@@ -315,15 +315,16 @@ div.message-standardview-manager {
     padding: 10px;
   }
   .tat-toggle-msg {
+    color: #507095;
     float: right;
-    color: #999;
     font-weight: bold;
+    margin: 2px 0 0 0;
     transition: color @tat-default-transition-time;
     i {
       font-size: 38px;
     }
     &:hover {
-      color: #23527C;
+      color: #9EBFE6;
     }
     &:focus {
       outline: none;
@@ -337,10 +338,12 @@ div.message-standardview-manager {
   }
   &.open {
     td {
-      background-color: #e7f2ff!important;
+      background-color: rgba(167, 74, 120, 0.08)!important;
     }
     .tat-toggle-msg {
-      color: @tat-link-hover-color;
+      i {
+        color: #A74A78;
+      }
     }
   }
 }
@@ -397,9 +400,10 @@ div.message-standardview-manager {
   top: 8px;
   right: 10px;
   text-shadow: 1px 1px 3px #333;
+  background-color: #507095;
   transition: background-color @tat-default-transition-time;
   &:hover {
-    background-color: #23527C;
+    background-color: #9EBFE6;
   }
 }
 
@@ -490,10 +494,6 @@ div.message-standardview-manager {
     top: 6px;
     width: 4px;
   }
-}
-
-.tat-replies-count {
-  float: right;
 }
 
 .standardview-message-right {
