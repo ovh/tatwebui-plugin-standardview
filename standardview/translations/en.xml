@@ -3,10 +3,10 @@
   <translation id="messages-nomessage">Aucun message</translation>
   <translation id="message_send">Send</translation>
   <translation id="message_reply">Reply</translation>
+  <translation id="message_set_done">Set to done</translation>
   <translation id="message_like">Like</translation>
   <translation id="message_unlike">Unlike</translation>
   <translation id="message_send">Send</translation>
-  <translation id="message_reply">Reply</translation>
   <translation id="message_read_only">You are in read-only mode in this topic.</translation>
   <translation id="message_bookmark">Bookmark</translation>
   <translation id="message_delete">Delete</translation>
@@ -24,4 +24,10 @@
   <translation id="message_contains_all_tags">Contains all tags in this list</translation>
   <translation id="message_hide_all_tags">Hide all tags in this list</translation>
   <translation id="message_search">Search</translation>
+  <translation id="message_compose_placeholder">Your message here with #tag</translation>
+  <translation id="message_remove_from_my_tasks">Remove from my tasks</translation>
+  <translation id="message_add_to_my_tasks">Add to my tasks</translation>
+  <translation id="message_confirm_delete">Confirm delete</translation>
+  <translation id="message_and_replies">of message and replies</translation>
+  <translation id="message_show_more">Show more messages</translation>
 </translations>
