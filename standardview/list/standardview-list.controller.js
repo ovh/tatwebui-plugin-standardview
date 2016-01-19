@@ -288,6 +288,14 @@ angular.module('TatUi')
       self.currentMessage = text;
     };
 
+    this.urlMessage = function(message) {
+      $rootScope.$broadcast('topic-change', {
+        topic: self.topic,
+        idMessage: message._id,
+        reload: true
+      });
+    };
+
     /**
      * @ngdoc function
      * @name getNewMessages
@@ -382,7 +390,6 @@ angular.module('TatUi')
      * @description
      */
     this.initFilterField = function(key) {
-      console.log(key);
       if ($stateParams[key]) {
         self.tmpFilter[key] = $stateParams[key];
       } else if ($localStorage.messagesFilters[self.topic][key]) {

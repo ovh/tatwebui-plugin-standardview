@@ -73,11 +73,13 @@
                 ng-model="ctrl.currentMessage" placeholder="{{ 'message_compose_placeholder' | translate }}"></textarea>
               <i ng-click="ctrl.createMessage()" class="icon-paper-plane fa fa-send-o" title="{{ 'message_send' | translate }}"></i>
             </div>
-            <div class="filter" ng-click="ctrl.filterPosition.visible = true">
-              <i class="fa fa-filter"></i>
-            </div>
-            <div class="filter" title="Toggle display replies" ng-click="ctrl.expandReplies=!ctrl.expandReplies">
-              <i ng-class="ctrl.expandReplies ? 'fa fa-compress': 'fa fa-expand'"></i>
+            <div class="btn-group">
+              <a class="btn btn-default" ng-click="ctrl.filterPosition.visible = !ctrl.filterPosition.visible" ng-class="{'open': ctrl.filterPosition.visible}">
+                <i class="fa fa-filter"></i>
+              </a>
+              <a class="btn btn-default" title="Toggle display replies" ng-click="ctrl.expandReplies = !ctrl.expandReplies" ng-class="{'open': ctrl.expandReplies}">
+                <i ng-class="ctrl.expandReplies ? 'fa fa-compress': 'fa fa-expand'"></i>
+              </a>
             </div>
           </div>
           <div ng-if="ctrl.currentMessage.length > 0" class="users-typing" ng-hide="!createMessageFocus"><i>{{ 'message_characters_left' | translate }}: {{ ctrl.data.topic.maxlength - ctrl.currentMessage.length }}</i></div>
@@ -199,6 +201,10 @@
                 <span class="date" am-time-ago="msg.dateCreation * 1000" title="created: {{ msg.dateCreation * 1000| amCalendar }}, updated: {{ msg.dateUpdate * 1000| amCalendar }}"></span>
                 &ndash;
                 <user-display username="msg.author.username" fullname="msg.author.fullname"></user-display>
+                &nbsp;
+                <a href="#" class="tat-permalink" title="{{ 'message_url' | translate }}" ng-click="ctrl.urlMessage(msg)">
+                  <i class="fa fa-link"></i>
+                </a>
                 &nbsp;
                 <span ng-show="msg.nbLikes" class="tat-likes">
                   <i class="fa fa-heart"></i><span ng-show="msg.nbLikes > 1">&nbsp;{{ msg.nbLikes }}</span>

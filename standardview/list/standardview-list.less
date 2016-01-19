@@ -41,6 +41,26 @@
   width: 100%;
 }
 
+.tat-add-label-form {
+  margin-top: 10px;
+  .form-control {
+    font-size: 12px;
+    line-height: 12px;
+    height: 28px;
+    border-radius: 0 4px 4px 0;
+  }
+  .sp-replacer {
+    padding: 0;
+    border: 0;
+  }
+  .sp-preview {
+    border: 0;
+    .sp-preview-inner {
+      border-radius: 2px;
+    }
+  }
+}
+
 .message-form {
   > div {
     position: relative;
@@ -48,23 +68,8 @@
     display: -webkit-flex;
     .input-message-container {
       position: relative;
-      width: 100%;
+      width: 94%;
       margin-right: 8px;
-    }
-    > .filter {
-      width: 30px;
-      font-size: 22px;
-      padding: 3px 0;
-      text-align: center;
-      cursor: pointer;
-      i {
-        transition: color @tat-default-transition-time;
-      }
-      &:hover {
-        i {
-          color: @tat-link-hover-color;
-        }
-      }
     }
   }
 
@@ -340,6 +345,12 @@
     td {
       background-color: rgba(167, 74, 120, 0.08)!important;
     }
+    .tat-replies-count {
+      background-color: #A74A78;
+      &:hover {
+        background-color: #E472AA;
+      }
+    }
     .tat-toggle-msg {
       i {
         color: #A74A78;
@@ -410,6 +421,8 @@
 .tat-meta {
   color: #aaa;
   margin-top: 2px;
+
+  .tat-permalink,
   a.link {
     font-weight: bold;
     color: #999;
@@ -522,6 +535,8 @@
   float: right;
 }
 
+.message-delete,
+.message-update,
 .message-reply,
 .tat-editing {
   margin: 8px 0 2px 0;
@@ -529,10 +544,17 @@
   textarea {
     margin: 0 0 10px 0;
   }
+  .btn-group {
+    text-align: right;
+  }
 }
-.tat-deleting {
+
+.tat-deleting,
+.tat-replies .tat-editing {
   margin: 0 0 2px 0;
-  text-align: right;
+  .btn-group {
+    float: right;
+  }
 }
 
 .btn-close-msg {
@@ -644,5 +666,11 @@
       }
     }
   }
+}
 
+.btn {
+  &.open {
+    color: #A74A78;
+    background-color: rgba(167, 74, 120, 0.08);
+  }
 }
