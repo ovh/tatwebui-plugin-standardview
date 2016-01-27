@@ -1,61 +1,5 @@
 <div class="wrapper message-standardview-manager">
 
-  <div movable-dialog title="'Filter'" ng-model="ctrl.filterPosition">
-    <div class="filter-dialog">
-      <form>
-        <div class="input-group">
-          <span class="input-group-addon" id="filter-fulltext"><i class="fa fa-search"></i></span>
-          <input type="text" class="form-control" placeholder="text" ng-model="ctrl.tmpFilter.filterText" aria-describedby="filter-fulltext">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="open,doing" ng-model="ctrl.tmpFilter.filterInLabel" aria-describedby="filter-labels">
-          <span id="helpBlock" class="help-block">
-            <i class="fa fa-tags"></i>
-            <strong>{{ 'message_in' | translate }}</strong>: {{ 'message_contains_labels' | translate }}
-          </span>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="open,doing" ng-model="ctrl.tmpFilter.filterAndLabel" aria-describedby="filter-labels">
-          <span id="helpBlock" class="help-block">
-            <i class="fa fa-tags"></i>
-            <strong>{{ 'message_all' | translate }}</strong>: {{ 'message_contains_all_labels' | translate }}
-          </span>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="done" ng-model="ctrl.tmpFilter.filterNotLabel" aria-describedby="filter-hide-labels">
-          <span id="helpBlock" class="help-block">
-            <i class="fa fa-tags"></i>
-            <strong>{{ 'message_hide' | translate }}</strong>: {{ 'message_hide_labels' | translate }}
-          </span>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="PCC,STOCKAGE" ng-model="ctrl.tmpFilter.filterInTag" aria-describedby="filter-tags">
-          <span id="helpBlock" class="help-block">
-            <i class="fa fa-hashtag"></i>
-            <strong>{{ 'message_in' | translate }}</strong>: {{ 'message_contains_tags' | translate }}
-          </span>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="PCC,STOCKAGE" ng-model="ctrl.tmpFilter.filterAndTag" aria-describedby="filter-tags">
-          <span id="helpBlock" class="help-block">
-            <i class="fa fa-hashtag"></i>
-            <strong>{{ 'message_all' | translate }}</strong>: {{ 'message_contains_all_tags' | translate }}
-          </span>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="PCC,STOCKAGE" ng-model="ctrl.tmpFilter.filterNotTag" aria-describedby="filter-hide-tags">
-          <span id="helpBlock" class="help-block">
-            <i class="fa fa-hashtag"></i>
-            <strong>{{ 'message_hide' | translate }}</strong>: {{ 'message_hide_all_tags' | translate }}
-          </span>
-        </div>
-        <div class="form-group form-actions">
-          <button type="submit" class="btn btn-primary btn-xs" ng-click="ctrl.filterSearch()">{{ 'message_search' | translate }}</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <div ng-hide="ctrl.data.isTopicRw" class="alert alert-info fixed-alert">
     <i class="fa fa-info-circle"></i> {{ 'message_read_only' | translate }}
   </div>
@@ -74,7 +18,7 @@
               <i ng-click="ctrl.createMessage()" class="icon-paper-plane fa fa-send-o" title="{{ 'message_send' | translate }}"></i>
             </div>
             <div class="btn-group">
-              <a class="btn btn-default" ng-click="ctrl.filterPosition.visible = !ctrl.filterPosition.visible" ng-class="{'open': ctrl.filterPosition.visible}">
+              <a class="btn btn-default" ng-click="ctrl.filterDialog.visible=!ctrl.filterDialog.visible" ng-class="{'open': ctrl.filterDialog.visible}">
                 <i class="fa fa-filter"></i>
               </a>
               <a class="btn btn-default" title="Toggle display replies" ng-click="ctrl.expandReplies = !ctrl.expandReplies" ng-class="{'open': ctrl.expandReplies}">
@@ -85,102 +29,10 @@
           <div ng-if="ctrl.currentMessage.length > 0" class="users-typing" ng-hide="!createMessageFocus"><i>{{ 'message_characters_left' | translate }}: {{ ctrl.data.topic.maxlength - ctrl.currentMessage.length }}</i></div>
           <div class="formatting-tips" aria-hidden="true" dir="auto"></div>
         </form>
-
-        <!-- tat-message-filters -->
-        <div class="tat-message-filters">
-
-          <!-- full text search -->
-          <span class="tat-filter-group" ng-click="ctrl.filterPosition.visible = true" ng-if="ctrl.filter.text">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-search"></i>
-            </strong>
-            <span class="label label-default">
-              {{ ctrl.filter.text }}
-              <a role="button" ng-click="ctrl.tmpFilter.filterText = ''; ctrl.filterSearch()"><i class="fa fa-times"></i></a>
-            </span>
-          </span>
-
-          <!-- in labels -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.label">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-plus-square"></i>
-              {{ 'message_in' | translate }}
-            </strong>
-            <span class="tat-label" ng-repeat="label in ctrl.filter.labelAsList" ng-click="ctrl.filterPop('InLabel', label)">
-               {{ label }} <i class="fa fa-minus-circle"></i>
-            </span>
-          </span>
-
-          <!-- and labels -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.andLabel">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-plus-square"></i>
-              {{ 'message_all' | translate }}
-            </strong>
-            <span class="tat-label" ng-repeat="label in ctrl.filter.andLabelAsList" ng-click="ctrl.filterPop('AndLabel', label)">
-              {{ label }} <i class="fa fa-minus-circle"></i>
-            </span>
-          </span>
-
-          <!-- hide labels -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.notLabel">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="exclusive">
-              <i class="fa fa-minus-square"></i>
-              {{ 'message_hide' | translate }}
-            </strong>
-            <span class="tat-label" ng-repeat="label in ctrl.filter.notLabelAsList" ng-click="ctrl.filterPop('NotLabel', label)">
-               {{ label }} <i class="fa fa-minus-circle"></i>
-            </span>
-          </span>
-
-          <!-- in tags -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.tag">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-plus-square"></i>
-              {{ 'message_in' | translate }}
-            </strong>
-            <span class="tat-tag" ng-repeat="tag in ctrl.filter.tagAsList" ng-click="ctrl.filterPop('InTag', tag)">
-              <i>#</i>{{ tag }} <i class="fa fa-minus-circle"></i>
-            </span>
-          </span>
-
-          <!-- all tags -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.andTag">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-plus-square"></i>
-              {{ 'message_all' | translate }}
-            </strong>
-            <span class="tat-tag" ng-repeat="tag in ctrl.filter.andTagAsList" ng-click="ctrl.filterPop('AndTag', tag)">
-              <i>#</i>{{ tag }} <i class="fa fa-minus-circle"></i>
-            </span>
-          </span>
-
-          <!-- hide tags -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.notTag">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-minus-square"></i>
-              {{ 'message_hide' | translate }}
-            </strong>
-            <span class="tat-tag" ng-repeat="tag in ctrl.filter.notTagAsList" ng-click="ctrl.filterPop('NotTag', tag)">
-               <i>#</i>{{ tag }} <i class="fa fa-minus-circle"></i>
-            </span>
-          </span>
-
-          <!-- message id -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.idMessage">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-envelope"></i>
-              {{ 'message' | translate }}
-            </strong>
-            <span class="tat-tag">
-               {{ ctrl.filter.idMessage }}
-              <a role="button" ng-click="ctrl.tmpFilter.idMessage = '-1'; ctrl.filterSearch()"><i class="fa fa-times"></i></a>
-            </span>
-          </span>
-
+        <message-filter-bar></message-filter-bar>
+        <div movable-dialog title="'Filter'" ng-model="ctrl.filterDialog">
+          <message-filter></message-filter>
         </div>
-        <!-- /tat-message-filters -->
-
       </div>
   </div>
 
@@ -202,7 +54,7 @@
                 &ndash;
                 <user-display username="msg.author.username" fullname="msg.author.fullname"></user-display>
                 &nbsp;
-                <a href="#" class="tat-permalink" title="{{ 'message_url' | translate }}" ng-click="ctrl.urlMessage(msg)">
+                <a class="tat-permalink" title="{{ 'message_url' | translate }}" ng-click="ctrl.urlMessage($event, msg)">
                   <i class="fa fa-link"></i>
                 </a>
                 &nbsp;
