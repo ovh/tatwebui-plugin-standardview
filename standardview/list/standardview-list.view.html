@@ -1,48 +1,50 @@
-<div class="wrapper message-standardview-manager">
+<div class="tat-view tat-standardview">
 
-  <div ng-hide="ctrl.data.isTopicRw" class="alert alert-info fixed-alert">
+  <div ng-hide="ctrl.data.isTopicRw" class="alert alert-info tat-alert-fixed">
     <i class="fa fa-info-circle"></i> {{ 'message_read_only' | translate }}
   </div>
 
-  <div class="message-standardview-create">
-
-      <div class="row standardview-footer">
-        <form class="message-form" method="post" action="/">
-          <div style="display: flex">
-            <div class="input-message-container" ng-show="ctrl.data.isTopicRw">
-              <div class="message-popup-results">
-              </div>
-              <textarea ng-enter="ctrl.createMessage()" dir="auto" name="msg" class="input-mdessage autogrow-short"
-                ng-focus="createMessageFocus=true" ng-blur="createMessageFocus=false"
-                ng-model="ctrl.currentMessage" placeholder="{{ 'message_compose_placeholder' | translate }}"></textarea>
-              <i ng-click="ctrl.createMessage()" class="icon-paper-plane fa fa-send-o" title="{{ 'message_send' | translate }}"></i>
-            </div>
-            <div class="btn-group">
-              <a class="btn btn-default" ng-click="ctrl.filterDialog.visible=!ctrl.filterDialog.visible" ng-class="{'open': ctrl.filterDialog.visible}">
-                <i class="fa fa-filter"></i>
-              </a>
-              <a class="btn btn-default" title="Toggle display replies" ng-click="ctrl.expandReplies = !ctrl.expandReplies" ng-class="{'open': ctrl.expandReplies}">
-                <i ng-class="ctrl.expandReplies ? 'fa fa-compress': 'fa fa-expand'"></i>
-              </a>
-            </div>
-          </div>
-          <div ng-if="ctrl.currentMessage.length > 0" class="users-typing" ng-hide="!createMessageFocus"><i>{{ 'message_characters_left' | translate }}: {{ ctrl.data.topic.maxlength - ctrl.currentMessage.length }}</i></div>
-          <div class="formatting-tips" aria-hidden="true" dir="auto"></div>
-        </form>
-        <message-filter-bar></message-filter-bar>
-        <div movable-dialog title="'Filter'" ng-model="ctrl.filterDialog">
-          <message-filter></message-filter>
-        </div>
+  <!-- tat-msg-create -->
+  <div class="row tat-msg-create">
+    <form method="post" action="/">
+      <div class="tat-msg-input" ng-show="ctrl.data.isTopicRw">
+        <div class="message-popup-results"></div>
+        <textarea dir="auto" name="msg"
+          ng-enter="ctrl.createMessage()"
+          ng-focus="createMessageFocus=true"
+          ng-blur="createMessageFocus=false"
+          ng-model="ctrl.currentMessage"
+          placeholder="{{ 'message_compose_placeholder' | translate }}">
+        </textarea>
+        <i ng-click="ctrl.createMessage()" class="icon-paper-plane fa fa-send-o" title="{{ 'message_send' | translate }}"></i>
       </div>
+      <div class="btn-group">
+        <a class="btn btn-default" ng-click="ctrl.filterDialog.visible=!ctrl.filterDialog.visible" ng-class="{'open': ctrl.filterDialog.visible}">
+          <i class="fa fa-filter"></i>
+        </a>
+        <a class="btn btn-default" title="Toggle display replies" ng-click="ctrl.expandReplies = !ctrl.expandReplies" ng-class="{'open': ctrl.expandReplies}">
+          <i ng-class="ctrl.expandReplies ? 'fa fa-compress': 'fa fa-expand'"></i>
+        </a>
+      </div>
+      <div ng-if="ctrl.currentMessage.length > 0" class="tat-remaining-chars" ng-hide="!createMessageFocus">
+        <i>{{ 'message_characters_left' | translate }}: {{ ctrl.data.topic.maxlength - ctrl.currentMessage.length }}</i>
+      </div>
+      <div class="formatting-tips" aria-hidden="true" dir="auto"></div>
+    </form>
+    <message-filter-bar></message-filter-bar>
+    <div movable-dialog title="'Filter'" ng-model="ctrl.filterDialog">
+      <message-filter></message-filter>
+    </div>
   </div>
+  <!-- /tat-msg-create -->
 
   <div class="row">
-    <div ng-class="(message && message.displayed) ? 'message-standardview-list col-md-7': 'message-standardview-list col-md-12'">
+    <div ng-class="(message && message.displayed) ? 'tat-view-list col-md-7': 'tat-view-list col-md-12'">
       <table class="table table-striped table-responsive">
         <tbody>
           <tr ng-repeat="msg in ctrl.data.messages" ng-class="msg.displayed ? 'open': ''" class="tat-msg-wrapper" ng-show="!msg.hide">
             <td>
-              <a ng-href="#" ng-click="ctrl.toggleMessage(msg)" class="tat-toggle-msg">
+              <a ng-href="#" ng-click="ctrl.toggleMessage(msg)" class="tat-msg-toggle">
                 <i ng-class="msg.displayed ? 'fa fa-angle-left': 'fa fa-angle-right'"></i>
               </a>
               <button ng-if="msg.replies.length" class="tat-replies-count badge btn-xs" title="Click to display replies to this message" ng-click="msg.displayReplies=!msg.displayReplies">
@@ -66,29 +68,29 @@
                   {{ label.text }}
                 </span>
               </div>
-                <div class="tat-replies" ng-if="msg.displayReplies || ctrl.expandReplies" ng-show="msg.replies">
-                  <table class="table">
-                    <tbody>
-                      <tr ng-repeat="reply in msg.replies">
-                        <td>
-                          <div class="tat-msg" ng-bind-html="reply.text | linky | nl2br | parseTags:reply.tags"></div>
-                          <div class="tat-meta">
-                            <span class="date" am-time-ago="reply.dateCreation * 1000" title="created: {{ reply.dateCreation * 1000| amCalendar }}, updated: {{ reply.dateUpdate * 1000| amCalendar }}"></span>
-                            &ndash;
-                            <user-display username="reply.author.username" fullname="reply.author.fullname"></user-display>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+              <div class="tat-replies" ng-if="msg.displayReplies || ctrl.expandReplies" ng-show="msg.replies">
+                <table class="table">
+                  <tbody>
+                    <tr ng-repeat="reply in msg.replies">
+                      <td>
+                        <div class="tat-msg" ng-bind-html="reply.text | linky | nl2br | parseTags:reply.tags"></div>
+                        <div class="tat-meta">
+                          <span class="date" am-time-ago="reply.dateCreation * 1000" title="created: {{ reply.dateCreation * 1000| amCalendar }}, updated: {{ reply.dateUpdate * 1000| amCalendar }}"></span>
+                          &ndash;
+                          <user-display username="reply.author.username" fullname="reply.author.fullname"></user-display>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="col-md-5" ng-if="message && message.displayed">
-      <div class="standardview-message-right">
+      <div class="tat-view-detail">
         <button class="btn btn-default btn-close-msg" ng-click="ctrl.closeMessage()"><i class="fa fa-angle-left"></i></button>
         <messages-standardview-item
                data-topic="ctrl.topic"

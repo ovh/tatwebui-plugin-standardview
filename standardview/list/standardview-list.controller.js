@@ -30,8 +30,6 @@ angular.module('TatUi')
     'use strict';
 
     var self = this;
-
-    self.filter = {};
     self.topic = $stateParams.topic;
     self.filterDialog = { x: 380, y: 62, visible: false };
 
@@ -208,6 +206,10 @@ angular.module('TatUi')
      * @description Request for new messages
      */
     self.getNewMessages = function() {
+      if (self.loading) {
+        console.log("messages list already in refresh...");
+        return;
+      }
       self.loading = true;
       self.currentDate = self.getCurrentDate();
       var filter = self.buildFilter({
@@ -262,8 +264,7 @@ angular.module('TatUi')
      */
     self.digestInformations = function(data) {
       self.data.isTopicRw = data.isTopicRw;
-      if (_.contains(Authentication.getIdentity().favoritesTopics, '/' +
-          self.topic)) {
+      if (_.contains(Authentication.getIdentity().favoritesTopics, '/' + self.topic)) {
         self.data.isFavoriteTopic = true;
       }
       self.data.messages = self.mergeMessages(self.data.messages, data.messages);
