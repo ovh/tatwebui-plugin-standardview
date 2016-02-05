@@ -1,28 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <translations>
-  <translation id="messages_nomessage">Aucun message</translation>
-  <translation id="message_like">J'aime</translation>
-  <translation id="message_unlike">Je n'aime plus</translation>
-  <translation id="message_read_only">Vous êtes en lecture seule sur ce topic.</translation>
-  <translation id="message_bookmark">Favoris</translation>
-  <translation id="message_delete">Effacer</translation>
-  <translation id="message_label_add">Ajouter label</translation>
-  <translation id="message_characters_left">Restant</translation>
-  <translation id="message_url">Url directe vers ce message</translation>
-  <translation id="message_in">dans</translation>
-  <translation id="message_all">tout</translation>
-  <translation id="message_hide">cacher</translation>
-  <translation id="message_contains_labels">Contient un ou plusieurs label de cette liste</translation>
-  <translation id="message_contains_all_labels">Contient tout les label de cette liste</translation>
-  <translation id="message_hide_labels">Cacher tout les labels de cette liste</translation>
-  <translation id="message_contains_tags">Contient un ou plusieurs tags de cette liste</translation>
-  <translation id="message_contains_all_tags">Contient tout les tags de cette liste</translation>
-  <translation id="message_hide_all_tags">Cacher tout les tags de cette liste</translation>
-  <translation id="message_search">Rechercher</translation>
-  <translation id="message_compose_placeholder">Votre message ici avec #tag</translation>
-  <translation id="message_remove_from_my_tasks">Retirer de mes tâches</translation>
-  <translation id="message_add_to_my_tasks">Ajouter à mes tâches</translation>
-  <translation id="message_confirm_delete">Confirmer la suppression</translation>
-  <translation id="message_and_replies">du message et des réponses</translation>
-  <translation id="message_show_more">Afficher plus de messages</translation>
 </translations>

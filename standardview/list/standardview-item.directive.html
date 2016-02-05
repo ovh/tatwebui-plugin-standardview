@@ -29,7 +29,7 @@
 
         <!-- Delete message -->
         <button
-          title="{{ 'message_delete' | translate }}"
+          title="{{ 'shared_message_delete' | translate }}"
           class="btn btn-default"
           ng-click="message.deleting=!message.deleting"
           ng-class="{'open': message.deleting}"
@@ -55,7 +55,7 @@
 
         <!-- Remove task -->
         <button
-          title="{{ 'message_remove_from_my_tasks' | translate }}"
+          title="{{ 'shared_message_remove_from_my_tasks' | translate }}"
           class="btn btn-default"
           ng-if="MessageStandardviewItemCtrl.canDeleteFromTasksMessage"
           ng-click="MessageStandardviewItemCtrl.deleteFromTasksMessage(message)">
@@ -65,7 +65,7 @@
 
         <!-- Take as task -->
         <button
-          title="{{ 'message_add_to_my_tasks' | translate }}"
+          title="{{ 'shared_message_add_to_my_tasks' | translate }}"
           class="btn btn-default"
           ng-if="MessageStandardviewItemCtrl.canAddToTasksMessage"
           ng-click="MessageStandardviewItemCtrl.addToTasksMessage(message)">
@@ -80,7 +80,7 @@
 
         <!-- Like -->
         <button
-          title="{{ (MessageStandardviewItemCtrl.hasLiked(message) ? 'message_unlike' : 'message_like') | translate }}"
+          title="{{ (MessageStandardviewItemCtrl.hasLiked(message) ? 'shared_message_unlike' : 'shared_message_like') | translate }}"
           class="btn btn-default"
           ng-click="MessageStandardviewItemCtrl.toggleLikeMessage(message)">
           <i ng-class="{'fa fa-heart-o': !MessageStandardviewItemCtrl.hasLiked(message), 'fa fa-heart':MessageStandardviewItemCtrl.hasLiked(message)}"></i>
@@ -88,7 +88,7 @@
 
         <!-- Add label -->
         <button
-          title="{{ 'message_label_add' | translate }}"
+          title="{{ 'shared_message_label_add' | translate }}"
           class="btn btn-default"
           ng-class="{'open': addingLabel}"
           ng-click="addingLabel=!addingLabel">
@@ -98,7 +98,7 @@
         <!-- Add message to bookmarks -->
         <button
           class="btn btn-default"
-          title="{{ 'message_bookmark' | translate }}"
+          title="{{ 'shared_message_bookmark' | translate }}"
           ng-click="MessageStandardviewItemCtrl.bookmarkMessage()">
           <i class="fa fa-bookmark-o"></i>
         </button>
@@ -118,7 +118,7 @@
             </spectrum-colorpicker>
           </div>
           <form ng-submit="MessageStandardviewItemCtrl.addLabel(message)">
-            <input class="form-control" type="text" ng-model="message.currentLabel.text" placeholder="{{ 'message_label_add' | translate }}">
+            <input class="form-control" type="text" ng-model="message.currentLabel.text" placeholder="{{ 'shared_message_label_add' | translate }}">
           </form>
         </div>
       </div>
@@ -136,7 +136,7 @@
         &ndash;
         <user-display username="message.author.username" fullname="message.author.fullname"></user-display>
         &nbsp;
-        <a href="#" class="tat-permalink" title="{{ 'message_url' | translate }}" ng-click="MessageStandardviewItemCtrl.urlMessage(message)">
+        <a href="#" class="tat-permalink" title="{{ 'shared_message_url' | translate }}" ng-click="MessageStandardviewItemCtrl.urlMessage(message)">
           <i class="fa fa-link"></i>
         </a>
         &nbsp;
@@ -181,7 +181,7 @@
           {{ 'shared_common_cancel' | translate }}
         </button>
         <button class="btn btn-danger btn-xs" ng-click="MessageStandardviewItemCtrl.deleteMessage(message);">
-          {{ 'message_confirm_delete' | translate }} <span ng-show="message.replies.length">{{ 'message_and_replies' | translate }}</span>
+          {{ 'shared_message_confirm_delete' | translate }} <span ng-show="message.replies.length">{{ 'shared_message_and_replies' | translate }}</span>
         </button>
       </div>
     </div>
@@ -227,7 +227,7 @@
                 </button>
                 <button class="btn btn-danger btn-xs"
                   ng-click="MessageStandardviewItemCtrl.deleteMessage(reply);">
-                  {{ 'message_confirm_delete' | translate }}
+                  {{ 'shared_message_confirm_delete' | translate }}
                 </button>
               </div>
             </div>

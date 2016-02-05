@@ -1,7 +1,7 @@
 <div class="tat-view tat-standardview">
 
   <div ng-hide="ctrl.data.isTopicRw" class="alert alert-info tat-alert-fixed">
-    <i class="fa fa-info-circle"></i> {{ 'message_read_only' | translate }}
+    <i class="fa fa-info-circle"></i> {{ 'shared_message_read_only' | translate }}
   </div>
 
   <!-- tat-msg-create -->
@@ -14,7 +14,7 @@
           ng-focus="createMessageFocus=true"
           ng-blur="createMessageFocus=false"
           ng-model="ctrl.currentMessage"
-          placeholder="{{ 'message_compose_placeholder' | translate }}">
+          placeholder="{{ 'shared_message_compose_placeholder' | translate }}">
         </textarea>
         <i ng-click="ctrl.createMessage()" class="icon-paper-plane fa fa-send-o" title="{{ 'shared_message_send' | translate }}"></i>
       </div>
@@ -27,7 +27,7 @@
         </a>
       </div>
       <div ng-if="ctrl.currentMessage.length > 0" class="tat-remaining-chars" ng-hide="!createMessageFocus">
-        <i>{{ 'message_characters_left' | translate }}: {{ ctrl.data.topic.maxlength - ctrl.currentMessage.length }}</i>
+        <i>{{ 'shared_message_characters_left' | translate }}: {{ ctrl.data.topic.maxlength - ctrl.currentMessage.length }}</i>
       </div>
       <div class="formatting-tips" aria-hidden="true" dir="auto"></div>
     </form>
@@ -56,7 +56,7 @@
                 &ndash;
                 <user-display username="msg.author.username" fullname="msg.author.fullname"></user-display>
                 &nbsp;
-                <a class="tat-permalink" title="{{ 'message_url' | translate }}" ng-click="ctrl.urlMessage($event, msg)">
+                <a class="tat-permalink" title="{{ 'shared_message_url' | translate }}" ng-click="ctrl.urlMessage($event, msg)">
                   <i class="fa fa-link"></i>
                 </a>
                 &nbsp;
@@ -109,7 +109,7 @@
   <div class="row more">
     <button ng-disabled="!ctrl.data.displayMore" ng-click="ctrl.loadMore()" class="btn btn-default">
       <span ng-show="ctrl.data.displayMore"><i class="fa fa-plus-circle"></i></span>
-      {{ 'message_show_more' | translate }}
+      {{ 'shared_message_show_more' | translate }}
     </button>
   </div>
 
