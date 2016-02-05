@@ -1,13 +1,14 @@
-<section class="message-standardview-wrapper" ng-hide="message.hide">
+<section class="tat-detail-pane standardview" ng-hide="message.hide">
   <div class="row">
 
-    <div class="messages-run-actions-root" ng-hide="message.inReplyOfIDRoot != ''">
+    <div ng-hide="message.inReplyOfIDRoot != ''">
 
       <!-- Message controls -->
       <div class="btn-group">
+
         <!-- Reply -->
         <button
-          title="{{ 'message_reply' | translate }}"
+          title="{{ 'shared_message_reply' | translate }}"
           class="btn btn-default"
           ng-click="replying=!replying"
           ng-class="{'open': replying}"
@@ -17,7 +18,7 @@
 
         <!-- Edit message -->
         <button
-          title="{{ 'message_update' | translate }}"
+          title="{{ 'shared_message_update' | translate }}"
           class="btn btn-default"
           ng-click="message.updating=!message.updating"
           ng-class="{'open': message.updating}"
@@ -41,9 +42,10 @@
 
       <!-- Tasks -->
       <div class="btn-group">
+
         <!-- Set task done -->
         <button
-          title="{{ 'message_set_done' | translate }}"
+          title="{{ 'shared_message_done' | translate }}"
           class="btn btn-default"
           ng-if="MessageStandardviewItemCtrl.canDoneMessage"
           ng-click="MessageStandardviewItemCtrl.doneMessage(message)">
@@ -158,7 +160,7 @@
           {{ 'shared_common_cancel' | translate }}
         </button>
         <button class="btn btn-primary btn-xs" ng-click="MessageStandardviewItemCtrl.replyMessage(message); $event.stopPropagation();">
-          {{ 'message_reply' | translate }}
+          {{ 'shared_message_reply' | translate }}
         </button>
       </div>
     </div>
@@ -169,7 +171,7 @@
           {{ 'shared_common_cancel' | translate }}
         </button>
         <button class="btn btn-primary btn-xs" ng-click="MessageStandardviewItemCtrl.updateMessage(message); $event.stopPropagation();">
-          {{ 'message_update' | translate }}
+          {{ 'shared_message_update' | translate }}
         </button>
       </div>
     </div>
@@ -201,7 +203,7 @@
             </div>
             <div class="tat-msg" ng-bind-html="reply.text | linky | nl2br | parseTags:reply.tags"></div>
             <div class="tat-meta">
-              <span class="message-standardview-date" title="creation: {{reply.dateCreation * 1000| amCalendar}}, update: {{reply.dateUpdate * 1000| amCalendar}}">
+              <span class="date" title="creation: {{reply.dateCreation * 1000| amCalendar}}, update: {{reply.dateUpdate * 1000| amCalendar}}">
                 {{reply.dateCreation * 1000| amCalendar}}
               </span>
               &ndash;
@@ -214,7 +216,7 @@
                   {{ 'shared_common_cancel' | translate }}
                 </button>
                 <button class="btn btn-primary btn-xs" ng-click="MessageStandardviewItemCtrl.updateMessage(reply);">
-                  {{ 'message_update' | translate }}
+                  {{ 'shared_message_update' | translate }}
                 </button>
               </div>
             </div>
