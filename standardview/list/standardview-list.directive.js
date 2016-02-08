@@ -132,8 +132,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         message.currentLabel.color = "#5484ed";
         self.removeLabel(message, "done");
         self.addLabel(message, function() {
-          message.currentLabel.text = "doing:" + Authentication.getIdentity()
-            .username;
+          message.currentLabel.text = "doing:" + Authentication.getIdentity().username;
           message.currentLabel.color = "#5484ed"; //blue
           self.addLabel(message);
         });

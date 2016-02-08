@@ -219,6 +219,7 @@ angular.module('TatUi')
         onlyMsgRoot: 'true',
         dateMinUpdate: self.data.intervalTimeStamp
       });
+      $rootScope.$broadcast('presences-refresh');
       return TatEngineMessagesRsc.list(filter).$promise.then(function(data) {
         self.digestInformations(data);
       }, function(err) {
@@ -313,7 +314,6 @@ angular.module('TatUi')
         TatEngine.displayReturn(err);
       });
     };
-
 
     /**
      * @ngdoc function
