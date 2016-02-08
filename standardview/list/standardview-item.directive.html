@@ -146,7 +146,7 @@
         <span
           class="tat-label"
           style="background-color: {{ label.color }}; border-color: {{ label.color }}; color: {{ MessageStandardviewItemCtrl.getBrightness(label.color)>130 ? '#000000' : '#ffffff' }}"
-          ng-repeat="label in message.labels track by label.text">
+          ng-repeat="label in message.labels track by $index">
           {{label.text}}
           <a role="button" ng-click="MessageStandardviewItemCtrl.removeLabel(message, label.text)">X</a>
         </span>
