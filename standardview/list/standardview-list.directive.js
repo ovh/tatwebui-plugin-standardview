@@ -24,7 +24,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
     replace: true,
     templateUrl: '../build/tatwebui-plugin-standardview/standardview/list/standardview-item.directive.html',
     link: function(scope, element) {
-      var listWrapper = element.find('div.message-standardview-replies');
+      var listWrapper = element.find('div.tat-replies');
       listWrapper.append(
         '<div messages-standardview-list="message.replies" ' +
         'topic="topic" ' +

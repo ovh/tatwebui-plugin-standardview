@@ -1,196 +1,50 @@
-<div class="wrapper message-standardview-manager">
+<div class="tat-view tat-standardview">
 
-  <div movable-dialog title="'Filter'" ng-model="ctrl.filterPosition">
-    <div class="filter-dialog">
-      <form>
-        <div class="input-group">
-          <span class="input-group-addon" id="filter-fulltext"><i class="fa fa-search"></i></span>
-          <input type="text" class="form-control" placeholder="text" ng-model="ctrl.tmpFilter.filterText" aria-describedby="filter-fulltext">
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="open,doing" ng-model="ctrl.tmpFilter.filterInLabel" aria-describedby="filter-labels">
-          <span id="helpBlock" class="help-block">
-            <i class="fa fa-tags"></i>
-            <strong>{{ 'message_in' | translate }}</strong>: {{ 'message_contains_labels' | translate }}
-          </span>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="open,doing" ng-model="ctrl.tmpFilter.filterAndLabel" aria-describedby="filter-labels">
-          <span id="helpBlock" class="help-block">
-            <i class="fa fa-tags"></i>
-            <strong>{{ 'message_all' | translate }}</strong>: {{ 'message_contains_all_labels' | translate }}
-          </span>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="done" ng-model="ctrl.tmpFilter.filterNotLabel" aria-describedby="filter-hide-labels">
-          <span id="helpBlock" class="help-block">
-            <i class="fa fa-tags"></i>
-            <strong>{{ 'message_hide' | translate }}</strong>: {{ 'message_hide_labels' | translate }}
-          </span>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="PCC,STOCKAGE" ng-model="ctrl.tmpFilter.filterInTag" aria-describedby="filter-tags">
-          <span id="helpBlock" class="help-block">
-            <i class="fa fa-hashtag"></i>
-            <strong>{{ 'message_in' | translate }}</strong>: {{ 'message_contains_tags' | translate }}
-          </span>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="PCC,STOCKAGE" ng-model="ctrl.tmpFilter.filterAndTag" aria-describedby="filter-tags">
-          <span id="helpBlock" class="help-block">
-            <i class="fa fa-hashtag"></i>
-            <strong>{{ 'message_all' | translate }}</strong>: {{ 'message_contains_all_tags' | translate }}
-          </span>
-        </div>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="PCC,STOCKAGE" ng-model="ctrl.tmpFilter.filterNotTag" aria-describedby="filter-hide-tags">
-          <span id="helpBlock" class="help-block">
-            <i class="fa fa-hashtag"></i>
-            <strong>{{ 'message_hide' | translate }}</strong>: {{ 'message_hide_all_tags' | translate }}
-          </span>
-        </div>
-        <div class="form-group form-actions">
-          <button type="submit" class="btn btn-primary btn-xs" ng-click="ctrl.filterSearch()">{{ 'message_search' | translate }}</button>
-        </div>
-      </form>
+  <div ng-hide="ctrl.data.isTopicRw" class="alert alert-info tat-alert-fixed">
+    <i class="fa fa-info-circle"></i> {{ 'shared_message_read_only' | translate }}
+  </div>
+
+  <!-- tat-msg-create -->
+  <div class="row tat-msg-create">
+    <form method="post" action="/">
+      <div class="tat-msg-input" ng-show="ctrl.data.isTopicRw">
+        <div class="message-popup-results"></div>
+        <textarea dir="auto" name="msg"
+          ng-enter="ctrl.createMessage()"
+          ng-focus="createMessageFocus=true"
+          ng-blur="createMessageFocus=false"
+          ng-model="ctrl.currentMessage"
+          placeholder="{{ 'shared_message_compose_placeholder' | translate }}">
+        </textarea>
+        <i ng-click="ctrl.createMessage()" class="icon-paper-plane fa fa-send-o" title="{{ 'shared_message_send' | translate }}"></i>
+      </div>
+      <div class="btn-group">
+        <a class="btn btn-default" ng-click="ctrl.filterDialog.visible=!ctrl.filterDialog.visible" ng-class="{'open': ctrl.filterDialog.visible}">
+          <i class="fa fa-filter"></i>
+        </a>
+        <a class="btn btn-default" title="Toggle display replies" ng-click="ctrl.expandReplies = !ctrl.expandReplies" ng-class="{'open': ctrl.expandReplies}">
+          <i ng-class="ctrl.expandReplies ? 'fa fa-compress': 'fa fa-expand'"></i>
+        </a>
+      </div>
+      <div ng-if="ctrl.currentMessage.length > 0" class="tat-remaining-chars" ng-hide="!createMessageFocus">
+        <i>{{ 'shared_message_characters_left' | translate }}: {{ ctrl.data.topic.maxlength - ctrl.currentMessage.length }}</i>
+      </div>
+      <div class="formatting-tips" aria-hidden="true" dir="auto"></div>
+    </form>
+    <message-filter-bar></message-filter-bar>
+    <div movable-dialog title="'Filter'" ng-model="ctrl.filterDialog">
+      <message-filter></message-filter>
     </div>
   </div>
-
-  <div ng-hide="ctrl.data.isTopicRw" class="alert alert-info fixed-alert">
-    <i class="fa fa-info-circle"></i> {{ 'message_read_only' | translate }}
-  </div>
-
-  <div class="message-standardview-create">
-
-      <div class="row standardview-footer">
-        <form class="message-form" method="post" action="/">
-          <div style="display: flex">
-            <div class="input-message-container" ng-show="ctrl.data.isTopicRw">
-              <div class="message-popup-results">
-              </div>
-              <textarea ng-enter="ctrl.createMessage()" dir="auto" name="msg" class="input-mdessage autogrow-short"
-                ng-focus="createMessageFocus=true" ng-blur="createMessageFocus=false"
-                ng-model="ctrl.currentMessage" placeholder="{{ 'message_compose_placeholder' | translate }}"></textarea>
-              <i ng-click="ctrl.createMessage()" class="icon-paper-plane fa fa-send-o" title="{{ 'message_send' | translate }}"></i>
-            </div>
-            <div class="btn-group">
-              <a class="btn btn-default" ng-click="ctrl.filterPosition.visible = !ctrl.filterPosition.visible" ng-class="{'open': ctrl.filterPosition.visible}">
-                <i class="fa fa-filter"></i>
-              </a>
-              <a class="btn btn-default" title="Toggle display replies" ng-click="ctrl.expandReplies = !ctrl.expandReplies" ng-class="{'open': ctrl.expandReplies}">
-                <i ng-class="ctrl.expandReplies ? 'fa fa-compress': 'fa fa-expand'"></i>
-              </a>
-            </div>
-          </div>
-          <div ng-if="ctrl.currentMessage.length > 0" class="users-typing" ng-hide="!createMessageFocus"><i>{{ 'message_characters_left' | translate }}: {{ ctrl.data.topic.maxlength - ctrl.currentMessage.length }}</i></div>
-          <div class="formatting-tips" aria-hidden="true" dir="auto"></div>
-        </form>
-
-        <!-- tat-message-filters -->
-        <div class="tat-message-filters">
-
-          <!-- full text search -->
-          <span class="tat-filter-group" ng-click="ctrl.filterPosition.visible = true" ng-if="ctrl.filter.text">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-search"></i>
-            </strong>
-            <span class="label label-default">
-              {{ ctrl.filter.text }}
-              <a role="button" ng-click="ctrl.tmpFilter.filterText = ''; ctrl.filterSearch()"><i class="fa fa-times"></i></a>
-            </span>
-          </span>
-
-          <!-- in labels -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.label">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-plus-square"></i>
-              {{ 'message_in' | translate }}
-            </strong>
-            <span class="tat-label" ng-repeat="label in ctrl.filter.labelAsList" ng-click="ctrl.filterPop('InLabel', label)">
-               {{ label }} <i class="fa fa-minus-circle"></i>
-            </span>
-          </span>
-
-          <!-- and labels -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.andLabel">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-plus-square"></i>
-              {{ 'message_all' | translate }}
-            </strong>
-            <span class="tat-label" ng-repeat="label in ctrl.filter.andLabelAsList" ng-click="ctrl.filterPop('AndLabel', label)">
-              {{ label }} <i class="fa fa-minus-circle"></i>
-            </span>
-          </span>
-
-          <!-- hide labels -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.notLabel">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="exclusive">
-              <i class="fa fa-minus-square"></i>
-              {{ 'message_hide' | translate }}
-            </strong>
-            <span class="tat-label" ng-repeat="label in ctrl.filter.notLabelAsList" ng-click="ctrl.filterPop('NotLabel', label)">
-               {{ label }} <i class="fa fa-minus-circle"></i>
-            </span>
-          </span>
-
-          <!-- in tags -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.tag">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-plus-square"></i>
-              {{ 'message_in' | translate }}
-            </strong>
-            <span class="tat-tag" ng-repeat="tag in ctrl.filter.tagAsList" ng-click="ctrl.filterPop('InTag', tag)">
-              <i>#</i>{{ tag }} <i class="fa fa-minus-circle"></i>
-            </span>
-          </span>
-
-          <!-- all tags -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.andTag">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-plus-square"></i>
-              {{ 'message_all' | translate }}
-            </strong>
-            <span class="tat-tag" ng-repeat="tag in ctrl.filter.andTagAsList" ng-click="ctrl.filterPop('AndTag', tag)">
-              <i>#</i>{{ tag }} <i class="fa fa-minus-circle"></i>
-            </span>
-          </span>
-
-          <!-- hide tags -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.notTag">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-minus-square"></i>
-              {{ 'message_hide' | translate }}
-            </strong>
-            <span class="tat-tag" ng-repeat="tag in ctrl.filter.notTagAsList" ng-click="ctrl.filterPop('NotTag', tag)">
-               <i>#</i>{{ tag }} <i class="fa fa-minus-circle"></i>
-            </span>
-          </span>
-
-          <!-- message id -->
-          <span class="tat-filter-group" ng-if="ctrl.filter.idMessage">
-            <strong ng-click="ctrl.filterPosition.visible = true" class="inclusive">
-              <i class="fa fa-envelope"></i>
-              {{ 'message' | translate }}
-            </strong>
-            <span class="tat-tag">
-               {{ ctrl.filter.idMessage }}
-              <a role="button" ng-click="ctrl.tmpFilter.idMessage = '-1'; ctrl.filterSearch()"><i class="fa fa-times"></i></a>
-            </span>
-          </span>
-
-        </div>
-        <!-- /tat-message-filters -->
-
-      </div>
-  </div>
+  <!-- /tat-msg-create -->
 
   <div class="row">
-    <div ng-class="(message && message.displayed) ? 'message-standardview-list col-md-7': 'message-standardview-list col-md-12'">
+    <div ng-class="(message && message.displayed) ? 'tat-view-list col-md-7': 'tat-view-list col-md-12'">
       <table class="table table-striped table-responsive">
         <tbody>
           <tr ng-repeat="msg in ctrl.data.messages" ng-class="msg.displayed ? 'open': ''" class="tat-msg-wrapper" ng-show="!msg.hide">
             <td>
-              <a ng-href="#" ng-click="ctrl.toggleMessage(msg)" class="tat-toggle-msg">
+              <a ng-href="#" ng-click="ctrl.toggleMessage(msg)" class="tat-msg-toggle">
                 <i ng-class="msg.displayed ? 'fa fa-angle-left': 'fa fa-angle-right'"></i>
               </a>
               <button ng-if="msg.replies.length" class="tat-replies-count badge btn-xs" title="Click to display replies to this message" ng-click="msg.displayReplies=!msg.displayReplies">
@@ -202,7 +56,7 @@
                 &ndash;
                 <user-display username="msg.author.username" fullname="msg.author.fullname"></user-display>
                 &nbsp;
-                <a href="#" class="tat-permalink" title="{{ 'message_url' | translate }}" ng-click="ctrl.urlMessage(msg)">
+                <a class="tat-permalink" title="{{ 'shared_message_url' | translate }}" ng-click="ctrl.urlMessage($event, msg)">
                   <i class="fa fa-link"></i>
                 </a>
                 &nbsp;
@@ -214,29 +68,29 @@
                   {{ label.text }}
                 </span>
               </div>
-                <div class="tat-replies" ng-if="msg.displayReplies || ctrl.expandReplies" ng-show="msg.replies">
-                  <table class="table">
-                    <tbody>
-                      <tr ng-repeat="reply in msg.replies">
-                        <td>
-                          <div class="tat-msg" ng-bind-html="reply.text | linky | nl2br | parseTags:reply.tags"></div>
-                          <div class="tat-meta">
-                            <span class="date" am-time-ago="reply.dateCreation * 1000" title="created: {{ reply.dateCreation * 1000| amCalendar }}, updated: {{ reply.dateUpdate * 1000| amCalendar }}"></span>
-                            &ndash;
-                            <user-display username="reply.author.username" fullname="reply.author.fullname"></user-display>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+              <div class="tat-replies" ng-if="msg.displayReplies || ctrl.expandReplies" ng-show="msg.replies">
+                <table class="table">
+                  <tbody>
+                    <tr ng-repeat="reply in msg.replies">
+                      <td>
+                        <div class="tat-msg" ng-bind-html="reply.text | linky | nl2br | parseTags:reply.tags"></div>
+                        <div class="tat-meta">
+                          <span class="date" am-time-ago="reply.dateCreation * 1000" title="created: {{ reply.dateCreation * 1000| amCalendar }}, updated: {{ reply.dateUpdate * 1000| amCalendar }}"></span>
+                          &ndash;
+                          <user-display username="reply.author.username" fullname="reply.author.fullname"></user-display>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="col-md-5" ng-if="message && message.displayed">
-      <div class="standardview-message-right">
+      <div class="tat-view-detail">
         <button class="btn btn-default btn-close-msg" ng-click="ctrl.closeMessage()"><i class="fa fa-angle-left"></i></button>
         <messages-standardview-item
                data-topic="ctrl.topic"
@@ -255,7 +109,7 @@
   <div class="row more">
     <button ng-disabled="!ctrl.data.displayMore" ng-click="ctrl.loadMore()" class="btn btn-default">
       <span ng-show="ctrl.data.displayMore"><i class="fa fa-plus-circle"></i></span>
-      {{ 'message_show_more' | translate }}
+      {{ 'shared_message_show_more' | translate }}
     </button>
   </div>
 
