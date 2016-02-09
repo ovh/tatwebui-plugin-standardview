@@ -215,7 +215,7 @@ angular.module('TatUi')
       self.currentDate = self.getCurrentDate();
       var filter = self.buildFilter({
         topic: self.topic,
-        treeView: 'fulltree',
+        treeView: 'onetree',
         onlyMsgRoot: 'true',
         dateMinUpdate: self.data.intervalTimeStamp
       });
