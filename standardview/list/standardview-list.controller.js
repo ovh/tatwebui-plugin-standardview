@@ -157,6 +157,7 @@ angular.module('TatUi')
      */
     self.beginTimer = function(timeInterval) {
       if ('undefined' === typeof self.data.timer) {
+        self.getNewMessages(); // Don't wait to execute first call
         self.data.timer = $interval(self.getNewMessages, timeInterval);
         $scope.$on(
           "$destroy",
