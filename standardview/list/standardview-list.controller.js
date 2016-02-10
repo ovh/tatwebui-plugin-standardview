@@ -30,7 +30,7 @@ angular.module('TatUi')
     'use strict';
 
     var self = this;
-    self.filter = $rootScope.filters;
+    self.filter = TatFilter.getCurrent();
     self.topic = $stateParams.topic;
     self.filterDialog = { x: 380, y: 62, visible: false };
 
@@ -46,7 +46,6 @@ angular.module('TatUi')
       isTopicUpdatableMsg: false,
       isTopicUpdatableAllMsg: false,
       isTopicRw: true,
-      displayOnCall: (self.topic.indexOf("OnCall") > 1),
       displayMore: true
     };
 
@@ -217,7 +216,6 @@ angular.module('TatUi')
       var filter = self.buildFilter({
         topic: self.topic,
         treeView: 'onetree',
-        onlyMsgRoot: 'true',
         dateMinUpdate: self.data.intervalTimeStamp
       });
       return TatEngineMessagesRsc.list(filter).$promise.then(function(data) {
@@ -239,8 +237,7 @@ angular.module('TatUi')
       self.loading = true;
       var filter = self.buildFilter({
         topic: self.topic,
-        treeView: 'fulltree',
-        onlyMsgRoot: 'true',
+        treeView: 'onetree',
         limit: self.data.count,
         skip: self.data.skip
       });
