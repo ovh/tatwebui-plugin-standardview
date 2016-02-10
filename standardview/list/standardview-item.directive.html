@@ -126,31 +126,60 @@
     </div>
 
     <div class="tat-msg-wrapper primary">
-      <div class="tat-msg" ng-bind-html="message.text | linky | nl2br | parseTags:message.tags"></div>
-      <div class="tat-meta">
-        <span
-          class="date"
-          title="creation: {{ message.dateCreation * 1000| amCalendar }}, update: {{ message.dateUpdate * 1000| amCalendar }}">
-          {{ message.dateCreation * 1000| amCalendar }}
-        </span>
-        &ndash;
-        <user-display username="message.author.username" fullname="message.author.fullname"></user-display>
-        &nbsp;
-        <a href="#" class="tat-permalink" title="{{ 'shared_message_url' | translate }}" ng-click="MessageStandardviewItemCtrl.urlMessage(message)">
-          <i class="fa fa-link"></i>
-        </a>
-        &nbsp;
-        <span ng-show="message.nbLikes" class="tat-likes">
-          <i class="fa fa-heart"></i><span ng-show="message.nbLikes > 1">&nbsp;{{ message.nbLikes }}</span>
-        </span>
-        <span
-          class="tat-label"
-          style="background-color: {{ label.color }}; border-color: {{ label.color }}; color: {{ MessageStandardviewItemCtrl.getBrightness(label.color)>130 ? '#000000' : '#ffffff' }}"
-          ng-repeat="label in message.labels track by $index">
-          {{label.text}}
-          <a role="button" ng-click="MessageStandardviewItemCtrl.removeLabel(message, label.text)">X</a>
-        </span>
-      </div>
+      <table>
+        <tbody>
+          <tr>
+            <td width="60px">
+                <!-- Vote UP -->
+                <button
+                  title="{{ (MessageStandardviewItemCtrl.hasVoterUP(message) ? 'shared_message_unvoteup' : 'shared_message_voteup') | translate }}"
+                  class="btn btn-default"
+                  ng-click="MessageStandardviewItemCtrl.toggleVoterUP(message)">
+                  <i ng-class="{'fa fa-chevron-up': !MessageStandardviewItemCtrl.hasVoterUP(message), 'fa fa-chevron-up tat-vote':MessageStandardviewItemCtrl.hasVoterUP(message)}"></i>
+                </button>
+
+                <button disabled="disabled" class="btn btn-default">
+                  {{ message.nbVotesUP - message.nbVotesDown }}
+                </button>
+
+                <!-- Vote Down -->
+                <button
+                  title="{{ (MessageStandardviewItemCtrl.hasVoterDown(message) ? 'shared_message_unvotedown' : 'shared_message_votedown') | translate }}"
+                  class="btn btn-default"
+                  ng-click="MessageStandardviewItemCtrl.toggleVoterDown(message)">
+                  <i ng-class="{'fa fa-chevron-down': !MessageStandardviewItemCtrl.hasVoterDown(message), 'fa fa-chevron-down tat-vote':MessageStandardviewItemCtrl.hasVoterDown(message)}"></i>
+                </button>
+            </td>
+            <td>
+                <div class="tat-msg" ng-bind-html="message.text | linky | nl2br | parseTags:message.tags"></div>
+                <div class="tat-meta">
+                  <span
+                    class="date"
+                    title="creation: {{ message.dateCreation * 1000| amCalendar }}, update: {{ message.dateUpdate * 1000| amCalendar }}">
+                    {{ message.dateCreation * 1000| amCalendar }}
+                  </span>
+                  &ndash;
+                  <user-display username="message.author.username" fullname="message.author.fullname"></user-display>
+                  &nbsp;
+                  <a href="#" class="tat-permalink" title="{{ 'shared_message_url' | translate }}" ng-click="MessageStandardviewItemCtrl.urlMessage(message)">
+                    <i class="fa fa-link"></i>
+                  </a>
+                  &nbsp;
+                  <span ng-show="message.nbLikes" class="tat-likes">
+                    <i class="fa fa-heart"></i><span ng-show="message.nbLikes > 1">&nbsp;{{ message.nbLikes }}</span>
+                  </span>
+                  <span
+                    class="tat-label"
+                    style="background-color: {{ label.color }}; border-color: {{ label.color }}; color: {{ MessageStandardviewItemCtrl.getBrightness(label.color)>130 ? '#000000' : '#ffffff' }}"
+                    ng-repeat="label in message.labels track by $index">
+                    {{label.text}}
+                    <a role="button" ng-click="MessageStandardviewItemCtrl.removeLabel(message, label.text)">X</a>
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
     </div>
 
     <div class="message-reply" ng-show="replying">

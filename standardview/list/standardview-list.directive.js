@@ -304,16 +304,45 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         if (message && message.likers) {
           return _.include(message.likers, Authentication.getIdentity()
             .username);
-        } else {
-          return false;
         }
+        return false;
       };
 
       /**
        * @ngdoc function
-       * @name toggleTopicFavorite
+       * @name hasVoterUP
        * @methodOf TatUi.controller:messagesItem
-       * @description toggle 'like' state on the messagegit status
+       * @description Define if the message is marked 'voteUP'
+       * @return {bool} If true, 'voteUP'
+       */
+      this.hasVoterUP = function(message) {
+        if (message && message.votersUP) {
+          return _.include(message.votersUP, Authentication.getIdentity()
+            .username);
+        }
+        return false;
+      };
+
+      /**
+       * @ngdoc function
+       * @name hasVoterDown
+       * @methodOf TatUi.controller:messagesItem
+       * @description Define if the message is marked 'voteDown'
+       * @return {bool} If true, 'voteDown'
+       */
+      this.hasVoterDown = function(message) {
+        if (message && message.votersDown) {
+          return _.include(message.votersDown, Authentication.getIdentity()
+            .username);
+        }
+        return false;
+      }
+
+      /**
+       * @ngdoc function
+       * @name toggleLikeMessage
+       * @methodOf TatUi.controller:messagesItem
+       * @description toggle 'like' state on the message
        *
        */
       this.toggleLikeMessage = function(message) {
@@ -337,6 +366,63 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         }, function(err) {
           TatEngine.displayReturn(err);
         });
+      };
+
+      /**
+       * @ngdoc function
+       * @name toggleVoterUP
+       * @methodOf TatUi.controller:messagesItem
+       * @description toggle 'voterUP' on the message
+       *
+       */
+      this.toggleVoterUP = function(message) {
+        var action = self.hasVoterUP(message) ? 'unvoteup' : 'voteup';
+        TatEngineMessageRsc.update({
+          'topic': $scope.topic,
+          'idReference': message._id,
+          'action': action
+        }).$promise.then(function(resp) {
+          if (resp.message) {
+            self.updateAfterVote(message, resp.message);
+          }
+        }, function(err) {
+          TatEngine.displayReturn(err);
+        });
+      };
+
+      /**
+       * @ngdoc function
+       * @name toggleVoterDown
+       * @methodOf TatUi.controller:messagesItem
+       * @description toggle 'voterDown' on the message
+       *
+       */
+      this.toggleVoterDown = function(message) {
+        var action = self.hasVoterDown(message) ? 'unvotedown' : 'votedown';
+        TatEngineMessageRsc.update({
+          'topic': $scope.topic,
+          'idReference': message._id,
+          'action': action
+        }).$promise.then(function(resp) {
+          if (resp.message) {
+            self.updateAfterVote(message, resp.message);
+          }
+        }, function(err) {
+          TatEngine.displayReturn(err);
+        });
+      };
+
+      this.updateAfterVote = function(message, newMessage) {
+        $scope.message.votersUP = newMessage.votersUP;
+        $scope.message.nbVotesUP = newMessage.nbVotesUP;
+        $scope.message.votersDown = newMessage.votersDown;
+        $scope.message.nbVotesDown = newMessage.nbVotesDown;
+        if (!$scope.message.votersUP) {
+          $scope.message.votersUP = [];
+        }
+        if (!$scope.message.votersDown) {
+          $scope.message.votersDown = [];
+        }
       };
 
       /**

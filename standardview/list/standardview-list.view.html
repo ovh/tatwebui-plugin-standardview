@@ -60,6 +60,12 @@
                   <i class="fa fa-link"></i>
                 </a>
                 &nbsp;
+                <span ng-show="msg.nbVotesUP" class="tat-votes">
+                  <i class="fa fa fa-thumbs-up tat-vote"></i><span ng-show="msg.nbVotesUP > 1">&nbsp;{{ msg.nbVotesUP }}</span>
+                </span>
+                <span ng-show="msg.nbVotesDown" class="tat-votes">
+                  <i class="fa fa fa-thumbs-down tat-vote"></i><span ng-show="msg.nbVotesDown > 1">&nbsp;{{ msg.nbVotesDown }}</span>
+                </span>
                 <span ng-show="msg.nbLikes" class="tat-likes">
                   <i class="fa fa-heart"></i><span ng-show="msg.nbLikes > 1">&nbsp;{{ msg.nbLikes }}</span>
                 </span>
