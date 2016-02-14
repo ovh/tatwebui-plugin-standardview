@@ -133,8 +133,8 @@
                 <!-- Vote UP -->
                 <button
                   title="{{ (MessageStandardviewItemCtrl.hasVoterUP(message) ? 'shared_message_unvoteup' : 'shared_message_voteup') | translate }}"
-                  class="btn btn-default"
-                  ng-click="MessageStandardviewItemCtrl.toggleVoterUP(message)">
+                  class="btn btn-default" ng-disabled="MessageStandardviewItemCtrl.voterUPDisabled"
+                  ng-click="MessageStandardviewItemCtrl.toggleVoterUP(message, this)">
                   <i ng-class="{'fa fa-chevron-up': !MessageStandardviewItemCtrl.hasVoterUP(message), 'fa fa-chevron-up tat-vote':MessageStandardviewItemCtrl.hasVoterUP(message)}"></i>
                 </button>
 
@@ -145,7 +145,7 @@
                 <!-- Vote Down -->
                 <button
                   title="{{ (MessageStandardviewItemCtrl.hasVoterDown(message) ? 'shared_message_unvotedown' : 'shared_message_votedown') | translate }}"
-                  class="btn btn-default"
+                  class="btn btn-default" ng-disabled="MessageStandardviewItemCtrl.voterDownDisabled"
                   ng-click="MessageStandardviewItemCtrl.toggleVoterDown(message)">
                   <i ng-class="{'fa fa-chevron-down': !MessageStandardviewItemCtrl.hasVoterDown(message), 'fa fa-chevron-down tat-vote':MessageStandardviewItemCtrl.hasVoterDown(message)}"></i>
                 </button>

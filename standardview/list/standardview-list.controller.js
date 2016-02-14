@@ -158,12 +158,7 @@ angular.module('TatUi')
       if ('undefined' === typeof self.data.timer) {
         self.getNewMessages(); // Don't wait to execute first call
         self.data.timer = $interval(self.getNewMessages, timeInterval);
-        $scope.$on(
-          "$destroy",
-          function() {
-            self.stopTimer();
-          }
-        );
+        $scope.$on("$destroy", function() { self.stopTimer(); });
       }
     };
 
@@ -198,7 +193,7 @@ angular.module('TatUi')
      */
     self.buildFilter = function(data) {
       return angular.extend({}, data, self.filter);
-    }
+    };
 
     /**
      * @ngdoc function

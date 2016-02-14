@@ -52,6 +52,8 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.answerPanel = false;
       this.isTopicBookmarks = false;
       this.isTopicTasks = false;
+      this.voterUPDisabled = false;
+      this.voterDownDisabled = false;
 
       this.canDoneMessage = false;
       this.canDeleteFromTasksMessage = false;
@@ -127,9 +129,10 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       };
 
       this.addLabelDoing = function(message) {
-        message.currentLabel = {};
-        message.currentLabel.text = "doing";
-        message.currentLabel.color = "#5484ed";
+        message.currentLabel = {
+          text: "doing",
+          color: "#5484ed"
+        };
         self.removeLabel(message, "done");
         self.addLabel(message, function() {
           message.currentLabel.text = "doing:" + Authentication.getIdentity().username;
@@ -190,9 +193,10 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       };
 
       this.addLabelDone = function(message) {
-        message.currentLabel = {};
-        message.currentLabel.text = "done";
-        message.currentLabel.color = "#14892c"; // green
+        message.currentLabel = {
+          text: "done",
+          color: "#14892c" // green
+        };
         self.removeLabel(message, "doing");
         self.addLabel(message);
         self.canDoneMessage = false;
@@ -376,6 +380,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
        *
        */
       this.toggleVoterUP = function(message) {
+        self.voterUPDisabled = true;
         var action = self.hasVoterUP(message) ? 'unvoteup' : 'voteup';
         TatEngineMessageRsc.update({
           'topic': $scope.topic,
@@ -385,8 +390,10 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
           if (resp.message) {
             self.updateAfterVote(message, resp.message);
           }
+          self.voterUPDisabled = false;
         }, function(err) {
           TatEngine.displayReturn(err);
+          self.voterUPDisabled = false;
         });
       };
 
@@ -398,6 +405,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
        *
        */
       this.toggleVoterDown = function(message) {
+        self.voterDownDisabled = true;
         var action = self.hasVoterDown(message) ? 'unvotedown' : 'votedown';
         TatEngineMessageRsc.update({
           'topic': $scope.topic,
@@ -407,8 +415,10 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
           if (resp.message) {
             self.updateAfterVote(message, resp.message);
           }
+          self.voterDownDisabled = false;
         }, function(err) {
           TatEngine.displayReturn(err);
+          self.voterDownDisabled = false;
         });
       };
 
