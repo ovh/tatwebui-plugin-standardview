@@ -130,25 +130,7 @@
         <tbody>
           <tr>
             <td width="60px">
-                <!-- Vote UP -->
-                <button
-                  title="{{ (MessageStandardviewItemCtrl.hasVoterUP(message) ? 'shared_message_unvoteup' : 'shared_message_voteup') | translate }}"
-                  class="btn btn-default" ng-disabled="MessageStandardviewItemCtrl.voterUPDisabled"
-                  ng-click="MessageStandardviewItemCtrl.toggleVoterUP(message, this)">
-                  <i ng-class="{'fa fa-chevron-up': !MessageStandardviewItemCtrl.hasVoterUP(message), 'fa fa-chevron-up tat-vote':MessageStandardviewItemCtrl.hasVoterUP(message)}"></i>
-                </button>
-
-                <button disabled="disabled" class="btn btn-default">
-                  {{ message.nbVotesUP - message.nbVotesDown }}
-                </button>
-
-                <!-- Vote Down -->
-                <button
-                  title="{{ (MessageStandardviewItemCtrl.hasVoterDown(message) ? 'shared_message_unvotedown' : 'shared_message_votedown') | translate }}"
-                  class="btn btn-default" ng-disabled="MessageStandardviewItemCtrl.voterDownDisabled"
-                  ng-click="MessageStandardviewItemCtrl.toggleVoterDown(message)">
-                  <i ng-class="{'fa fa-chevron-down': !MessageStandardviewItemCtrl.hasVoterDown(message), 'fa fa-chevron-down tat-vote':MessageStandardviewItemCtrl.hasVoterDown(message)}"></i>
-                </button>
+                <message-vote message="message" topic="topic"></message-vote>
             </td>
             <td>
                 <div class="tat-msg" ng-bind-html="message.text | linky | nl2br | parseTags:message.tags"></div>
