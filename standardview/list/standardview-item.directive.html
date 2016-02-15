@@ -102,27 +102,8 @@
           ng-click="MessageStandardviewItemCtrl.bookmarkMessage()">
           <i class="fa fa-bookmark-o"></i>
         </button>
-
       </div>
-
-      <!-- Add label form -->
-      <div class="tat-add-label-form" ng-show="addingLabel">
-        <div class="input-group">
-          <div class="input-group-addon tat-colorpicker">
-            <spectrum-colorpicker ng-show="addingLabel && MessageStandardviewItemCtrl.initColor(message)"
-              ng-model="message.currentLabel.color"
-              palette="MessageStandardviewItemCtrl.palette"
-              options="{showInput: true, showAlpha: true, preferredFormat:'Hex',
-              showPalette: true,
-              togglePaletteOnly: false}" >
-            </spectrum-colorpicker>
-          </div>
-          <form ng-submit="MessageStandardviewItemCtrl.addLabel(message)">
-            <input class="form-control" type="text" ng-model="message.currentLabel.text" placeholder="{{ 'shared_message_label_add' | translate }}">
-          </form>
-        </div>
-      </div>
-
+      <message-label message="message" topic="topic" is-displayed="addingLabel"></message-label>
     </div>
 
     <div class="tat-msg-wrapper primary">
