@@ -55,13 +55,11 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.canDoneMessage = false;
       this.canDeleteFromTasksMessage = false;
       this.canAddToTasksMessage = true;
-      this.privateTasksTopic = 'Private/' + Authentication.getIdentity().username +
-        '/Tasks';
+      this.privateTasksTopic = 'Private/' + Authentication.getIdentity().username + '/Tasks';
 
       self.setInToDoneText = "";
       this.getBrightness = function(rgb) {
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
-          rgb);
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(rgb);
         return result ?
           0.2126 * parseInt(result[1], 16) +
           0.7152 * parseInt(result[2], 16) +
@@ -77,7 +75,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.replyMessage = function(message) {
         $scope.replying = false;
         TatEngineMessageRsc.create({
-          'topic': $scope.topic,
+          'topic': $scope.topic.topic,
           'idReference': message._id,
           'text': self.replyText
         }).$promise.then(function(resp) {
@@ -97,10 +95,10 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       };
 
       this.addLabelDoing = function(message) {
-        TatMessage.addLabel(message, $scope.topic, "doing", "#5484ed",
+        TatMessage.addLabel(message, $scope.topic.topic, "doing", "#5484ed",
           function() {
               TatMessage.addLabel(message,
-              $scope.topic,
+              $scope.topic.topic,
               "doing:" + Authentication.getIdentity().username,
               "#5484ed" //blue
           )}
@@ -160,7 +158,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       };
 
       this.addLabelDone = function(message) {
-        TatMessage.addLabel(message, $scope.topic, "done", "#14892c"); // green
+        TatMessage.addLabel(message, $scope.topic.topic, "done", "#14892c"); // green
         self.removeLabel(message, "doing");
         self.canDoneMessage = false;
       };
@@ -247,7 +245,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.updateMessage = function(message) {
         message.updating = false;
         TatEngineMessageRsc.update({
-          'topic': $scope.topic,
+          'topic': $scope.topic.topic,
           'idReference': message._id,
           'text': message.text,
           'action': 'update',
@@ -284,7 +282,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.toggleLikeMessage = function(message) {
         var action = self.hasLiked(message) ? 'unlike' : 'like';
         TatEngineMessageRsc.update({
-          'topic': $scope.topic,
+          'topic': $scope.topic.topic,
           'idReference': message._id,
           'action': action
         }).$promise.then(function(resp) {
@@ -325,7 +323,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
             toRefresh = true;
             TatEngineMessageRsc.update({
               'action': 'unlabel',
-              'topic': $scope.topic,
+              'topic': $scope.topic.topic,
               'idReference': $scope.message._id,
               'text': l.text
             }).$promise.then(function(resp) {
@@ -346,7 +344,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
 
       this.urlMessage = function(message) {
         $rootScope.$broadcast('topic-change', {
-          topic: $scope.topic,
+          topic: $scope.topic.topic,
           idMessage: message._id,
           reload: true
         });
@@ -369,10 +367,10 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       };
 
       this.init = function(message) {
-        if ($scope.topic.indexOf("Private/" + Authentication.getIdentity()
+        if ($scope.topic.topic.indexOf("Private/" + Authentication.getIdentity()
             .username + "/Bookmarks") === 0) {
           self.isTopicBookmarks = true;
-        } else if ($scope.topic.indexOf(self.privateTasksTopic) === 0) {
+        } else if ($scope.topic.topic.indexOf(self.privateTasksTopic) === 0) {
           self.isTopicTasks = true;
         }
         this.computeFlagsTask(message);

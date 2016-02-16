@@ -3,7 +3,6 @@
 /**
  * @ngdoc controller
  * @name TatUi.controller:MessagesStandardViewListCtrl
- * @requires TatUi.WebSocket            Websocket manager
  * @requires TatUi.TatEngineMessagesRsc Tat Engine Resource Messages
  * @requires TatUi.TatEngineMessageRsc  Tat Engine Resource Message
  * @requires TatUi.TatEngine            Global Tat Engine service
@@ -16,11 +15,9 @@ angular.module('TatUi')
     $rootScope,
     $stateParams,
     Authentication,
-    WebSocket,
     TatEngineMessagesRsc,
     TatEngineMessageRsc,
     TatEngineTopicRsc,
-    TatEngineUserRsc,
     TatEngine,
     TatFilter,
     Flash,
@@ -287,8 +284,7 @@ angular.module('TatUi')
         self.data.isTopicUpdatableAllMsg = self.data.topic.canUpdateAllMsg;
         self.data.isTopicDeletableAllMsg = self.data.topic.canDeleteAllMsg;
         if (self.data.topic.topic.indexOf("/Private/" +
-            Authentication.getIdentity().username + "/Bookmarks") ===
-          0) {
+            Authentication.getIdentity().username + "/Bookmarks") === 0) {
           self.data.isTopicBookmarks = true;
         } else if (self.data.topic.topic.indexOf("/Private/" +
             Authentication.getIdentity().username + "/Tasks") === 0) {
