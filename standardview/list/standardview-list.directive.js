@@ -266,8 +266,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
        */
       this.hasLiked = function(message) {
         if (message && message.likers) {
-          return _.include(message.likers, Authentication.getIdentity()
-            .username);
+          return _.include(message.likers, Authentication.getIdentity().username);
         }
         return false;
       };
@@ -344,7 +343,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
 
       this.urlMessage = function(message) {
         $rootScope.$broadcast('topic-change', {
-          topic: $scope.topic.topic,
+          topic: $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
           idMessage: message._id,
           reload: true
         });
