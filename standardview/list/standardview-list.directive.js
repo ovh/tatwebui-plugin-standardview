@@ -75,7 +75,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.replyMessage = function(message) {
         $scope.replying = false;
         TatEngineMessageRsc.create({
-          'topic': $scope.topic.topic,
+          'topic': $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
           'idReference': message._id,
           'text': self.replyText
         }).$promise.then(function(resp) {
@@ -245,7 +245,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.updateMessage = function(message) {
         message.updating = false;
         TatEngineMessageRsc.update({
-          'topic': $scope.topic.topic,
+          'topic': $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
           'idReference': message._id,
           'text': message.text,
           'action': 'update',
@@ -282,7 +282,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.toggleLikeMessage = function(message) {
         var action = self.hasLiked(message) ? 'unlike' : 'like';
         TatEngineMessageRsc.update({
-          'topic': $scope.topic.topic,
+          'topic': $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
           'idReference': message._id,
           'action': action
         }).$promise.then(function(resp) {
@@ -323,7 +323,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
             toRefresh = true;
             TatEngineMessageRsc.update({
               'action': 'unlabel',
-              'topic': $scope.topic.topic,
+              'topic': $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
               'idReference': $scope.message._id,
               'text': l.text
             }).$promise.then(function(resp) {
@@ -381,8 +381,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         self.canDeleteFromTasksMessage = false;
         self.canAddToTasksMessage = true;
         for (var i = 0; i < message.topics.length; i++) {
-          if (message.topics[i].indexOf("/" + self.privateTasksTopic) ===
-            0) {
+          if (message.topics[i].indexOf("/" + self.privateTasksTopic) === 0) {
             if (!self.containsLabel(message, "done")) {
               self.canDoneMessage = true;
             }
