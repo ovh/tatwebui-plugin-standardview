@@ -57,7 +57,6 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.canAddToTasksMessage = true;
       this.privateTasksTopic = 'Private/' + Authentication.getIdentity().username + '/Tasks';
 
-      self.setInToDoneText = "";
       this.getBrightness = function(rgb) {
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(rgb);
         return result ?

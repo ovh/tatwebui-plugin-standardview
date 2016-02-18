@@ -4,39 +4,9 @@
     <i class="fa fa-info-circle"></i> {{ 'shared_message_read_only' | translate }}
   </div>
 
-  <!-- tat-msg-create -->
-  <div class="row tat-msg-create">
-    <form method="post" action="/">
-      <div class="tat-msg-input" ng-show="ctrl.data.isTopicRw">
-        <div class="message-popup-results"></div>
-        <textarea dir="auto" name="msg"
-          ng-enter="ctrl.createMessage()"
-          ng-focus="createMessageFocus=true"
-          ng-blur="createMessageFocus=false"
-          ng-model="ctrl.currentMessage"
-          placeholder="{{ 'shared_message_compose_placeholder' | translate }}">
-        </textarea>
-        <i ng-click="ctrl.createMessage()" class="icon-paper-plane fa fa-send-o" title="{{ 'shared_message_send' | translate }}"></i>
-      </div>
-      <div class="btn-group">
-        <a class="btn btn-default" ng-click="ctrl.filterDialog.visible=!ctrl.filterDialog.visible" ng-class="{'open': ctrl.filterDialog.visible}">
-          <i class="fa fa-filter"></i>
-        </a>
-        <a class="btn btn-default" title="Toggle display replies" ng-click="ctrl.expandReplies = !ctrl.expandReplies" ng-class="{'open': ctrl.expandReplies}">
-          <i ng-class="ctrl.expandReplies ? 'fa fa-compress': 'fa fa-expand'"></i>
-        </a>
-      </div>
-      <div ng-if="ctrl.currentMessage.length > 0" class="tat-remaining-chars" ng-hide="!createMessageFocus">
-        <i>{{ 'shared_message_characters_left' | translate }}: {{ ctrl.data.topic.maxlength - ctrl.currentMessage.length }}</i>
-      </div>
-      <div class="formatting-tips" aria-hidden="true" dir="auto"></div>
-    </form>
-    <message-filter-bar></message-filter-bar>
-    <div movable-dialog title="'Filter'" ng-model="ctrl.filterDialog">
-      <message-filter topic="ctrl.data.topic"></message-filter>
-    </div>
-  </div>
-  <!-- /tat-msg-create -->
+  <!-- message-box -->
+  <message-box topic="ctrl.data.topic" is-topic-rw="ctrl.data.isTopicRw" expand-replies="ctrl.data.expandReplies" messages="ctrl.data.messages"></message-box>
+  <!-- /message-box -->
 
   <div class="row">
     <div ng-class="(message && message.displayed) ? 'tat-view-list col-md-7': 'tat-view-list col-md-12'">
@@ -74,7 +44,7 @@
                   {{ label.text }}
                 </span>
               </div>
-              <div class="tat-replies" ng-if="msg.displayReplies || ctrl.expandReplies" ng-show="msg.replies">
+              <div class="tat-replies" ng-if="msg.displayReplies || ctrl.data.expandReplies" ng-show="msg.replies">
                 <table class="table">
                   <tbody>
                     <tr ng-repeat="reply in msg.replies">

@@ -29,7 +29,6 @@ angular.module('TatUi')
     var self = this;
     self.filter = TatFilter.getCurrent();
     self.topic = $stateParams.topic;
-    self.filterDialog = { x: 380, y: 62, visible: false };
 
     self.data = {
       messages: [],
@@ -43,7 +42,8 @@ angular.module('TatUi')
       isTopicUpdatableMsg: false,
       isTopicUpdatableAllMsg: false,
       isTopicRw: true,
-      displayMore: true
+      displayMore: true,
+      expandReplies: false
     };
 
     $scope.$on('filter-changed', function(ev, filter){
@@ -68,27 +68,6 @@ angular.module('TatUi')
     self.loadMore = function() {
       if (!self.loading) {
         self.moreMessage();
-      }
-    };
-
-    /**
-     * @ngdoc function
-     * @name createMessage
-     * @methodOf TatUi.controller:MessagesStandardViewListCtrl
-     * @description Post a new message on the current topic
-     * @param {string} msg Message to post
-     */
-    self.createMessage = function() {
-      if (self.currentMessage.length > 0) {
-        TatEngineMessageRsc.create({
-          text: self.currentMessage,
-          topic: self.topic
-        }).$promise.then(function(data) {
-          self.currentMessage = '';
-          self.data.messages.unshift(data.message);
-        }, function(err) {
-          TatEngine.displayReturn(err);
-        });
       }
     };
 
@@ -169,7 +148,6 @@ angular.module('TatUi')
       $interval.cancel(self.data.timer);
       self.data.timer = undefined;
     };
-
 
     self.onCall = function(text) {
       self.currentMessage = text;
