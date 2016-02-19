@@ -47,8 +47,8 @@
         <button
           title="{{ 'shared_message_done' | translate }}"
           class="btn btn-default"
-          ng-if="MessageStandardviewItemCtrl.canDoneMessage"
-          ng-click="MessageStandardviewItemCtrl.doneMessage(message)">
+          ng-if="ctrl.canDoneMessage"
+          ng-click="ctrl.doneMessage(message)">
           <i class="fa fa-tasks"></i>
           <i class="fa fa-check"></i>
         </button>
@@ -57,8 +57,8 @@
         <button
           title="{{ 'shared_message_remove_from_my_tasks' | translate }}"
           class="btn btn-default"
-          ng-if="MessageStandardviewItemCtrl.canDeleteFromTasksMessage"
-          ng-click="MessageStandardviewItemCtrl.deleteFromTasksMessage(message)">
+          ng-if="ctrl.canDeleteFromTasksMessage"
+          ng-click="ctrl.deleteFromTasksMessage(message)">
           <i class="fa fa-tasks"></i>
           <i class="fa fa-ban"></i>
         </button>
@@ -67,8 +67,8 @@
         <button
           title="{{ 'shared_message_add_to_my_tasks' | translate }}"
           class="btn btn-default"
-          ng-if="MessageStandardviewItemCtrl.canAddToTasksMessage"
-          ng-click="MessageStandardviewItemCtrl.addToTasksMessage(message)">
+          ng-if="ctrl.canAddToTasksMessage"
+          ng-click="ctrl.addToTasksMessage(message)">
           <i class="fa fa-tasks"></i>
           <i class="fa fa-plus"></i>
         </button>
@@ -80,10 +80,10 @@
 
         <!-- Like -->
         <button
-          title="{{ (MessageStandardviewItemCtrl.hasLiked(message) ? 'shared_message_unlike' : 'shared_message_like') | translate }}"
+          title="{{ (ctrl.hasLiked(message) ? 'shared_message_unlike' : 'shared_message_like') | translate }}"
           class="btn btn-default"
-          ng-click="MessageStandardviewItemCtrl.toggleLikeMessage(message)">
-          <i ng-class="{'fa fa-heart-o': !MessageStandardviewItemCtrl.hasLiked(message), 'fa fa-heart':MessageStandardviewItemCtrl.hasLiked(message)}"></i>
+          ng-click="ctrl.toggleLikeMessage(message)">
+          <i ng-class="{'fa fa-heart-o': !ctrl.hasLiked(message), 'fa fa-heart':ctrl.hasLiked(message)}"></i>
         </button>
 
         <!-- Add label -->
@@ -99,7 +99,7 @@
         <button
           class="btn btn-default"
           title="{{ 'shared_message_bookmark' | translate }}"
-          ng-click="MessageStandardviewItemCtrl.bookmarkMessage()">
+          ng-click="ctrl.bookmarkMessage()">
           <i class="fa fa-bookmark-o"></i>
         </button>
       </div>
@@ -124,7 +124,7 @@
                   &ndash;
                   <user-display username="message.author.username" fullname="message.author.fullname"></user-display>
                   &nbsp;
-                  <a href="#" class="tat-permalink" title="{{ 'shared_message_url' | translate }}" ng-click="MessageStandardviewItemCtrl.urlMessage(message)">
+                  <a href="#" class="tat-permalink" title="{{ 'shared_message_url' | translate }}" ng-click="ctrl.urlMessage(message)">
                     <i class="fa fa-link"></i>
                   </a>
                   &nbsp;
@@ -133,10 +133,10 @@
                   </span>
                   <span
                     class="tat-label"
-                    style="background-color: {{ label.color }}; border-color: {{ label.color }}; color: {{ MessageStandardviewItemCtrl.getBrightness(label.color)>130 ? '#000000' : '#ffffff' }}"
+                    style="background-color: {{ label.color }}; border-color: {{ label.color }}; color: {{ ctrl.getBrightness(label.color)>130 ? '#000000' : '#ffffff' }}"
                     ng-repeat="label in message.labels track by $index">
                     {{label.text}}
-                    <a role="button" ng-click="MessageStandardviewItemCtrl.removeLabel(message, label.text)">X</a>
+                    <a role="button" ng-click="ctrl.removeLabel(message, label.text)">X</a>
                   </span>
                 </div>
               </td>
@@ -145,24 +145,15 @@
         </table>
     </div>
 
-    <div class="message-reply" ng-show="replying">
-      <textarea class="form-control" ng-model="MessageStandardviewItemCtrl.replyText"></textarea>
-      <div class="btn-group">
-        <button class="btn btn-default btn-xs" ng-click="replying=false">
-          {{ 'shared_common_cancel' | translate }}
-        </button>
-        <button class="btn btn-primary btn-xs" ng-click="MessageStandardviewItemCtrl.replyMessage(message); $event.stopPropagation();">
-          {{ 'shared_message_reply' | translate }}
-        </button>
-      </div>
-    </div>
+    <message-reply ng-show="replying" topic="topic" is-replying="replying" is-topic-rw="ctrl.isTopicRw" message="message"></message-reply>
+
     <div class="message-update" ng-show="message.updating">
       <textarea class="form-control" ng-model="message.text"></textarea>
       <div class="btn-group">
         <button class="btn btn-default btn-xs" ng-click="message.updating=false">
           {{ 'shared_common_cancel' | translate }}
         </button>
-        <button class="btn btn-primary btn-xs" ng-click="MessageStandardviewItemCtrl.updateMessage(message); $event.stopPropagation();">
+        <button class="btn btn-primary btn-xs" ng-click="ctrl.updateMessage(message); $event.stopPropagation();">
           {{ 'shared_message_update' | translate }}
         </button>
       </div>
@@ -172,7 +163,7 @@
         <button class="btn btn-default btn-xs" ng-click="message.deleting=false">
           {{ 'shared_common_cancel' | translate }}
         </button>
-        <button class="btn btn-danger btn-xs" ng-click="MessageStandardviewItemCtrl.deleteMessage(message);">
+        <button class="btn btn-danger btn-xs" ng-click="ctrl.deleteMessage(message);">
           {{ 'shared_message_confirm_delete' | translate }} <span ng-show="message.replies.length">{{ 'shared_message_and_replies' | translate }}</span>
         </button>
       </div>
@@ -207,7 +198,7 @@
                 <button class="btn btn-default btn-xs" ng-click="reply.updating=false">
                   {{ 'shared_common_cancel' | translate }}
                 </button>
-                <button class="btn btn-primary btn-xs" ng-click="MessageStandardviewItemCtrl.updateMessage(reply);">
+                <button class="btn btn-primary btn-xs" ng-click="ctrl.updateMessage(reply);">
                   {{ 'shared_message_update' | translate }}
                 </button>
               </div>
@@ -218,7 +209,7 @@
                   {{ 'shared_common_cancel' | translate }}
                 </button>
                 <button class="btn btn-danger btn-xs"
-                  ng-click="MessageStandardviewItemCtrl.deleteMessage(reply);">
+                  ng-click="ctrl.deleteMessage(reply);">
                   {{ 'shared_message_confirm_delete' | translate }}
                 </button>
               </div>

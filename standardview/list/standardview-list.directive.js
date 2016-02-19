@@ -15,27 +15,15 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
     scope: {
       message: '=',
       topic: '=',
-      isTopicDeletableMsg: "=",
-      isTopicUpdatableMsg: "=",
-      isTopicDeletableAllMsg: "=",
-      isTopicUpdatableAllMsg: "=",
-      isTopicRw: "="
+      isTopicDeletableMsg: '=',
+      isTopicUpdatableMsg: '=',
+      isTopicDeletableAllMsg: '=',
+      isTopicUpdatableAllMsg: '=',
+      isTopicRw: '='
     },
     replace: true,
     templateUrl: '../build/tatwebui-plugin-standardview/standardview/list/standardview-item.directive.html',
-    link: function(scope, element) {
-      var listWrapper = element.find('div.tat-replies');
-      listWrapper.append(
-        '<div messages-standardview-list="message.replies" ' +
-        'topic="topic" ' +
-        'is-topic-deletable-msg="isTopicDeletableMsg" ' +
-        'is-topic-updatable-msg="isTopicUpdatableMsg" ' +
-        'is-topic-deletable-all-msg="isTopicDeletableAllMsg" ' +
-        'is-topic-updatable-all-msg="isTopicUpdatableAllMsg" ' +
-        'is-topic-rw="isTopicRw"></div>');
-      $compile(listWrapper)(scope);
-    },
-    controllerAs: 'MessageStandardviewItemCtrl',
+    controllerAs: 'ctrl',
     /**
      * @ngdoc controller
      * @name TatUi.controller:messagesItem
@@ -63,34 +51,6 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
           0.2126 * parseInt(result[1], 16) +
           0.7152 * parseInt(result[2], 16) +
           0.0722 * parseInt(result[3], 16) : 0;
-      };
-
-      /**
-       * @ngdoc function
-       * @name replyMessage
-       * @methodOf TatUi.controller:messagesItem
-       * @description Reply to a message
-       */
-      this.replyMessage = function(message) {
-        $scope.replying = false;
-        TatEngineMessageRsc.create({
-          'topic': $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
-          'idReference': message._id,
-          'text': self.replyText
-        }).$promise.then(function(resp) {
-          self.replyText = "";
-          if (!message.replies) {
-            message.replies = [];
-          }
-          message.replies.unshift(resp.message);
-        }, function(resp) {
-          $scope.replying = true;
-          TatEngine.displayReturn(resp);
-        });
-      };
-
-      this.getText = function() {
-        return $scope.message.text;
       };
 
       this.addLabelDoing = function(message) {
