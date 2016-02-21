@@ -208,7 +208,7 @@ angular.module('TatUi')
     self.getReplies = function(msg) {
       msg.displayReplies = !msg.displayReplies;
       if (!msg.displayReplies) {
-          return;
+        return;
       }
 
       return TatEngineMessagesRsc.list({
