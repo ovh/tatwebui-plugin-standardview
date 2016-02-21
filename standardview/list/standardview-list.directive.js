@@ -325,8 +325,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       };
 
       this.init = function(message) {
-        if ($scope.topic.topic.indexOf("Private/" + Authentication.getIdentity()
-            .username + "/Bookmarks") === 0) {
+        if ($scope.topic.topic.indexOf("Private/" + Authentication.getIdentity().username + "/Bookmarks") === 0) {
           self.isTopicBookmarks = true;
         } else if ($scope.topic.topic.indexOf(self.privateTasksTopic) === 0) {
           self.isTopicTasks = true;

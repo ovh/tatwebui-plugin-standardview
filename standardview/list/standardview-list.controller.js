@@ -43,7 +43,8 @@ angular.module('TatUi')
       isTopicUpdatableAllMsg: false,
       isTopicRw: true,
       displayMore: true,
-      expandReplies: false
+      expandReplies: false,
+      treeView: "notree"
     };
 
     $scope.$on('filter-changed', function(ev, filter){
@@ -58,6 +59,13 @@ angular.module('TatUi')
     };
 
     self.currentDate = self.getCurrentDate();
+
+    self.getTreeMode = function() {
+      if (self.data.expandReplies) {
+        return "onetree";
+      }
+      return "notree";
+    };
 
     /**
      * @ngdoc function
@@ -185,7 +193,8 @@ angular.module('TatUi')
       self.currentDate = self.getCurrentDate();
       var filter = self.buildFilter({
         topic: self.topic,
-        treeView: 'onetree',
+        treeView: self.getTreeMode(),
+        onlyMsgRoot: true,
         dateMinUpdate: self.data.intervalTimeStamp
       });
       return TatEngineMessagesRsc.list(filter).$promise.then(function(data) {
@@ -194,6 +203,30 @@ angular.module('TatUi')
         TatEngine.displayReturn(err);
         self.loading = false;
       });
+    };
+
+    self.getReplies = function(msg) {
+      msg.displayReplies = !msg.displayReplies;
+      if (!msg.displayReplies) {
+          return;
+      }
+
+      return TatEngineMessagesRsc.list({
+        topic: self.topic,
+        treeView: "onetree",
+        idMessage: msg._id,
+        limit: 1,
+        skip: 0
+      }).$promise.then(function(data) {
+        if (!data.messages || data.messages.length != 1) {
+          TatEngine.displayReturn("invalid return while getting message");
+        } else {
+          msg.replies = data.messages[0].replies;
+        }
+      }, function(err) {
+        TatEngine.displayReturn(err);
+      });
+
     };
 
     /**
@@ -207,7 +240,8 @@ angular.module('TatUi')
       self.loading = true;
       var filter = self.buildFilter({
         topic: self.topic,
-        treeView: 'onetree',
+        treeView: self.getTreeMode(),
+        onlyMsgRoot: true,
         limit: self.data.count,
         skip: self.data.skip
       });
