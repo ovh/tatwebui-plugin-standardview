@@ -37,7 +37,6 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       TatEngineMessagesRsc, TatEngine, TatMessage, Authentication) {
       var self = this;
       this.answerPanel = false;
-      this.isTopicBookmarks = false;
       this.isTopicTasks = false;
 
       this.canDoneMessage = false;
@@ -153,26 +152,6 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
           self.computeFlagsTask(message);
         }, function(resp) {
           TatEngine.displayReturn(resp);
-        });
-      };
-
-      /**
-       * @ngdoc function
-       * @name bookmarkMessage
-       * @methodOf TatUi.controller:messagesItem
-       * @description create a bookmark from on message
-       */
-      this.bookmarkMessage = function() {
-        var to = 'Private/' + Authentication.getIdentity().username + '/Bookmarks';
-        TatEngineMessageRsc.create({
-          'idReference': $scope.message._id,
-          'action': 'bookmark',
-          'topic': to
-        }).$promise.then(function(resp) {
-          TatEngine.displayReturn(resp);
-          // TODO Refresh msg
-        }, function(response) {
-          TatEngine.displayReturn(response);
         });
       };
 
@@ -325,9 +304,26 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       };
 
       this.init = function(message) {
-        if ($scope.topic.topic.indexOf("Private/" + Authentication.getIdentity().username + "/Bookmarks") === 0) {
-          self.isTopicBookmarks = true;
-        } else if ($scope.topic.topic.indexOf(self.privateTasksTopic) === 0) {
+        message.loading = true;
+        return TatEngineMessagesRsc.list({
+          topic: $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
+          treeView: "onetree",
+          idMessage: message._id,
+          limit: 1,
+          skip: 0
+        }).$promise.then(function(data) {
+          message.loading = false;
+          if (!data.messages || data.messages.length != 1) {
+            TatEngine.displayReturn("Invalid return while getting message");
+          } else {
+            message.replies = data.messages[0].replies;
+          }
+        }, function(err) {
+          message.loading = false;
+          TatEngine.displayReturn(err);
+        });
+
+        if ($scope.topic.topic.indexOf(self.privateTasksTopic) === 0) {
           self.isTopicTasks = true;
         }
         this.computeFlagsTask(message);

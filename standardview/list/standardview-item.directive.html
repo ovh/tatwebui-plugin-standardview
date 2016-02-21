@@ -95,13 +95,6 @@
           <i class="fa fa-tag"></i>
         </button>
 
-        <!-- Add message to bookmarks -->
-        <button
-          class="btn btn-default"
-          title="{{ 'shared_message_bookmark' | translate }}"
-          ng-click="ctrl.bookmarkMessage()">
-          <i class="fa fa-bookmark-o"></i>
-        </button>
       </div>
       <message-label message="message" topic="topic" is-displayed="addingLabel"></message-label>
     </div>
@@ -169,6 +162,8 @@
       </div>
     </div>
   </div>
+
+  <div class="label label-info" ng-show="message.loading">Please Wait, Loading...</div>
 
   <div class="tat-replies-filter input-group" ng-if="message.replies.length">
     <div class="input-group-addon" ng-click="message.searching=!message.searching"><i class="fa fa-search"></i></div>

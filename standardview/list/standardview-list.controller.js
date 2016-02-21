@@ -35,7 +35,6 @@ angular.module('TatUi')
       requestFrequency: 5000,
       count: 40,
       skip: 0,
-      isTopicBookmarks: false,
       isTopicTasks: false,
       isTopicDeletableMsg: false,
       isTopicDeletableAllMsg: false,
@@ -296,9 +295,6 @@ angular.module('TatUi')
         self.data.isTopicUpdatableAllMsg = self.data.topic.canUpdateAllMsg;
         self.data.isTopicDeletableAllMsg = self.data.topic.canDeleteAllMsg;
         if (self.data.topic.topic.indexOf("/Private/" +
-            Authentication.getIdentity().username + "/Bookmarks") === 0) {
-          self.data.isTopicBookmarks = true;
-        } else if (self.data.topic.topic.indexOf("/Private/" +
             Authentication.getIdentity().username + "/Tasks") === 0) {
           self.data.isTopicTasks = true;
           self.data.isTopicDeletableMsg = true;
