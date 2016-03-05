@@ -281,8 +281,6 @@ angular.module('TatUi')
      * @description Initialize list messages page. Get list of messages from Tat Engine
      */
     self.init = function() {
-      $rootScope.$broadcast('menu-expand', self.topic.split('/'));
-
       TatEngineTopicRsc.oneTopic({
         action: self.topic
       }).$promise.then(function(data) {
@@ -306,6 +304,7 @@ angular.module('TatUi')
             Authentication.getIdentity().username) === 0) {
           self.data.isTopicDeletableMsg = true;
         }
+        $rootScope.$broadcast('sidebar-change', {topic:data.topic});
         self.beginTimer(self.data.requestFrequency);
       }, function(err) {
         TatEngine.displayReturn(err);
