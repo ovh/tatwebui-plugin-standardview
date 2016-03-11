@@ -116,7 +116,14 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       };
 
       this.addLabelDone = function(message) {
-        TatMessage.addLabel(message, $scope.topic.topic, "done", "#14892c"); // green
+        TatMessage.addLabel(message, $scope.topic.topic, "done", "#14892c", function() {
+          TatMessage.addLabel(message,
+            $scope.topic.topic,
+            "done:" + Authentication.getIdentity().username,
+            "#14892c", //green,
+            function() { self.addToMasterTicket(message);}
+          );
+        }); // green
         self.removeLabel(message, "doing");
         self.canDoneMessage = false;
       };
