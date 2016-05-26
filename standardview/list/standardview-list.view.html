@@ -39,7 +39,7 @@
                 <span ng-show="msg.nbLikes" class="tat-likes">
                   <i class="fa fa-heart"></i><span ng-show="msg.nbLikes > 1">&nbsp;{{ msg.nbLikes }}</span>
                 </span>
-                <span ng-repeat="label in msg.labels track by $index" class="tat-label"
+                <span ng-repeat="label in msg.labels | toArray | orderBy:'text' track by $index" class="tat-label"
                   style="background-color: {{ label.color }}; border-right-color: {{ label.color }}; color: {{ ctrl.getBrightness(label.color)>130 ? '#000000' : '#ffffff' }}">
                   {{ label.text }}
                 </span>
