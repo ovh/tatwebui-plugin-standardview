@@ -37,7 +37,6 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       TatEngineMessagesRsc, TatEngine, TatMessage, Authentication) {
       var self = this;
       this.answerPanel = false;
-      this.isTopicTasks = false;
 
       this.canDoneMessage = false;
       this.canDeleteFromTasksMessage = false;
@@ -52,18 +51,6 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
           0.0722 * parseInt(result[3], 16) : 0;
       };
 
-      this.addLabelDoing = function(message) {
-        TatMessage.addLabel(message, $scope.topic.topic, "doing", "#5484ed",
-          function() {
-              TatMessage.addLabel(message,
-              $scope.topic.topic,
-              "doing:" + Authentication.getIdentity().username,
-              "#5484ed" //blue
-          )}
-        );
-        self.removeLabel(message, "done");
-      };
-
       /**
        * @ngdoc function
        * @name toggleTaskMessage
@@ -71,32 +58,26 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
        * @description create or remove a task from one message
        */
       this.addToTasksMessage = function(message) {
-        if (message.topics.length == 1 && self.isTopicTasks) {
-          self.addLabelDoing(message);
-          return;
-        }
-
         TatEngineMessageRsc.update({
           'idReference': message._id,
           'action': 'task',
           'topic': self.privateTasksTopic
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
-          self.addLabelDoing(message);
-          message.topics.push("/" + self.privateTasksTopic);
-          self.computeFlagsTask(message);
+          self.removeLabel(message, "done");
+          self.removeLabel(message, "done:"+Authentication.getIdentity().username, true);
+          if (resp.message) {
+            message.labels = resp.message.labels;
+          }
+          self.canDeleteFromTasksMessage = true;
+          self.canAddToTasksMessage = false;
+          self.canDoneMessage = true;
         }, function(resp) {
           TatEngine.displayReturn(resp);
         });
       };
 
       this.deleteFromTasksMessage = function(message) {
-        // msg only in tasks topic
-        if (message.topics.length == 1 && self.isTopicTasks) {
-          self.removeLabel(message, "doing");
-          return;
-        }
-
         $scope.setInToDone = false;
         TatEngineMessageRsc.update({
           'idReference': $scope.message._id,
@@ -104,12 +85,15 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
           'topic': self.privateTasksTopic
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
-          self.removeLabel(message, "doing");
           if (self.isTopicTasks) {
             message.hide = true;
           }
-          self.removePrivateTopicOnLocalMsg(message);
-          self.computeFlagsTask(message);
+          if (resp.message) {
+            message.labels = resp.message.labels;
+          }
+          self.canDeleteFromTasksMessage = false;
+          self.canAddToTasksMessage = true;
+          self.canDoneMessage = false;
         }, function(resp) {
           TatEngine.displayReturn(resp);
         });
@@ -121,29 +105,15 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
             $scope.topic.topic,
             "done:" + Authentication.getIdentity().username,
             "#14892c", //green,
-            function() { self.addToMasterTicket(message);}
+            function() {
+              self.removeLabel(message, "doing");
+              self.removeLabel(message, "doing:"+Authentication.getIdentity().username, true);
+            }
           );
-        }); // green
-        self.removeLabel(message, "doing");
-        self.canDoneMessage = false;
-      };
-
-      this.removePrivateTopicOnLocalMsg = function(message) {
-        message.topics = _.remove(message.topics, function(t) {
-          if (t.indexOf("/" + self.privateTasksTopic) === 0) {
-            return false;
-          }
-          return true;
         });
       };
 
       this.doneMessage = function(message) {
-        // msg only in tasks topic
-        if (message.topics.length == 1 && self.isTopicTasks) {
-          self.addLabelDone(message);
-          return;
-        }
-
         $scope.setInToDone = false;
         TatEngineMessageRsc.update({
           'idReference': $scope.message._id,
@@ -151,12 +121,16 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
           'topic': self.privateTasksTopic
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
-          self.addLabelDone(message);
           if (self.isTopicTasks) {
             message.hide = true;
           }
-          self.removePrivateTopicOnLocalMsg(message);
-          self.computeFlagsTask(message);
+          if (resp.message) {
+            message.labels = resp.message.labels;
+          }
+          self.addLabelDone(message);
+          self.canDeleteFromTasksMessage = false;
+          self.canAddToTasksMessage = true;
+          self.canDoneMessage = false;
         }, function(resp) {
           TatEngine.displayReturn(resp);
         });
@@ -230,16 +204,9 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
           'idReference': message._id,
           'action': action
         }).$promise.then(function(resp) {
-          if (action === 'like') {
-            if (!message.likers) {
-              message.likers = [];
-            }
-            message.likers.push(Authentication.getIdentity().username);
-            message.nbLikes++;
-          } else {
-            message.likers = _.remove(message.likers,
-              Authentication.getIdentity().username);
-            message.nbLikes--;
+          if (resp.message) {
+            message.likers = resp.message.likers;
+            message.nbLikes = resp.message.nbLikes;
           }
         }, function(err) {
           TatEngine.displayReturn(err);
@@ -258,32 +225,20 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         if (!message.labels) {
           return;
         }
-        var toRefresh = false;
-        var newList = [];
-        for (var i = 0; i < message.labels.length; i++) {
-          var l = message.labels[i];
-          if (l.text === labelText ||  (labelText === 'doing' && l.text
-              .indexOf('doing:') === 0)) {
-            toRefresh = true;
-            TatEngineMessageRsc.update({
-              'action': 'unlabel',
-              'topic': $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
-              'idReference': $scope.message._id,
-              'text': l.text
-            }).$promise.then(function(resp) {
-              //nothing here
-            }, function(resp) {
-              TatEngine.displayReturn(resp);
-            });
-          } else {
-            newList.push(l);
-          }
-        }
 
-        if (toRefresh)  {
-          message.labels = newList;
-        }
-        self.computeFlagsTask(message);
+        TatEngineMessageRsc.update({
+          'action': 'unlabel',
+          'topic': $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
+          'idReference': $scope.message._id,
+          'text': labelText
+        }).$promise.then(function(resp) {
+          if (resp.message) {
+            message.labels = resp.message.labels;
+          }
+          self.computeFlagsTask(message);
+        }, function(resp) {
+          TatEngine.displayReturn(resp);
+        });
       };
 
       this.urlMessage = function(message) {
@@ -310,9 +265,9 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         return r;
       };
 
-      this.init = function(message) {
+      this.refreshMsg = function(message) {
         message.loading = true;
-        return TatEngineMessagesRsc.list({
+        TatEngineMessagesRsc.list({
           topic: $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
           treeView: "onetree",
           idMessage: message._id,
@@ -322,47 +277,47 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
           message.loading = false;
           if (!data.messages || data.messages.length != 1) {
             TatEngine.displayReturn("Invalid return while getting message");
-          } else {
-            message.replies = data.messages[0].replies;
+            return
           }
+          message.labels = data.messages[0].labels;
+          message.tags = data.messages[0].tags;
+          message.text = data.messages[0].text;
+          message.nbLikes = data.messages[0].nbLikes;
+          message.nbReplies = data.messages[0].nbReplies;
+          message.nbVotesDown = data.messages[0].nbVotesDown;
+          message.nbVotesUP = data.messages[0].nbVotesUP;
+          message.dateCreation = data.messages[0].dateCreation;
+          message.dateUpdate = data.messages[0].dateUpdate;
+          message.replies = data.messages[0].replies;
         }, function(err) {
           message.loading = false;
           TatEngine.displayReturn(err);
         });
+      }
 
+      this.init = function(message) {
+        self.refreshMsg(message);
         if ($scope.topic.topic.indexOf(self.privateTasksTopic) === 0) {
           self.isTopicTasks = true;
         }
-        this.computeFlagsTask(message);
+        self.computeFlagsTask(message);
       };
 
       this.computeFlagsTask = function(message) {
-        self.canDoneMessage = false;
-        self.canDeleteFromTasksMessage = false;
-        self.canAddToTasksMessage = true;
-        for (var i = 0; i < message.topics.length; i++) {
-          if (message.topics[i].indexOf("/" + self.privateTasksTopic) === 0) {
-            if (!self.containsLabel(message, "done")) {
-              self.canDoneMessage = true;
-            }
-            // if msg is not only in tasks topic
-            if (message.topics.length > 1) {
-              self.canDeleteFromTasksMessage = true;
-              $scope.isTopicDeletableMsg = false;
-              $scope.isTopicDeletableAllMsg = false;
-            } else {
-              $scope.isTopicDeletableMsg = true;
-              $scope.isTopicDeletableAllMsg = true;
-            }
-          }
-        };
-        if (self.canDoneMessage || self.isTopicTasks) {
-          self.canAddToTasksMessage = false;
+        self.canDoneMessage = self.containsLabel(message, "doing:"+Authentication.getIdentity().username);
+        self.canDeleteFromTasksMessage = self.containsLabel(message, "doing:"+Authentication.getIdentity().username);
+        self.canAddToTasksMessage = !self.containsLabel(message, "doing:"+Authentication.getIdentity().username);
+        if (self.containsLabel(message, "done")) {
+          self.canDoneMessage = false;
+        }
+
+        if (message.topic && message.topic.indexOf("/" + self.privateTasksTopic) === 0) {
+          $scope.isTopicDeletableMsg = true;
+          $scope.isTopicDeletableAllMsg = true;
         }
       };
 
       this.init($scope.message);
-
     }
   };
 });
