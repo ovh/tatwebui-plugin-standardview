@@ -14,15 +14,16 @@ angular.module('TatUi')
     $scope,
     $rootScope,
     $stateParams,
+    $translate,
+    $interval,
     Authentication,
     TatEngineMessagesRsc,
     TatEngineMessageRsc,
     TatEngineTopicRsc,
     TatEngine,
     TatFilter,
-    Flash,
-    $translate,
-    $interval
+    TatTopic,
+    Flash
   ) {
     'use strict';
 
@@ -35,12 +36,6 @@ angular.module('TatUi')
       requestFrequency: 5000,
       count: 40,
       skip: 0,
-      isTopicTasks: false,
-      isTopicDeletableMsg: false,
-      isTopicDeletableAllMsg: false,
-      isTopicUpdatableMsg: false,
-      isTopicUpdatableAllMsg: false,
-      isTopicRw: true,
       displayMore: true,
       expandReplies: false,
       treeView: "notree"
@@ -50,7 +45,8 @@ angular.module('TatUi')
       self.data.skip = 0;
       self.data.displayMore = true;
       self.filter = angular.extend(self.filter, filter);
-      self.refresh();
+      self.data.messages = [];
+      self.moreMessage();
     });
 
     self.getCurrentDate = function() {
@@ -136,12 +132,12 @@ angular.module('TatUi')
      * @name beginTimer
      * @methodOf TatUi.controller:MessagesStandardViewListCtrl
      * @description Launch the timer to request messages at regular time interval
-     * @param {Integer} timeInterval Milliseconds between calls
      */
-    self.beginTimer = function(timeInterval) {
+    self.beginTimer = function() {
+      self.data = angular.extend(self.data, TatTopic.getDataTopic());
       if ('undefined' === typeof self.data.timer) {
         self.getNewMessages(); // Don't wait to execute first call
-        self.data.timer = $interval(self.getNewMessages, timeInterval);
+        self.data.timer = $interval(self.getNewMessages, self.data.requestFrequency);
         $scope.$on("$destroy", function() { self.stopTimer(); });
       }
     };
@@ -161,18 +157,12 @@ angular.module('TatUi')
       self.currentMessage = text;
     };
 
-    self.urlMessage = function(e, message) {
-      e.preventDefault();
-      TatFilter.setFilters({idMessage: message._id}).search();
-    };
-
     /**
      * @ngdoc function
      * @name buildFilter
      * @methodOf TatUi.controller:MessagesStandardViewListCtrl
      * @description Build a filter to read messages
      * @param {object} data Custom data to send to the API
-     * @return {object} Parameters to pass to the API
      */
     self.buildFilter = function(data) {
       return angular.extend({}, data, self.filter);
@@ -281,48 +271,7 @@ angular.module('TatUi')
      * @description Initialize list messages page. Get list of messages from Tat Engine
      */
     self.init = function() {
-      TatEngineTopicRsc.oneTopic({
-        action: self.topic
-      }).$promise.then(function(data) {
-        if (!data.topic) {
-          Flash.create('danger', $translate.instant('topics_notopic'));
-          return;
-        }
-        self.data.topic = data.topic;
-        self.data.isTopicUpdatableMsg = self.data.topic.canUpdateMsg;
-        self.data.isTopicDeletableMsg = self.data.topic.canDeleteMsg;
-        self.data.isTopicUpdatableAllMsg = self.data.topic.canUpdateAllMsg;
-        self.data.isTopicDeletableAllMsg = self.data.topic.canDeleteAllMsg;
-        if (self.data.topic.topic.indexOf("/Private/" +
-            Authentication.getIdentity().username + "/Tasks") === 0) {
-          self.data.isTopicTasks = true;
-          self.data.isTopicDeletableMsg = true;
-        } else if (self.data.topic.topic.indexOf("/Private/" +
-            Authentication.getIdentity().username + "/DM/") === 0) {
-          self.data.isTopicDeletableMsg = false;
-        } else if (self.data.topic.topic.indexOf("/Private/" +
-            Authentication.getIdentity().username) === 0) {
-          self.data.isTopicDeletableMsg = true;
-        }
-        self.beginTimer(self.data.requestFrequency);
-      }, function(err) {
-        TatEngine.displayReturn(err);
-      });
-    };
-
-    /**
-     * @ngdoc function
-     * @name refresh
-     * @methodOf TatUi.controller:MessagesStandardViewListCtrl
-     * @description Refresh all the messages
-     */
-    self.refresh = function() {
-      $rootScope.$broadcast('loading', true);
-      self.data.currentTimestamp = Math.ceil(new Date().getTime() / 1000);
-      self.data.messages = [];
-      self.moreMessage().then(function() {
-        $rootScope.$broadcast('loading', false);
-      });
+      TatTopic.computeTopic(self.topic, self.beginTimer);
     };
 
     self.setMessage = function(message) {

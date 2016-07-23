@@ -104,7 +104,7 @@
         <tbody>
           <tr>
             <td width="60px">
-                <message-vote message="message" topic="topic"></message-vote>
+                <message-vote message="message"></message-vote>
             </td>
             <td>
                 <div class="tat-msg" ng-bind-html="message.text | linky | nl2br | parseTags:message.tags"></div>
@@ -116,10 +116,6 @@
                   </span>
                   &ndash;
                   <user-display username="message.author.username" fullname="message.author.fullname"></user-display>
-                  &nbsp;
-                  <a href="#" class="tat-permalink" title="{{ 'shared_message_url' | translate }}" ng-click="ctrl.urlMessage(message)">
-                    <i class="fa fa-link"></i>
-                  </a>
                   &nbsp;
                   <span ng-show="message.nbLikes" class="tat-likes">
                     <i class="fa fa-heart"></i><span ng-show="message.nbLikes > 1">&nbsp;{{ message.nbLikes }}</span>

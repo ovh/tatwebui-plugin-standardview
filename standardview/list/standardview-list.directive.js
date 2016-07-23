@@ -61,7 +61,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         TatEngineMessageRsc.update({
           'idReference': message._id,
           'action': 'task',
-          'topic': self.privateTasksTopic
+          'topic': message.topic
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
           self.removeLabel(message, "done");
@@ -80,9 +80,9 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.deleteFromTasksMessage = function(message) {
         $scope.setInToDone = false;
         TatEngineMessageRsc.update({
-          'idReference': $scope.message._id,
+          'idReference': message._id,
           'action': 'untask',
-          'topic': self.privateTasksTopic
+          'topic': message.topic
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
           if (self.isTopicTasks) {
@@ -102,7 +102,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.addLabelDone = function(message) {
         TatMessage.addLabel(message, $scope.topic.topic, "done", "#14892c", function() {
           TatMessage.addLabel(message,
-            $scope.topic.topic,
+            message.topic,
             "done:" + Authentication.getIdentity().username,
             "#14892c", //green,
             function() {
@@ -116,9 +116,9 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.doneMessage = function(message) {
         $scope.setInToDone = false;
         TatEngineMessageRsc.update({
-          'idReference': $scope.message._id,
+          'idReference': message._id,
           'action': 'untask',
-          'topic': self.privateTasksTopic
+          'topic': message.topic
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
           if (self.isTopicTasks) {
@@ -164,7 +164,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.updateMessage = function(message) {
         message.updating = false;
         TatEngineMessageRsc.update({
-          'topic': $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
+          'topic': message.topic.substr(1),
           'idReference': message._id,
           'text': message.text,
           'action': 'update',
@@ -185,7 +185,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
        */
       this.hasLiked = function(message) {
         if (message && message.likers) {
-          return _.include(message.likers, Authentication.getIdentity().username);
+          return _.includes(message.likers, Authentication.getIdentity().username);
         }
         return false;
       };
@@ -200,7 +200,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.toggleLikeMessage = function(message) {
         var action = self.hasLiked(message) ? 'unlike' : 'like';
         TatEngineMessageRsc.update({
-          'topic': $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
+          'topic': message.topic.substr(1),
           'idReference': message._id,
           'action': action
         }).$promise.then(function(resp) {
@@ -228,8 +228,8 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
 
         TatEngineMessageRsc.update({
           'action': 'unlabel',
-          'topic': $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
-          'idReference': $scope.message._id,
+          'topic': message.topic.substr(1),
+          'idReference': message._id,
           'text': labelText
         }).$promise.then(function(resp) {
           if (resp.message) {
@@ -238,14 +238,6 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
           self.computeFlagsTask(message);
         }, function(resp) {
           TatEngine.displayReturn(resp);
-        });
-      };
-
-      this.urlMessage = function(message) {
-        $rootScope.$broadcast('topic-change', {
-          topic: $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
-          idMessage: message._id,
-          reload: true
         });
       };
 
@@ -268,7 +260,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.refreshMsg = function(message) {
         message.loading = true;
         TatEngineMessagesRsc.list({
-          topic: $scope.topic.topic.indexOf("/") === 0 ? $scope.topic.topic.substr(1) : $scope.topic.topic,
+          topic: message.topic.substr(1),
           treeView: "onetree",
           idMessage: message._id,
           limit: 1,
