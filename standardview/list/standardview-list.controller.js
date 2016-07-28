@@ -37,6 +37,7 @@ angular.module('TatUi')
       count: 40,
       skip: 0,
       displayMore: true,
+      lastExpandReplies: false,
       expandReplies: false,
       treeView: "notree"
     };
@@ -181,6 +182,11 @@ angular.module('TatUi')
       }
       self.loading = true;
       self.currentDate = self.getCurrentDate();
+
+      if (self.data.expandReplies === true && !self.data.lastExpandReplies) {
+        self.data.intervalTimeStamp = null;
+      }
+      self.data.lastExpandReplies = self.data.expandReplies;
       var filter = self.buildFilter({
         topic: self.topic,
         treeView: self.getTreeMode(),
