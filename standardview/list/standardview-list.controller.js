@@ -42,7 +42,7 @@ angular.module('TatUi')
       treeView: "notree"
     };
 
-    $scope.$on('filter-changed', function(ev, filter){
+    $scope.$on('filter-changed', function(ev, filter) {
       self.data.skip = 0;
       self.data.displayMore = true;
       self.filter = angular.extend(self.filter, filter);
@@ -187,12 +187,15 @@ angular.module('TatUi')
         self.data.intervalTimeStamp = null;
       }
       self.data.lastExpandReplies = self.data.expandReplies;
-      var filter = self.buildFilter({
+      var filterAttrs = {
         topic: self.topic,
         treeView: self.getTreeMode(),
-        onlyMsgRoot: true,
-        dateMinUpdate: self.data.intervalTimeStamp
-      });
+        onlyMsgRoot: true
+      };
+      if (!TatFilter.containsDateFilter) {
+        filterAttrs.dateMinUpdate = self.data.intervalTimeStamp;
+      }
+      var filter = self.buildFilter(filterAttrs);
       return TatEngineMessagesRsc.list(filter).$promise.then(function(data) {
         self.digestInformations(data);
       }, function(err) {
