@@ -4,7 +4,6 @@
  * @ngdoc controller
  * @name TatUi.controller:MessagesStandardViewListCtrl
  * @requires TatUi.TatEngineMessagesRsc Tat Engine Resource Messages
- * @requires TatUi.TatEngineMessageRsc  Tat Engine Resource Message
  * @requires TatUi.TatEngine            Global Tat Engine service
  *
  * @description List Messages controller
@@ -12,18 +11,13 @@
 angular.module('TatUi')
   .controller('MessagesStandardViewListCtrl', function(
     $scope,
-    $rootScope,
     $stateParams,
-    $translate,
     $interval,
     Authentication,
     TatEngineMessagesRsc,
-    TatEngineMessageRsc,
-    TatEngineTopicRsc,
     TatEngine,
     TatFilter,
-    TatTopic,
-    Flash
+    TatTopic
   ) {
     'use strict';
 
@@ -39,7 +33,6 @@ angular.module('TatUi')
       displayMore: true,
       lastExpandReplies: false,
       expandReplies: false,
-      treeView: "notree",
       initialLoading: false
     };
 
@@ -313,42 +306,6 @@ angular.module('TatUi')
     self.closeMessage = function(message) {
       $scope.message.displayed = false;
       $scope.message = null;
-    };
-
-    /**
-     * @ngdoc function
-     * @name isDoing
-     * @methodOf TatUi.controller:messagesItem
-     * @description Return true if message contains a doing label
-     */
-    self.isDoing = function(message) {
-      return self.containsLabel(message, "doing");
-    };
-
-    /**
-     * @ngdoc function
-     * @name isDone
-     * @methodOf TatUi.controller:messagesItem
-     * @description Return true if message contains a done label
-     */
-    self.isDone = function(message) {
-      return self.containsLabel(message, "done");
-    };
-
-    self.containsLabel = function(message, labelText) {
-      if (message.inReplyOfIDRoot) {
-        return false;
-      }
-      var r = false;
-      if (message.labels) {
-        for (var i = 0; i < message.labels.length; i++) {
-          var l = message.labels[i];
-          if (l.text === labelText) {
-            return true;
-          }
-        }
-      }
-      return r;
     };
 
     self.init();
