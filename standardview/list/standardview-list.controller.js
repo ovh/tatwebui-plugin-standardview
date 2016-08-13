@@ -148,10 +148,6 @@ angular.module('TatUi')
       self.data.timer = undefined;
     };
 
-    self.onCall = function(text) {
-      self.currentMessage = text;
-    };
-
     /**
      * @ngdoc function
      * @name buildFilter

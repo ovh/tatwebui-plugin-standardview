@@ -14,7 +14,7 @@
     <message-load is-init-loading="ctrl.data.initialLoading"></message-load>
 
     <div class="row">
-      <div ng-class="(message && message.displayed) ? 'tat-view-list col-md-7': 'tat-view-list col-md-12'">
+      <div ng-class="(message && message.displayed) ? 'tat-view-list col-md-6': 'tat-view-list col-md-12'">
         <table class="table table-striped table-responsive">
           <tbody>
             <tr ng-repeat="msg in ctrl.data.messages" ng-class="msg.displayed ? 'open': ''" class="tat-msg-wrapper" ng-show="!msg.hide">
@@ -71,7 +71,7 @@
           </tbody>
         </table>
       </div>
-      <div class="col-md-5" ng-if="message && message.displayed">
+      <div class="col-md-6" ng-if="message && message.displayed">
         <div class="tat-view-detail">
           <button class="btn btn-default btn-close-msg" ng-click="ctrl.closeMessage()"><i class="fa fa-angle-left"></i></button>
           <messages-standardview-item

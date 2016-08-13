@@ -99,6 +99,28 @@
       <message-label message="message" topic="topic" is-displayed="addingLabel"></message-label>
     </div>
 
+    <div class="message-update" ng-show="message.updating">
+      <textarea class="form-control" ng-model="message.text"></textarea>
+      <div class="btn-group">
+        <button class="btn btn-default" ng-click="message.updating=false">
+          {{ 'shared_common_cancel' | translate }}
+        </button>
+        <button class="btn btn-primary" ng-click="ctrl.updateMessage(message); $event.stopPropagation();">
+          {{ 'shared_message_update' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="message-delete" ng-show="message.deleting">
+      <div class="btn-group">
+        <button class="btn btn-default" ng-click="message.deleting=false">
+          {{ 'shared_common_cancel' | translate }}
+        </button>
+        <button class="btn btn-danger" ng-click="ctrl.deleteMessage(message);">
+          {{ 'shared_message_confirm_delete' | translate }} <span ng-show="message.replies.length">{{ 'shared_message_and_replies' | translate }}</span>
+        </button>
+      </div>
+    </div>
+
     <div class="tat-msg-wrapper primary">
       <table>
         <tbody>
@@ -136,27 +158,6 @@
 
     <message-reply ng-show="replying" topic="topic" is-replying="replying" is-topic-rw="ctrl.isTopicRw" message="message"></message-reply>
 
-    <div class="message-update" ng-show="message.updating">
-      <textarea class="form-control" ng-model="message.text"></textarea>
-      <div class="btn-group">
-        <button class="btn btn-default btn-xs" ng-click="message.updating=false">
-          {{ 'shared_common_cancel' | translate }}
-        </button>
-        <button class="btn btn-primary btn-xs" ng-click="ctrl.updateMessage(message); $event.stopPropagation();">
-          {{ 'shared_message_update' | translate }}
-        </button>
-      </div>
-    </div>
-    <div class="message-delete" ng-show="message.deleting">
-      <div class="btn-group">
-        <button class="btn btn-default btn-xs" ng-click="message.deleting=false">
-          {{ 'shared_common_cancel' | translate }}
-        </button>
-        <button class="btn btn-danger btn-xs" ng-click="ctrl.deleteMessage(message);">
-          {{ 'shared_message_confirm_delete' | translate }} <span ng-show="message.replies.length">{{ 'shared_message_and_replies' | translate }}</span>
-        </button>
-      </div>
-    </div>
   </div>
 
   <div class="label label-info" ng-show="message.loading">Please Wait, Loading...</div>
@@ -172,9 +173,32 @@
         <tr ng-repeat="reply in message.replies | filter:message.search" class="tat-msg-wrapper" ng-class="{'deleting': reply.deleting, 'updating': reply.updating}">
           <td ng-if="!reply.hide">
             <div class="tat-actions">
-              <button class="btn btn-default btn-xs" ng-click="reply.updating=true" ng-disabled="reply.updating || reply.deleting"><i class="fa fa-pencil"></i></button>
-              <button class="btn btn-default btn-xs" ng-click="reply.deleting=true" ng-disabled="reply.deleting || reply.updating "><i class="fa fa-trash"></i></button>
+              <button class="btn btn-default" ng-click="reply.updating=true" ng-disabled="reply.updating || reply.deleting"><i class="fa fa-pencil"></i></button>
+              <button class="btn btn-default" ng-click="reply.deleting=true" ng-disabled="reply.deleting || reply.updating "><i class="fa fa-trash"></i></button>
             </div>
+            <div class="row tat-editing" ng-if="reply.updating">
+              <textarea class="form-control" ng-model="reply.text"></textarea>
+              <div class="btn-group">
+                <button class="btn btn-default" ng-click="reply.updating=false">
+                  {{ 'shared_common_cancel' | translate }}
+                </button>
+                <button class="btn btn-primary" ng-click="ctrl.updateMessage(reply);">
+                  {{ 'shared_message_update' | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="row tat-deleting" ng-if="reply.deleting">
+              <div class="btn-group">
+                <button class="btn btn-default" ng-click="reply.deleting=false">
+                  {{ 'shared_common_cancel' | translate }}
+                </button>
+                <button class="btn btn-danger"
+                  ng-click="ctrl.deleteMessage(reply);">
+                  {{ 'shared_message_confirm_delete' | translate }}
+                </button>
+              </div>
+            </div>
+
             <div class="tat-msg" ng-bind-html="reply.text | linky | nl2br | parseTags:reply.tags"></div>
             <div class="tat-meta">
               <span class="date" title="creation: {{reply.dateCreation * 1000| amCalendar}}, update: {{reply.dateUpdate * 1000| amCalendar}}">
@@ -182,28 +206,6 @@
               </span>
               &ndash;
               <user-display username="reply.author.username" fullname="reply.author.fullname"></user-display>
-            </div>
-            <div class="tat-editing" ng-if="reply.updating">
-              <textarea class="form-control" ng-model="reply.text"></textarea>
-              <div class="btn-group">
-                <button class="btn btn-default btn-xs" ng-click="reply.updating=false">
-                  {{ 'shared_common_cancel' | translate }}
-                </button>
-                <button class="btn btn-primary btn-xs" ng-click="ctrl.updateMessage(reply);">
-                  {{ 'shared_message_update' | translate }}
-                </button>
-              </div>
-            </div>
-            <div class="tat-deleting" ng-if="reply.deleting">
-              <div class="btn-group">
-                <button class="btn btn-default btn-xs" ng-click="reply.deleting=false">
-                  {{ 'shared_common_cancel' | translate }}
-                </button>
-                <button class="btn btn-danger btn-xs"
-                  ng-click="ctrl.deleteMessage(reply);">
-                  {{ 'shared_message_confirm_delete' | translate }}
-                </button>
-              </div>
             </div>
           </td>
         </tr>
