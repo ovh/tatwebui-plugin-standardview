@@ -64,10 +64,9 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
           'topic': message.topic
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
-          self.removeLabel(message, "done");
-          self.removeLabel(message, "done:"+Authentication.getIdentity().username, true);
           if (resp.message) {
             message.labels = resp.message.labels;
+            message.dateUpdate = resp.message.dateUpdate;
           }
           self.canDeleteFromTasksMessage = true;
           self.canAddToTasksMessage = false;
@@ -90,6 +89,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
           }
           if (resp.message) {
             message.labels = resp.message.labels;
+            message.dateUpdate = resp.message.dateUpdate;
           }
           self.canDeleteFromTasksMessage = false;
           self.canAddToTasksMessage = true;
