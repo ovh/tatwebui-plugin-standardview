@@ -136,6 +136,7 @@
                     title="creation: {{ message.dateCreation * 1000| amCalendar }}, update: {{ message.dateUpdate * 1000| amCalendar }}">
                     {{ message.dateCreation * 1000| amCalendar }}
                   </span>
+                  <span ng-show="message.dateUpdate != message.dateCreation">&ndash; updated: {{ message.dateUpdate * 1000| amCalendar }}</span>
                   &ndash;
                   <user-display username="message.author.username" fullname="message.author.fullname"></user-display>
                   &nbsp;

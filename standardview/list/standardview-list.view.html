@@ -17,22 +17,21 @@
       <div ng-class="(message && message.displayed) ? 'tat-view-list col-md-6': 'tat-view-list col-md-12'">
         <table class="table table-striped table-responsive">
           <tbody>
-            <tr ng-repeat="msg in ctrl.data.messages" ng-class="msg.displayed ? 'open': ''" class="tat-msg-wrapper" ng-show="!msg.hide">
+            <tr ng-click="ctrl.toggleMessage(msg)" ng-repeat="msg in ctrl.data.messages" ng-class="msg.displayed ? 'open': ''" class="tat-msg-wrapper" ng-show="!msg.hide">
               <td>
-                <a ng-href="#" ng-click="ctrl.toggleMessage(msg)" class="tat-msg-toggle">
+                <a ng-href="#" class="tat-msg-toggle">
                   <i ng-class="msg.displayed ? 'fa fa-angle-left': 'fa fa-angle-right'"></i>
                 </a>
                 <button ng-if="msg.nbReplies > 0" class="tat-replies-count badge btn-xs" title="Click to display replies to this message" ng-click="ctrl.getReplies(msg)">
                   {{ msg.nbReplies }}
                 </button>
-                <div class="tat-msg" ng-bind-html="msg.text | linky | nl2br | parseTags:msg.tags"></div>
+                <span class="tat-msg" ng-click="$event.stopPropagation();" ng-bind-html="msg.text | linky | nl2br | parseTags:msg.tags"></span>
                 <div class="tat-meta">
                   <span class="date" am-time-ago="msg.dateCreation * 1000" title="created: {{ msg.dateCreation * 1000| amCalendar }}, updated: {{ msg.dateUpdate * 1000| amCalendar }}"></span>
                   &ndash;
                   <user-display username="msg.author.username" fullname="msg.author.fullname"></user-display>
                   &nbsp;
-                  <a class="tat-permalink" title="{{ 'shared_message_url' | translate }}"
-                     ng-href="{{urlMessage(msg)}}" ng-click="setFilterMessage($event, msg)">
+                  <a class="tat-permalink" title="{{ 'shared_message_url' | translate }}" ng-href="{{urlMessage(msg)}}" ng-click="$event.stopPropagation();">
                     <i class="fa fa-link"></i>
                   </a>
                   &nbsp;
@@ -45,9 +44,11 @@
                   <span ng-show="msg.nbLikes" class="tat-likes">
                     <i class="fa fa-heart"></i><span ng-show="msg.nbLikes > 1">&nbsp;{{ msg.nbLikes }}</span>
                   </span>
-                  <span ng-repeat="label in msg.labels | toArray | orderBy:'text' track by $index" class="tat-label"
-                    style="background-color: {{ label.color }}; border-right-color: {{ label.color }}; color: {{ ctrl.getBrightness(label.color)>130 ? '#000000' : '#ffffff' }}">
-                    {{ label.text }}
+                  <span ng-click="$event.stopPropagation();">
+                    <span ng-repeat="label in msg.labels | toArray | orderBy:'text' track by $index" class="tat-label"
+                      style="background-color: {{ label.color }}; border-right-color: {{ label.color }}; color: {{ ctrl.getBrightness(label.color)>130 ? '#000000' : '#ffffff' }}">
+                      {{ label.text }}
+                    </span>
                   </span>
                 </div>
                 <div class="tat-replies" ng-if="msg.displayReplies || ctrl.data.expandReplies" ng-show="msg.replies">
