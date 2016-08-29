@@ -22,7 +22,7 @@
                 <a ng-href="#" class="tat-msg-toggle">
                   <i ng-class="msg.displayed ? 'fa fa-angle-left': 'fa fa-angle-right'"></i>
                 </a>
-                <button ng-if="msg.nbReplies > 0" class="tat-replies-count badge btn-xs" title="Click to display replies to this message" ng-click="ctrl.getReplies(msg)">
+                <button ng-if="msg.nbReplies > 0" class="tat-replies-count badge btn-xs" title="Click to display replies to this message" ng-click="ctrl.getReplies(msg);$event.stopPropagation()">
                   {{ msg.nbReplies }}
                 </button>
                 <span class="tat-msg" ng-click="$event.stopPropagation();" ng-bind-html="msg.text | linky | nl2br | parseTags:msg.tags"></span>
