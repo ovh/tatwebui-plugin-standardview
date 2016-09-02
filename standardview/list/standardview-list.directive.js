@@ -61,7 +61,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         TatEngineMessageRsc.update({
           'idReference': message._id,
           'action': 'task',
-          'topic': message.topic
+          'topic': message.topic.substr(1)
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
           if (resp.message) {
@@ -81,7 +81,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         TatEngineMessageRsc.update({
           'idReference': message._id,
           'action': 'untask',
-          'topic': message.topic
+          'topic': message.topic.substr(1)
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
           if (self.isTopicTasks) {
@@ -102,7 +102,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
       this.addLabelDone = function(message) {
         TatMessage.addLabel(message, $scope.topic.topic, "done", "#14892c", function() {
           TatMessage.addLabel(message,
-            message.topic,
+            message.topic.substr(1),
             "done:" + Authentication.getIdentity().username,
             "#14892c", //green,
             function() {
@@ -118,7 +118,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         TatEngineMessageRsc.update({
           'idReference': message._id,
           'action': 'untask',
-          'topic': message.topic
+          'topic': message.topic.substr(1)
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
           if (self.isTopicTasks) {
