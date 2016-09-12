@@ -61,7 +61,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         TatEngineMessageRsc.update({
           'idReference': message._id,
           'action': 'task',
-          'topic': message.topic
+          'topic': message.topic.substring(1)
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
           if (resp.message) {
@@ -81,7 +81,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         TatEngineMessageRsc.update({
           'idReference': message._id,
           'action': 'untask',
-          'topic': message.topic
+          'topic': message.topic.substring(1)
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
           if (self.isTopicTasks) {
@@ -118,7 +118,7 @@ angular.module('TatUi').directive('messagesStandardviewItem', function($compile)
         TatEngineMessageRsc.update({
           'idReference': message._id,
           'action': 'untask',
-          'topic': message.topic
+          'topic': message.topic.substring(1)
         }).$promise.then(function(resp) {
           TatEngine.displayReturn(resp);
           if (self.isTopicTasks) {
