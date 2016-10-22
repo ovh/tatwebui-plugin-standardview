@@ -1,27 +1,16 @@
-# Usage
+# Standard View - Tat Webui
 
-This is a plugin for Tat Webui, see https://github.com/ovh/tatwebui
+View Documentation: https://ovh.github.io/tat/tatwebui/standardview/
 
-See Tat Engine for more information: https://github.com/ovh/tat
+This is a plugin for Tat Webui, see https://ovh.github.io/tat/tatwebui/
 
-## Screenshots
-### Messages - List
-
-![Release View](https://raw.githubusercontent.com/ovh/tatwebui-plugin-standardview/master/screenshot_standard.png)
-
-### Messages - Edit
-
-![Release View](https://raw.githubusercontent.com/ovh/tatwebui-plugin-standardview/master/screenshot_standard_edit.png)
-
-
-## Configuration
-In plugin.tpl.json file, add this line :
-
-```
-"tatwebui-plugin-standardview": "git+https://github.com/ovh/tatwebui-plugin-standardview.git"
-```
+See Tat Engine for more information: https://ovh.github.io/tat/overview/
 
 # Hacking
 
 You've developed a new cool feature? Fixed an annoying bug? We'd be happy
 to hear from you! Make sure to read [CONTRIBUTING.md](./CONTRIBUTING.md) before.
+
+# License
+
+This work is under the BSD license, see the [LICENSE](LICENSE) file for details.

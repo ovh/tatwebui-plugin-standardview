@@ -9,7 +9,11 @@
       <i class="fa fa-info-circle"></i> {{ 'shared_message_read_only' | translate }}
     </div>
 
-    <message-box topic="ctrl.data.topic" is-topic-rw="ctrl.data.isTopicRw" expand-replies="ctrl.data.expandReplies" messages="ctrl.data.messages"></message-box>
+    <message-box
+    topic="ctrl.data.topic"
+    is-topic-rw="ctrl.data.isTopicRw"
+    expand-replies="ctrl.data.expandReplies"
+    messages="ctrl.data.messages"></message-box>
 
     <message-load is-init-loading="ctrl.data.initialLoading"></message-load>
 
