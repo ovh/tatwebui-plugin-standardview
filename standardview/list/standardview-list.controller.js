@@ -176,7 +176,7 @@ angular.module('TatUi')
         treeView: self.getTreeMode(),
         onlyMsgRoot: true
       };
-      if (!TatFilter.containsDateFilter) {
+      if (!TatFilter.containsDateFilter()) {
         filterAttrs.dateMinUpdate = self.data.intervalTimeStamp;
       }
       var filter = self.buildFilter(filterAttrs);
